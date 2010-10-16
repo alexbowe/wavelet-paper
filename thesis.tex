@@ -1,0 +1,26 @@
+\documentclass[a4paper]{report}
+
+\usepackage{graphicx}
+\usepackage{url}
+
+% The path(s) to the graphics files:
+\graphicspath{{images/}{generated/}}
+
+% This LaTeX file contains some macros for the CC license page.
+\input{aux/creativecommons}
+
+\begin{document}
+
+\title{My PhD Thesis}
+\author{Guy K.\ Kloss}
+\date{\today}
+
+\maketitle
+
+\include{chapters/LicenseDisclaimer}
+
+\include{chapters/chap01}
+
+\include{chapters/chap02}
+
+\end{document}
