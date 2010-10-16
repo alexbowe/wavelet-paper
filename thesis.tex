@@ -1,0 +1,35 @@
+\documentclass[a4paper]{report}
+
+\usepackage{graphicx}
+\usepackage{url}
+
+% The path(s) to the graphics files:
+\graphicspath{{images/}{generated/}}
+
+% This LaTeX file contains some macros for the CC license page.
+\input{aux/creativecommons}
+
+% My self defined commands
+\input{aux/commands}
+
+\begin{document}
+
+\title{Multiary Wavelet Trees in Practice}
+\author{Alex Bowe}
+\date{\today}
+
+% Work out how to put Simon Puglisi as supervisor + email and what not
+
+\maketitle
+
+\include{chapters/LicenseDisclaimer}
+
+\begin{abstract}
+\input{chapters/abstract}
+\end{abstract}
+
+\include{chapters/chap01}
+
+\include{chapters/chap02}
+
+\end{document}

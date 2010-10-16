@@ -1,0 +1,11 @@
+In recent years, self-indexes for pattern matching based on Suffix
+Arrays and the Burrows-Wheeler Transform (BWT) have grown
+increasingly popular. The fundamental operation on these is the
+rank-query; $rank(i, c)$ requests the number of occurrences of
+symbol $c$ before position $i$ in strings. This is best provided by
+a Wavelet Tree (WT). Currently, WT implementations encode the BWT
+in binary. A generalisation of this extends WTs to higher order
+encoding, i.e. multi-arity, which reduces the depth of a WT, in
+theory making traversal faster. This paper aims to investigate the
+benefits of multi-ary WTs in practice, and whether specific
+properties of the BWT induce space-savings in the WT.

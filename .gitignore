@@ -1,0 +1,14 @@
+## OS Files ##
+.DS_Store
+
+## SCons DB ##
+.sconsign.dblite
+
+## Compiled Files
+*.dvi
+*.pdf
+*.pyc
+*.aux
+*.fls
+*.log
+generated/
