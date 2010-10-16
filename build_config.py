@@ -18,8 +18,11 @@ CHAPTER_DIRECTORY = 'chapters'
 
 FILE_EXTENSIONS = {'eps': '.eps',
                    'pdf': '.pdf',
+                   'md': '.md',
+                   'markdown': '.markdown',
                    'png': '.png',
                    'jpg': '.jpg',
+                   'graffle': '.graffle',
                    'gnuplot': '.gnuplot'}
 
 MAKEINDEX_EXTENSIONS = ['.glg', '.glo', '.gls']

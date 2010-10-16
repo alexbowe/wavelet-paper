@@ -20,6 +20,7 @@ class LatexBuilder(object):
     def __init__(self, latex_project):
         """Constructor. Takes the LaTeX main file as input."""
         self.latex_project = latex_project
+        #self.markdown = []
         self.chapters = []
         self.chapter_configs = {}
         self.figures = {}
@@ -27,21 +28,21 @@ class LatexBuilder(object):
         self.dvi_output = None
         self.makeindex_file_list = [self.latex_project + x
                                     for x in build_config.MAKEINDEX_EXTENSIONS]
-
+        
         self.figures = {'eps': [],
                         'pdf': [],
                         'png': [],
                         'jpg': [],
+                        'graffle': [],
                         'gnuplot': []}
 
         self._get_chapters()
         self._get_chapter_configs()
         #self._collect_figures_from_configs()
-        self._collect_figures_from_dirs()
+        self._collect_figures_from_dirs()        
         
-
     def _get_chapters(self):
-        """Colect chapter names."""
+        """Collect chapter names."""
         chapter_finder = os.path.join(build_config.CHAPTER_DIRECTORY,
                                       '*.tex')
         self.chapters = [os.path.split(x)[-1][:-4]
@@ -89,6 +90,8 @@ class LatexBuilder(object):
                                         for x in Split(module.JPG_FIGURES)])
             self.figures['gnuplot'].extend([os.path.join(chapter, x)
                                         for x in Split(module.GNUPLOT_FIGURES)])
+            self.figures['graffle'].extend([os.path.join(chapter, x)
+                                        for x in Split(module.GRAFFLE_FIGURES)])
 
 
     def _find_files(self, chapter, extension):
@@ -106,7 +109,7 @@ class LatexBuilder(object):
     def _collect_figures_from_dirs(self):
         """Find all figures in the modules and add them to my list."""
         for chapter in self.chapters:
-            for extension in ['eps', 'pdf', 'png', 'jpg', 'gnuplot']:
+            for extension in ['eps', 'pdf', 'png', 'jpg', 'gnuplot', 'graffle']:
                 new_files = self._find_files(chapter,
                                              build_config.FILE_EXTENSIONS[extension])
                 self.figures[extension].extend(new_files)
@@ -122,6 +125,21 @@ class LatexBuilder(object):
             pdf_file = os.path.join(build_config.GENERATED_DIRECTORY,
                                     item + build_config.FILE_EXTENSIONS['pdf'])
             env.Gnuplot(source=gnuplot_file, target=eps_file)
+            dep = env.Eps2pdf(source=eps_file, target=pdf_file)
+            env.Depends(dep, eps_file)
+            env.Depends(self.dvi_output, eps_file)
+            env.Depends(self.pdf_output, pdf_file)
+    
+    def _build_graffle(self, graffle_figures):
+        """Build Omnigraffle Figures"""
+        for item in graffle_figures:
+            graffle_file = os.path.join(build_config.IMAGES_DIRECTORY, item +
+                                        build_config.FILE_EXTENSIONS['graffle'])
+            eps_file = os.path.join(build_config.GENERATED_DIRECTORY,
+                                    item + build_config.FILE_EXTENSIONS['eps'])
+            pdf_file = os.path.join(build_config.GENERATED_DIRECTORY,
+                                    item + build_config.FILE_EXTENSIONS['pdf'])
+            env.Graffle(source=graffle_file, target=eps_file)
             dep = env.Eps2pdf(source=eps_file, target=pdf_file)
             env.Depends(dep, eps_file)
             env.Depends(self.dvi_output, eps_file)
@@ -175,7 +193,7 @@ class LatexBuilder(object):
     def build_figures(self):
         """Build all figures according to dependencies."""
         self._build_gnuplot(self.figures['gnuplot'])
-        #self._build_gnuplot(self.figures['graffle'])
+        self._build_graffle(self.figures['graffle'])
         self._build_png(self.figures['png'])
         self._build_jpg(self.figures['jpg'])
         self._build_pdf(self.figures['pdf'])

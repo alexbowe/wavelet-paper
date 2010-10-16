@@ -38,5 +38,13 @@ gnuplot_builder = Builder(action='gnuplot $SOURCE',
                           src_suffix=build_config.FILE_EXTENSIONS['gnuplot'])
 env.Append(BUILDERS={'Gnuplot': gnuplot_builder})
 
+## Graffle builder. - requires script from
+# github.com/dcreager/graffle-export/blob/master/graffle.scpt
+# to be in path
+graffle_builder = Builder(action='graffle.sh $SOURCE $TARGET',
+                          suffix=build_config.FILE_EXTENSIONS['eps'],
+                          src_suffix=build_config.FILE_EXTENSIONS['graffle'])
+env.Append(BUILDERS={'Graffle': graffle_builder})
+
 # Pass back the modified environment.
 Return('env')
