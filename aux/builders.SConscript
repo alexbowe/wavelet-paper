@@ -46,5 +46,13 @@ graffle_builder = Builder(action='graffle.sh $SOURCE $TARGET',
                           src_suffix=build_config.FILE_EXTENSIONS['graffle'])
 env.Append(BUILDERS={'Graffle': graffle_builder})
 
+## Markdown builder. Requires Pandoc
+# http://johnmacfarlane.net/pandoc/
+# would like to make this a SCons builder but the tex files are needed at load
+#markdown_builder = Builder(action='pandoc $SOURCE -o $TARGET',
+#                          suffix=build_config.FILE_EXTENSIONS['md'],
+#                          src_suffix=build_config.FILE_EXTENSIONS['tex'])
+#env.Append(BUILDERS={'Markdown': markdown_builder})
+
 # Pass back the modified environment.
 Return('env')

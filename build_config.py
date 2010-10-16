@@ -16,10 +16,10 @@ IMAGES_DIRECTORY = 'images'
 GENERATED_DIRECTORY = 'generated'
 CHAPTER_DIRECTORY = 'chapters'
 
-FILE_EXTENSIONS = {'eps': '.eps',
+FILE_EXTENSIONS = {'tex': '.tex',
+                   'eps': '.eps',
                    'pdf': '.pdf',
                    'md': '.md',
-                   'markdown': '.markdown',
                    'png': '.png',
                    'jpg': '.jpg',
                    'graffle': '.graffle',

@@ -1,14 +1,17 @@
 \chapter{One}
 
-\section{Data Structures}
+Data Structures
+===============
 
 data structures are delicious
 
-\subsection{Suffix Array}
+Suffix Array
+------------
 
 \begin{figure}[hbt]
     \centering
     \includegraphics[width=0.6\hsize]{chap01/test}
-    \caption{blaaaaa.}
+    \caption{Hip hip hooray, yeahhhhh!.}
     \label{fig:test}
 \end{figure}
+

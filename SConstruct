@@ -20,7 +20,8 @@ class LatexBuilder(object):
     def __init__(self, latex_project):
         """Constructor. Takes the LaTeX main file as input."""
         self.latex_project = latex_project
-        #self.markdown = []
+        self.markdown = []
+        self.to_clean = []
         self.chapters = []
         self.chapter_configs = {}
         self.figures = {}
@@ -35,12 +36,38 @@ class LatexBuilder(object):
                         'jpg': [],
                         'graffle': [],
                         'gnuplot': []}
-
+        
+        self._get_markdown()
+        self._build_markdown()
         self._get_chapters()
         self._get_chapter_configs()
         #self._collect_figures_from_configs()
         self._collect_figures_from_dirs()        
-        
+    
+    def _get_markdown(self):
+        """Finds preliminary Markdown files."""
+        markdown_files = os.path.join(build_config.CHAPTER_DIRECTORY,
+                                      '*.md')
+                                                                   
+        self.markdown = [os.path.split(x)[-1][:-3]
+                         for x in Glob(markdown_files, strings=True)]
+        print self.markdown
+    
+    def _build_markdown(self):
+        """Builds preliminary Markdown files."""
+        # should somehow work out dependencies eventually...
+        # but the markdown files need to be compiled to get the .tex files
+        # as SCons reads this SConstruct...
+        to_clean = []
+        for item in self.markdown:
+            md_file = os.path.join(build_config.CHAPTER_DIRECTORY, item +
+                build_config.FILE_EXTENSIONS['md'])
+            tex_file = os.path.join(build_config.CHAPTER_DIRECTORY,
+                item + build_config.FILE_EXTENSIONS['tex'])
+            self.to_clean.append(tex_file)
+            
+            os.system('pandoc ' + md_file + ' -o ' + tex_file)
+    
     def _get_chapters(self):
         """Collect chapter names."""
         chapter_finder = os.path.join(build_config.CHAPTER_DIRECTORY,
@@ -66,12 +93,12 @@ class LatexBuilder(object):
         self.dvi_output = env.DVI(source=self.latex_project + '.tex',
                                  target=self.latex_project + '.dvi')
         env.Alias('dvi', self.latex_project + '.dvi')
-        Clean(self.dvi_output, self.makeindex_file_list)
+        Clean(self.dvi_output, self.makeindex_file_list + self.to_clean)
         
         self.pdf_output = env.PDF(source=self.latex_project + '.tex',
                                   target=self.latex_project + '.pdf')
         env.Alias('pdf', self.latex_project + '.pdf')
-        env.Clean(self.pdf_output, self.makeindex_file_list)
+        env.Clean(self.pdf_output, self.makeindex_file_list + self.to_clean)
         
         env.Default(build_config.DEFAULT_TARGET)
     
