@@ -8,3 +8,7 @@
 *.dvi
 *.pdf
 *.pyc
+*.aux
+*.fls
+*.log
+generated/
