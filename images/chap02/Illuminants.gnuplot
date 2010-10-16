@@ -9,7 +9,7 @@ set size 1.0,0.5
 set xrange [400:700]
 set yrange [0:250]
 
-set key 655, 220
+set key box
 
 plot (x-400)/300 title "", \
     "images/chap02/IlluminantD65.txt" \
