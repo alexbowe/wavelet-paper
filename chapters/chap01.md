@@ -8,10 +8,4 @@ data structures are delicious
 Suffix Array
 ------------
 
-\begin{figure}[hbt]
-    \centering
-    \includegraphics[width=0.6\hsize]{chap01/test}
-    \caption{Hip hip hooray, yeahhhhh!.}
-    \label{fig:test}
-\end{figure}
-
+\DefFig{fig:test}{chap01/test}{0.7}{A quick Omnigraffle diagram.}
