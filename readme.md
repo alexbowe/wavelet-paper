@@ -1,6 +1,7 @@
 Honours Thesis: Multiary Wavelet Trees in Practice
 ==================================================
 
+v0.1  
 Author: Alex Bowe  
 Email:  bowe.alexander@gmail.com
 
