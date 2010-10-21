@@ -8,4 +8,6 @@ data structures are delicious
 Suffix Array
 ------------
 
-\DefFig{fig:test}{chap01/test}{0.7}{A quick Omnigraffle diagram.}
+Check out Figure~\ref{fig:circles}
+
+\DefFig{fig:circles}{chap01/test}{0.5}{Just some circles man.}
