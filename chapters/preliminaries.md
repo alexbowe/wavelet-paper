@@ -15,11 +15,10 @@ structure for such queries.
 
 Suffix Array
 ------------  
-First Described by Manber and Myers \cite{Manber90}.
+First Described by Manber and Myers \cite{manber1990}.
 
 \DefFig{fig:sa-make}{preliminaries/mississippi-sa-sort}{0.65}{Suffix Array
-	Construction for the string ``mississipi''. The \texttt{\$} symbol is used
-	to represent the end of the string.}
+	Construction for the string ``mississipi''}
 
  * Construction see Figure \ref{fig:sa-make}
  * compressed SA
@@ -29,8 +28,7 @@ Burrows-Wheeler Transform
  * Construction see Figure \ref{fig:sa-bwt}
 
 \DefFig{fig:sa-bwt}{preliminaries/mississippi-sa}{0.35}{Suffix Array and
-	Burrows-Wheeler Transform for the string ``mississipi''. The \texttt{\$}
-	symbol is used to represent the end of the string.}
+	Burrows-Wheeler Transform for the string ``mississipi''}
 
 Backwards Search
 ----------------  

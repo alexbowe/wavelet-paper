@@ -1,16 +1,32 @@
 \documentclass[a4paper]{article}
 
+%%%%%%%% PACKAGES %%%%%%%%
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage[numbers,sort]{natbib}
 
-% The path(s) to the graphics files:
-\graphicspath{{images/}{generated/}}
+% Algorithms
+\usepackage{algorithmic}
+% This gives floating, captioned algorithms
+\usepackage{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%% MACROS %%%%%%%%%
 % This LaTeX file contains some macros for the CC license page.
 \input{aux/creativecommons}
 
 % My self defined commands
 \input{aux/commands}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%% SETTINGS %%%%%%%%
+% The paths to the graphics files:
+\graphicspath{{images/}{generated/}}
+
+% Section counting
+\setcounter{secnumdepth}{1}
+\setcounter{tocdepth}{2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
@@ -28,20 +44,27 @@
 \input{chapters/abstract}
 \end{abstract}
 
-% TODO: UNCOMMENT THIS TO INCLUDE LICENSE INFO
-% \include{chapters/LicenseDisclaimer}
+% TODO: Uncomment this before distribution
+%\include{chapters/LicenseDisclaimer}
 
-\input{chapters/introduction}
+\newpage
+\tableofcontents
+\newpage
 
-\input{chapters/preliminaries}
+\include{chapters/introduction}
+
+\include{chapters/preliminaries}
 
 %\input{chapters/design}
 
-\input{chapters/experiments}
+\include{chapters/experiments}
 
-\input{chapters/conclusion}
+\include{chapters/conclusion}
 
-\input{chapters/acknowledgements}
+\include{chapters/acknowledgements}
+
+\appendix
+\include{chapters/tables}
 
 \bibliographystyle{abbrv}
 \bibliography{bibliography}
