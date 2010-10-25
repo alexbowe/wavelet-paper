@@ -1,4 +1,4 @@
-\documentclass[a4paper]{report}
+\documentclass[a4paper]{article}
 
 \usepackage{graphicx}
 \usepackage{url}
@@ -16,26 +16,34 @@
 
 \title{Multiary Wavelet Trees in Practice}
 \author{Alex Bowe}
-\date{\today}
+% TODO: Add email address
+\date{25 October 2010}
 
-% Work out how to put Simon Puglisi as supervisor + email and what not
+% TODO: Work out how to put Simon Puglisi as supervisor + email
+% TODO: Table of Contents
 
 \maketitle
-
-\include{chapters/LicenseDisclaimer}
 
 \begin{abstract}
 \input{chapters/abstract}
 \end{abstract}
 
-\include{chapters/introduction}
+% TODO: UNCOMMENT THIS TO INCLUDE LICENSE INFO
+% \include{chapters/LicenseDisclaimer}
 
-\include{chapters/preliminaries}
+\input{chapters/introduction}
 
-\include{chapters/design}
+\input{chapters/preliminaries}
 
-\include{chapters/experiments}
+%\input{chapters/design}
 
-\include{chapters/conclusion-future}
+\input{chapters/experiments}
+
+\input{chapters/conclusion}
+
+\input{chapters/acknowledgements}
+
+\bibliographystyle{abbrv}
+\bibliography{bibliography}
 
 \end{document}

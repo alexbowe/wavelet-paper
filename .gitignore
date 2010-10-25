@@ -11,4 +11,6 @@
 *.aux
 *.fls
 *.log
+*.bbl
+*.blg
 generated/
