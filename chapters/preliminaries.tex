@@ -2,15 +2,6 @@
 This section will discuss previous data structure development.
 
 
-
-\subsection{Problem Definition}
-...A naive $O(N)$ algorithm is possible, but this was improved by
-Knuth et al. and later Rabin-karp. These utilised auxiliary data
-structures (count tables). More recently, someone developed the
-Suffix Array, another auxiliary data structure for such queries.
-
-
-
 \subsection{Suffix Arrays}
 In its simplest form, a suffix array can be constructed for a string
 $S[0..N-1]$ - where the first character of $S$ is $S[0]$, and $N$ is the
@@ -25,100 +16,139 @@ length of the string - like so:
 		suffixes
 \end{enumerate}
 
-Take for example the string ``mississippi'' in Figure \ref{fig:mis}:
+Take for example the string ``mississippi'' in Figure \ref{fig:mis}.
+The construction of the corresponding suffix array is shown in Figure
+\ref{fig:sa-make-mis}.
 
-\DefFig{fig:mis}{preliminaries/mississippi}{0.7}{Array representation of
-	``mississippi'' string}
 
-\DefFig{fig:sa-make-mis}{preliminaries/mississippi-sa-sort}{0.7}{Construction of Suffix Array for ``mississippi''}
+ 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:mis}{preliminaries/mississippi}{0.55}
+			{Array representation of	``mississippi'' string}
 
-where $\$$ is used to terminate the string. The corresponding suffix array is
-shown in Figure \ref{fig:sa-bwt-mis}.
-
-\DefFig{fig:sa-bwt-mis}{preliminaries/mississippi-sa}{0.4}{Suffix Array and Burrows-Wheeler Transform for ``mississippi'' string}
-
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:sa-make-mis}{preliminaries/mississippi-sa-sort}{0.65}
+			{Construction of Suffix Array for ``mississippi''}
 
 
 
 \subsection{Burrows-Wheeler Transform}
-Figure~\ref{fig:sa-mis} indicates a column titled ``BWT'' (Burrows-Wheeler
-Transform). This is calculated by $BWT[i] = S[SA[i]-1]$, and $BWT[0] = \$$
-(i.e. it is the character previous to the suffix). When combined with a Wavelet
-Tree for rank queries, this becomes an FM-index which allows backwards search.
+The Burrows-Wheeler Transform (BWT) is calculated by $BWT[i] = S[SA[i]-1]$, and $BWT[0] = \$$ (that is, it is the character previous to the suffix), as in Figure \ref{fig:sa-bwt-mis}.
 
-\DefFig{fig:bwt-mis}{preliminaries/bwt-horizontal}{0.5}{Burrows-Wheeler Transform of ``mississippi''}
+When the BWT is stored in a Wavelet Tree for rank queries, this becomes what is known as a ``FM-index'' (include definition), which enables backwards search.
 
-\subsection{Rank Query}
-Rank Query is defined as $rank(i, c) = $ the number of times symbol $c$ appears
-on the range $[0..i)$. For example in Figure \ref{fig:rank-mis}, $rank(9, s) = 3$.
 
-\DefFig{fig:rank-mis}{preliminaries/rankquery-blackwhite}{0.5}{Visualisation of 
-	$rank(s, 9)$ on ``mississippi'' BWT}
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:sa-bwt-mis}{preliminaries/mississippi-sa}{0.35}
+			{Suffix Array and Burrows-Wheeler Transform for
+			``mississippi'' string}
 
-\subsection{Backwards Search}
-Backwards search involves a series of rank queries on the BWT to locate the range in the Suffix Array that contains all the occurrences of the search pattern $P$. For $|P| = m$, $m$ pairs of rank queries will be issued.
 
-For example, if we are searching for the pattern $P = $ \emph{``iss''} on the string ``mississippi'', we initiate the process from the final character of $P$: $P[2] = s$. The rank queries we issue are:
+\subsubsection{Rank Query} % TODO: REFERENCE THIS SECTION?
+A Rank Query is defined as $rank(i, c) = n $, with $n$ being the number of
+times symbol $c$ appears on the range $[0, i]$. For example in Figure
+\ref{fig:rank-mis}, $rank(9, s) = 3$.
 
-$$ s' = C[P[i]] + rank(P[i], s)$$
-$$ e' = s' + (rank(P[i], e) - rank(P[i], s))$$
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:rank-mis}{preliminaries/rankquery-blackwhite}{0.5}
+			{Visualisation of $rank(s, 9)$ on ``mississippi'' BWT}
+
+\subsubsection{Backwards Search} % TODO: AND THIS ONE
+Backwards search involves a series of rank queries on the BWT to locate the
+range in the Suffix Array that contains all the occurrences of the search
+pattern $P$. For $|P| = m$, $m$ pairs of rank queries will be issued.
+
+For example, if we are searching for the pattern $P = $ \emph{``iss''} on the
+string ``mississippi'', we initiate the process from the final character of $P$: 
+$P[2] = s$. The rank queries we issue are:
+
+					$$ s' = C[P[i]] + rank(P[i], s)$$
+					$$ e' = s' + (rank(P[i], e) - rank(P[i], s))$$
 
 Where $s$ is the start of the range, $e$ is the end of the range and $C$ is a
 table of initial positions for each symbol, as in Figure \ref{fig:c-tab}. An
 example is given in Figure \ref{fig:bws-1} through to Figure \ref{fig:bws-4}.
-The ``F'' column isn't stored as we store $C$ instead.
+Note that the ``F'' column isn't stored as we store $C$ instead.
 
-\DefFig{fig:c-tab}{preliminaries/C-table}{0.4}{Table of counts and first indexes of each symbol}
 
-\DefFig{fig:bws-1}{preliminaries/bwt-1}{0.4}}{First stage
-	of backwards search for ``iss'' on ``mississippi'' string - before any rank
-	queries have been made}
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:c-tab}{preliminaries/C-table}{0.2}
+			{Table of counts and first indexes of each symbol}
 
-\DefFig{fig:bws-2}{preliminaries/bwt-2}{0.4}{Second stage of backwards search for ``iss'' on ``mississippi'' string. All the occurrences of ``s'' lie in $SA[s..e]$}
+		% TODO: COMBINE 2 steps into one image: 1st + 2nd, 3rd + 4th
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:bws-1}{preliminaries/bwt-1}{0.4}
+			{First stage of backwards search for ``iss'' on ``mississippi''
+			 string - before any rank queries have been made}
 
-\DefFig{fig:bws-3}{preliminaries/bwt-3}{0.4}{Third stage of backwards search for ``iss'' on ``mississippi'' string. All the occurrences of ``ss'' lie in $SA[s..e]$}
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:bws-2}{preliminaries/bwt-2}{0.4}
+			{Second stage of backwards search for ``iss'' on ``mississippi'' 
+			string. All the occurrences of ``s'' lie in $SA[s..e]$}
 
-\DefFig{fig:bws-4}{preliminaries/bwt-4}{0.4}{Fourth and final stage of backwards search for ``iss'' on ``mississippi'' string. All the occurrences of ``iss'' lie in $SA[s..e]$}
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:bws-3}{preliminaries/bwt-3}{0.4}
+			{Third stage of backwards search for ``iss'' on ``mississippi'' 
+			string. All the occurrences of ``ss'' lie in $SA[s..e]$}
+
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:bws-4}{preliminaries/bwt-4}{0.4}
+			{Fourth and final stage of backwards search for ``iss'' on
+			``mississippi'' string. All the occurrences of ``iss'' lie in
+			$SA[s..e]$}
+		\newpage
+
 
 \subsection{Binary Wavelet Trees}
 Binary Wavelet Trees encode the BWT as a tree of bit-vectors, to enable
 $O(\log \sigma)$ - where $\sigma$ is the size of the alphabet - rank queries. This procedure is followed:
 
 \begin{enumerate}
-    \item Encoding half the alphabet as 0, and half as 1 as in Figure
-    \ref{fig:wt-enc-bwt}, for example:
-    $\Sigma = \{ \$, i, m, p, s \} : enc(\Sigma) = \{ 0, 0, 0, 1, 1 \}$
-    \item Group each 0-encoded symbol, $\{ \$, i, m \}$, as a sub-tree
-    \item Group each 1-encoded symbol, $\{ p, s \}$, as a sub-tree
-    \item Reapply to each sub-tree recursively until there is only one symbol
-    left
+    \item
+		Encoding half the alphabet as 0, and half as 1 as in Figure
+    	\ref{fig:wt-enc-bwt}, for example:
+    	$\Sigma = \{ \$, i, m, p, s \} : enc(\Sigma) = \{ 0, 0, 0, 1, 1 \}$
+    \item
+		Group each 0-encoded symbol, $\{ \$, i, m \}$, as a sub-tree
+    \item
+		Group each 1-encoded symbol, $\{ p, s \}$, as a sub-tree
+    \item
+		Reapply to each sub-tree recursively until there is only one symbol
+    	left
 \end{enumerate}
 
-For a more detailed example see Figure \ref{fig:bin-wt}.
+For a more detailed example see Figure %\ref{fig:bin-wt-pp}.
 
-\DefFig{fig:wt-enc-bwt}{preliminaries/encodebwt}{0.5}{Root node of Binary Wavelet Tree encoding for ``mississippi'' BWT}
 
-After this, a rank query can be done by $\log N$ popcounts~\footnote{A
-$popcount(i)$ operation counts all $1$s up to a point $i$.
-To count $0$s, this number is subtracted from $i$} on the
-bit-vectors. For example, if we wanted to know $rank(5, e)$ in Figure
-~\ref{fig:bin-wt}, we know that $enc(e) = 0$ at this level, so:
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:wt-enc-bwt}{preliminaries/encodebwt}{0.5}
+			{Root node of Binary Wavelet Tree encoding for ``mississippi'' BWT}
+
+
+After this, a rank query can be done by $\log N$ popcounts\footnote{A
+$popcount(i)$ operation counts all $1$s up to a point $i$. To count $0$s, this
+number is subtracted from $i$} on the bit-vectors. For example, if we wanted to 
+know $rank(5, e)$ in Figure binary-wt, we know that $enc(e) = 0$ at this level, so:
+
 \begin{enumerate}
-    \item We count the number of $0$s on $bitvector[0..5]$, which is $4$, this
-    gives us the index to query in our 0-child (although it is $3$, not $4$ due
-    to zero-basing);
-    \item We query $popcount(3) = 2$, as $e$ is now encoded as $1$. We traverse
-    the 1-branch this time.
-    \item $popcount(1) = 2$, which we use as the index in the child on the
-    1-branch.
-    \item $popcount(1) = 0$, which we subtract from two, as $e$ is encoded as
-    $0$ here, and hence get $2$. Since our children at this point are leaf
-    nodes, we return $2$ as our result.
+    \item
+		We count the number of $0$s on $bitvector[0..5]$, which is $4$, this
+   		gives us the index to query in our 0-child (although it is $3$, not $4$ 
+		due to zero-basing);
+    \item
+		We query $popcount(3) = 2$, as $e$ is now encoded as $1$. We traverse
+    	the 1-branch this time.
+    \item
+		$popcount(1) = 2$, which we use as the index in the child on the
+    	1-branch.
+    \item
+		$popcount(1) = 0$, which we subtract from two, as $e$ is encoded as
+    	$0$ here, and hence get $2$. Since our children at this point are leaf
+    	nodes, we return $2$ as our result.
 \end{enumerate}
+
 Hence $rank(5, e) = 2$. Popcounts are fast - $O(1)$ - on these bit-vectors due
 to RRR.
 
-\DefFig{fig:bin-wt}{preliminaries/binaryWT}{0.6}{Binary Wavelet Tree for ``Peter Piper...'' with alphabet encodings at each level for the left-most branch}
 
 \subsection{Multi-ary Wavelet Trees}
 Similar to a Binary Wavelet Tree, although now we encode it like so:
@@ -132,26 +162,34 @@ Similar to a Binary Wavelet Tree, although now we encode it like so:
     \item Reapply to each sub-tree recursively until there is only one symbol
     left
 \end{enumerate}
-For an example see Figure \ref{fig:multi-wt}. It is clear that popcounts will not work
+For an example see Figure .... It is clear that popcounts will not work
 here like they do for binary, and hence the RRR requires modification too.
 
-\DefFig{fig:multi-wt}{preliminaries/multiaryWT}{0.7}{Multi-ary Wavelet Tree for ``Peter Piper...'' with alphabet
-encodings at each level for the left-most branch.}
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:bin-wt-pp}{preliminaries/placeholder}{0.3}
+			{Binary Wavelet Tree for ``Peter Piper...'' with alphabet
+			encodings at each level for the left-most branch}
+
+		%\DefFig{fig:multi-wt}{preliminaries/multiaryWT}{0.7}
+		%	{Multi-ary Wavelet Tree for ``Peter Piper...'' with alphabet
+		%	encodings at each level for the left-most branch.}
+
+
 
 \subsection{RRR}
-To construct the RRR we divide the bit-vector into several so called \emph{superblocks}, we then divide these superblocks into further \emph{blocks}, as in Figure \ref{fig:blocks}.
+To construct the RRR we divide the bit-vector into several so called \emph{superblocks}, we then divide these superblocks into further \emph{blocks}, as in Figure%ref{fig:blocks}.
 
-For each of these blocks we store a class number $c$, which is the number of $1$s in the block. This is used as a lookup key in a table $G$, which is a table of tables, and will be explained shortly. We also store offset $o$, which is an index into the table at $G[c]$. See Figure \ref{fig:classes}.
+For each of these blocks we store a class number $c$, which is the number of $1$s in the block. This is used as a lookup key in a table $G$, which is a table of tables, and will be explained shortly. We also store offset $o$, which is an index into the table at $G[c]$. See Figure% \ref{fig:classes}.
 
-$G$ is a table where $G[c]$ is a sub-table containing an array of cumulative sums for each respective bit, on all permutations of $c$ 1-bits. It is important to note that the size of $o$ varies, due to it being an offset into $G[c]$, where $|G[c]| = \binom{b}{c}$, and hence can be encoded in $\log \binom{b}{c}$ bits. See Figure \ref{fig:gtab}.
+$G$ is a table where $G[c]$ is a sub-table containing an array of cumulative sums for each respective bit, on all permutations of $c$ 1-bits. It is important to note that the size of $o$ varies, due to it being an offset into $G[c]$, where $|G[c]| = b \choose c$, and hence can be encoded in $\log b \choose c$ bits. See Figure %\ref{fig:gtab} .
 
 RRR allows us to calculate popcounts in $O(1)$ time, and offers compression of our Wavelet Tree. Here we are using a binary RRR structure, but it is possible to support multi-ary WTs with a more extensive class allocation, for example on an alphabet $\Sigma = \{ A, B, C, D \}$ classes could be a 3-tuple of counts for $|\Sigma| - 1$ symbols. The G-table entries would have to hold more than one cumulative sums, too. We would also need to adjust the hashing algorithm for the lookup, but an upper bound is known, and hence a perfect hashing function is possible.
 
-\DefFig{fig:blocks}{preliminaries/blocks}{0.6}{Block division scheme for ``Peter Piper...'' Wavelet Tree's root node bit-vector}
+%\DefFig{fig:blocks}{preliminaries/blocks}{0.6}{Block division scheme for ``Peter Piper...'' Wavelet Tree's root node bit-vector}
 
-\DefFig{fig:classes}{preliminaries/classoffsets}{0.45}{Superblocks pointing to classes and offsets of each block they are responsible for}
+%\DefFig{fig:classes}{preliminaries/classoffsets}{0.45}{Superblocks pointing to classes and offsets of each block they are responsible for}
 
-\DefFig{fig:gtab}{preliminaries/gtable}{0.75}{G-table entry for $c = 2$ for RRR over ``Peter Piper...'' Wavelet Tree's root node bit-vector}
+%\DefFig{fig:gtab}{preliminaries/gtable}{0.75}{G-table entry for $c = 2$ for RRR over ``Peter Piper...'' Wavelet Tree's root node bit-vector}
 
 
 
