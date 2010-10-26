@@ -1,0 +1,43 @@
+\section{Experiments}
+
+Hypotheses...
+
+1000 random rank queries $rank(c, i)$ were generated, with $i elementof [0, N-1]$ and $c elementof SIGMA$.
+
+We used Francisco Claude's
+implementation as a base-line. We used the same default block-size and
+super-block-size as Claude.
+
+The experiments were run on Mac OS X Snow Leopard with a 2.4 GHz Intel Core 2
+Duo processor, and 4GB 1067 MHz DDR3 RAM.
+
+The data set is described below.
+
+\subsection{Data}
+% * Pizza&Chili, sources, english, dna, protein, xml
+% * 25, 50, 75
+% * in the case of the english corpus, we also took the word-based integer
+%   mapping.
+% * Then took the BWT transform of each of these.
+% * Hosted on http://bwt-corpus.s3.amazonaws.com/list.html
+% * Reconstructable using http://github.com/alexbowe/bwt-corpus
+% * TABLE OF SIGMA VALUES
+
+\begin{center}
+\begin{tabular}{ccccccc}
+\toprule
+\multirow{2}{*}{Data} & \multicolumn{2}{c}{25 MB} & \multicolumn{2}{c}{50 MB} &  
+	\multicolumn{2}{c}{75 MB}\\
+		  \cmidrule(r){2-7}
+	      &$\sigma$& length   &$\sigma$& length   &$\sigma$& length \\
+\midrule
+xml 	  & 96	   & 26214400 & 98 	   & 52428804 & 98 	   & 78643208 \\
+dna 	  & 14     & 26214400 & 19 	   & 52428804 & 21     & 78643208 \\
+proteins  & 25     & 26214400 & 29     & 52428804 & 33     & 78643208 \\
+sources   & 116    & 26214400 & 229    & 52428804 & 229    & 78643208 \\
+english   & 154    & 26214400 & 179    & 52428804 & 188    & 78643208 \\
+words     & 83083  & 5969593  & 115754 & 11860943 & 164757 & 17668587 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
