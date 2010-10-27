@@ -1,5 +1,5 @@
 set terminal postscript eps enhanced color "Helvetica" 16
-set output "generated/experiments/test.eps"
+set output "generated/experiments/mem_proteins_75MB.eps"
 
 set key left top
 #set size square 0.3,0.3
@@ -44,10 +44,10 @@ size = 75
 file = "images/experiments/data/".type.".".size."MB"
 
 
-set size 1.2,1
-set origin -0.16,0
-#set xlabel "bbbb"
-set xlabel offset 0.0,0.0 
+set size 1.2,1.2
+set origin -0.16,-0.15
+set xlabel "Arity"
+set xlabel offset 28,-1
 set multiplot title "[ file: ".type.".".size."MB ]" layout 1,4
 
 # get baseline
@@ -56,6 +56,8 @@ plot [-1:1][0:50] file i 4 u 0:($0==0?(baseline=((($3 + \
                                 $4)/(1024*1024))/size)):0)
 unset table
 base(x) = baseline
+
+set bmarg 0
 
 set title "simple"
 struct = 0
