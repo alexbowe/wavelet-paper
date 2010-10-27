@@ -1,18 +1,14 @@
 set terminal postscript eps enhanced color "Helvetica" 16
 set output "generated/experiments/test.eps"
 
-#set key outside
-unset key
-#set key horizontal
-#set key above
-#left top
+set key left top
 #set size square 0.3,0.3
 
 set lmargin 0
 set rmargin 0
 #set xlabel "Arity"
 set ylabel "Size\nCoefficient"
-#set ylabel rotate by 0
+set ylabel rotate by 0
 
 
 set xrange [0:5]
@@ -42,17 +38,18 @@ base  = "#362E31"
 # 4 - FC-RRR
 
 # dna, dblp.xml, english, english.ints, sources, proteins
-type = "dblp.xml"
+type = "proteins"
 # 25, 50, 75
 size = 75
 file = "images/experiments/data/".type.".".size."MB"
 
 base(x) = 0.51
 
-set multiplot title "Graphs of Size Coefficient for Increasing Arity\n". \
-                    "[ file: ".type.".".size." ]" layout 1,4
+set size 1.2,1
+set origin -0.16,0
+set multiplot title "[ file: ".type.".".size."MB ]" layout 1,4
 
-unset ylabel
+
 set title "simple"
 struct = 0
 plot file i struct u \
@@ -61,7 +58,7 @@ plot file i struct u \
  	"" i struct u (log($1)/log(2)):(($3/(1024*1024))/size) lc rgb tree \
 	title "Wavelet Tree", base(x) title "fc-rrr" lc rgb base lw 2 lt 2
 
-
+unset ylabel
 unset key
 set lmargin 0
 set border 1
