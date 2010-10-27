@@ -43,12 +43,19 @@ type = "proteins"
 size = 75
 file = "images/experiments/data/".type.".".size."MB"
 
-base(x) = 0.51
 
 set size 1.2,1
 set origin -0.16,0
+#set xlabel "bbbb"
+set xlabel offset 0.0,0.0 
 set multiplot title "[ file: ".type.".".size."MB ]" layout 1,4
 
+# get baseline
+set table "temp"
+plot [-1:1][0:50] file i 4 u 0:($0==0?(baseline=((($3 + \
+                                $4)/(1024*1024))/size)):0)
+unset table
+base(x) = baseline
 
 set title "simple"
 struct = 0
@@ -59,6 +66,7 @@ plot file i struct u \
 	title "Wavelet Tree", base(x) title "fc-rrr" lc rgb base lw 2 lt 2
 
 unset ylabel
+unset xlabel
 unset key
 set lmargin 0
 set border 1
