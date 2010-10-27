@@ -8,17 +8,21 @@ unset key
 #left top
 #set size square 0.3,0.3
 
-#set lmargin 15
-set xlabel "Arity"
+set lmargin 0
+set rmargin 0
+#set xlabel "Arity"
 set ylabel "Size\nCoefficient"
 #set ylabel rotate by 0
 
 
 set xrange [0:5]
 set xtics ("2" 1, "4" 2, "8" 3, "16" 4)
-set yrange [0:6]
+set yrange [0:10]
 set ytics 1
 set grid noxtics ytics
+set border 3
+set xtics nomirror
+set ytics nomirror
 
 set style data boxes
 set style fill solid 0.7
@@ -59,6 +63,10 @@ plot file i struct u \
 
 
 unset key
+set lmargin 0
+set border 1
+set tic scale 0
+set format y ""
 
 set title "multi-sdarray"
 struct = 1
