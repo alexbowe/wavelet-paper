@@ -1,22 +1,55 @@
 \section{Experiments}
+We will detail below what our expected findings were, and our method, including the data selected for the experiments.
 
-Hypotheses...
+\subsection{Hypotheses}
+% todo : UpDATE THIS
+The experiments were constructed to test these hypotheses:
 
-1000 random rank queries $rank(c, i)$ were generated, with $i elementof [0, 
-N-1]$ and $c elementof SIGMA$.
+\begin{itemize}
+    \item 	
+			RRR classes, and offsets, are not equally distributed
 
-We used Francisco Claude's
-implementation as a base-line. We used the same default block-size and
-super-block-size as Claude.
+    \item 	
+			Increasing the arity of a Wavelet Tree will make it shallower,
+		   	hence reducing the amount of nodes a query must visit, resulting
+		   	in faster queries
+		
+    \item 	
+			Sadakane Arrays will get smaller as the arity increases, due to
+			the sparsity in the concatenated bitmaps
+			
+    \item  
+			There is a practical limit to the order of the arity increase for 
+		   	Generalized RRR, since the count table will increase in size.
+\end{itemize}
 
-The experiments were run on Mac OS X Snow Leopard with a 2.4 GHz Intel Core 2
-Duo processor, and 4GB 1067 MHz DDR3 RAM.
+\subsection{Method}
+For each Multiary Wavelet Tree variant (using Generalised RRR, Multi-binary
+RRR, Multi-binary Sadakane Array, and simple concatenated bitmaps to provide
+sequence ranking at each node), we generated 1000 random rank queries $rank(c, 
+i)$. For three runs the mean query time was recorded, and the minimum result was
+taken as our result, to reduce interference from external factors. We repeated
+this as we doubled the arity.
+
+The size of  the Wavelet Tree (including the encoded sequences at each node) was 
+recorded. The size of the RRR count tables was recorded for the cases which used 
+a variant of RRR. For the Generalized RRR, we recorded how many unique class and 
+offset values were encountered, and calculated the percentage of total possible 
+classes and offsets these were.
+
+We used Francisco Claude's SPIRE 20... (FIXME)\footnote{Claude's compressed data 
+structures library is available at http://libcds.recoded.cl} implementation as a 
+base line for comparison. We used the same default block-size and 
+super-block factor as Claude.
 
 The data set is described below\footnote{The BWT files for each dataset are 
 available at\\ http://bwt-corpus.s3.amazonaws.com/list.html, and are 
 reconstructible using the scripts at http://github.com/alexbowe/bwt-corpus}.
 
-\subsection{Data}
+The experiments were run on Mac OS X Snow Leopard with a 2.4 GHz Intel Core 2
+Duo processor, and 4GB 1067 MHz DDR3 RAM.
+
+\subsubsection{Data}
 Since Wavelet Trees are used to provide faster rank queries on BWTs, we
 constructed BWT strings over a selection of texts taken from the \emph{Pizza\&Chili}
 Corpus website\footnote{http://pizzachili.dcc.uchile.cl}. This is the standard
@@ -61,8 +94,43 @@ words     & 83083  & 5969593  & 115754 & 11860943 & 164757 & 17668587 \\
 \end{table}
 \end{center}
 
-\DefFig{fig:testgraph}{experiments/simple_time_english_75MB}{1}{test test}
-\DefFig{fig:testgraph2}{experiments/time_english_75MB}{1}{test test}
-\DefFig{fig:testgraph3}{experiments/mem_english_ints_75MB}{1}{test test}
-\DefFig{fig:testgraph4}{experiments/mem_english_75MB}{1}{test test}
-\DefFig{fig:testgraph5}{experiments/mem_proteins_75MB}{1}{test test}
+\subsection{Results}
+A table of results is available in Appendix A. \emph{Please note that 
+measurements for the Generalized RRR with arity 16 are missing, since memory 
+constraints meant the experiments took too long due to paging. Also, note that
+the simple wavelet tree timings have been plotted on a different graph due to
+the difference in scale.}
+
+Table of classes/offsets encountered.!!
+
+		\DefFig{fig:stime-eng-75}{experiments/simple_time_english_75MB}{1}
+			{Query Times for Simple Multiary Wavelet Tree of increasing arity
+			for the 75MB \emph{english} file}
+			
+		\DefFig{fig:time-eng-75}{experiments/time_english_75MB}{1}
+			{Query Times for Non-simple Wavelet Trees of increasing arity
+			for the 75MB \emph{english} file}
+			
+		\DefFig{fig:mem-eng-ints-75}{experiments/mem_english_ints_75MB}{1}
+			{Memory consumption for Wavelet Trees of increasing arity for
+			the 75MB \emph{words} file}
+			
+		\DefFig{fig:mem-eng-75}{experiments/mem_english_75MB}{1}
+			{Memory consumption for Wavelet Trees of increasing arity for
+			the 75MB \emph{english} file}
+			
+		\DefFig{fig:mem-prot-75}{experiments/mem_proteins_75MB}{1}
+			{Memory consumption for Wavelet Trees of increasing arity for
+			the 75MB \emph{proteins} file}
+
+\subsection{Observations}
+It can be seen that ... time doesnt increase for 
+non-simple wavelet trees when the corpus is larger.
+
+Although the wavelet tree remains compressed for the generalized RRR, the RRR 
+table grows considerably. Although our implementation sacrifices some of the
+compression techniques of Claude's for sparsity, note that in the binary case 
+the RRR table is negligible.
+
+The size of the multi-RRR at arity 2 is higher, because the optimisation isn't 
+made whereby you don't have to store the rank structure for the 0-bitmap.
