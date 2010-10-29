@@ -15,31 +15,31 @@ length of the string - like so:
 		suffixes
 \end{enumerate}
 
-Take for example the string ``mississippi'' in Figure \ref{fig:mis}.
+Take for example the string `mississippi' in Figure \ref{fig:mis}.
 The construction of the corresponding suffix array is shown in Figure
 \ref{fig:sa-make-mis}.
 
 
  		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:mis}{preliminaries/mississippi}{0.55}
-			{Array representation of	``mississippi'' string}
+			{Array representation of	`mississippi' string}
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:sa-make-mis}{preliminaries/mississippi-sa-sort}{0.65}
-			{Construction of Suffix Array for ``mississippi''}
+			{Construction of Suffix Array for `mississippi'}
 
 
 
 \subsection{Burrows-Wheeler Transform}
 The Burrows-Wheeler Transform (BWT) is calculated by $BWT[i] = S[SA[i]-1]$, and $BWT[0] = \$$ (that is, it is the character previous to the suffix), as in Figure \ref{fig:sa-bwt-mis}.
 
-When the BWT is stored in a Wavelet Tree for rank queries, this becomes what is known as a ``FM-index'' (include definition), which enables backwards search.
+When the BWT is stored in a Wavelet Tree for rank queries, this becomes what is known as a `FM-index', which enables backwards search.
 
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:sa-bwt-mis}{preliminaries/mississippi-sa}{0.35}
 			{Suffix Array and Burrows-Wheeler Transform for
-			``mississippi'' string}
+			`mississippi' string}
 
 
 \subsubsection{Rank Query} % TODO: REFERENCE THIS SECTION?
@@ -48,16 +48,16 @@ times symbol $c$ appears on the range $[0, i]$. For example in Figure
 \ref{fig:rank-mis}, $rank(9, s) = 3$.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
-		\DefFig{fig:rank-mis}{preliminaries/rankquery-blackwhite}{0.5}
-			{Visualisation of $rank(s, 9)$ on ``mississippi'' BWT}
+		\DefFig{fig:rank-mis}{preliminaries/rankquery}{0.6}
+			{Rank query $rank(s, 8)$ on `mississippi' BWT}
 
 \subsubsection{Backwards Search} % TODO: AND THIS ONE
 Backwards search involves a series of rank queries on the BWT to locate the
 range in the Suffix Array that contains all the occurrences of the search
 pattern $P$. For $|P| = m$, $m$ pairs of rank queries will be issued.
 
-For example, if we are searching for the pattern $P = $ \emph{``iss''} on the
-string ``mississippi'', we initiate the process from the final character of $P$: 
+For example, if we are searching for the pattern $P = $ \emph{`iss'} on the
+string `mississippi', we initiate the process from the final character of $P$: 
 $P[2] = s$. The rank queries we issue are:
 
 					$$ s' = C[P[i]] + rank(P[i], s)$$
@@ -66,7 +66,7 @@ $P[2] = s$. The rank queries we issue are:
 Where $s$ is the start of the range, $e$ is the end of the range and $C$ is a
 table of initial positions for each symbol, as in Figure \ref{fig:c-tab}. An
 example is given in Figure \ref{fig:bws-1} through to Figure \ref{fig:bws-4}.
-Note that the ``F'' column isn't stored as we store $C$ instead.
+Note that the `F' column isn't stored as we store $C$ instead.
 
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
@@ -76,23 +76,23 @@ Note that the ``F'' column isn't stored as we store $C$ instead.
 		% TODO: COMBINE 2 steps into one image: 1st + 2nd, 3rd + 4th
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:bws-1}{preliminaries/bwt-1}{0.4}
-			{First stage of backwards search for ``iss'' on ``mississippi''
+			{First stage of backwards search for `iss' on `mississippi'
 			 string - before any rank queries have been made}
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:bws-2}{preliminaries/bwt-2}{0.4}
-			{Second stage of backwards search for ``iss'' on ``mississippi'' 
-			string. All the occurrences of ``s'' lie in $SA[s..e]$}
+			{Second stage of backwards search for `iss' on `mississippi'
+			string. All the occurrences of `s' lie in $SA[s..e]$}
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:bws-3}{preliminaries/bwt-3}{0.4}
-			{Third stage of backwards search for ``iss'' on ``mississippi'' 
-			string. All the occurrences of ``ss'' lie in $SA[s..e]$}
+			{Third stage of backwards search for `iss' on `mississippi'
+			string. All the occurrences of `ss' lie in $SA[s..e]$}
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:bws-4}{preliminaries/bwt-4}{0.4}
-			{Fourth and final stage of backwards search for ``iss'' on
-			``mississippi'' string. All the occurrences of ``iss'' lie in
+			{Fourth and final stage of backwards search for `iss' on
+			`mississippi' string. All the occurrences of `iss' lie in
 			$SA[s..e]$}
 		\newpage
 
@@ -120,7 +120,7 @@ For a more detailed example see Figure %\ref{fig:bin-wt-pp}.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:wt-enc-bwt}{preliminaries/encodebwt}{0.5}
-			{Root node of Binary Wavelet Tree encoding for ``mississippi'' BWT}
+			{Root node of Binary Wavelet Tree encoding for `mississippi' BWT}
 
 
 After this, a rank query can be done by $\log N$ popcounts\footnote{A
@@ -166,11 +166,11 @@ here like they do for binary, and hence the RRR requires modification too.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:bin-wt-pp}{preliminaries/binaryWT}{1}
-			{Binary Wavelet Tree for ``Peter Piper...'' with alphabet
+			{Binary Wavelet Tree for `Peter Piper...' with alphabet
 			encodings at each level for the left-most branch}
 		
 		\DefFig{fig:multi-wt-pp}{preliminaries/multiaryWT}{1}
-			{Multi-ary Wavelet Tree for ``Peter Piper...'' with alphabet
+			{Multi-ary Wavelet Tree for `Peter Piper...' with alphabet
 			encodings at each level for the left-most branch.}
 
 
@@ -185,7 +185,7 @@ $G$ is a table where $G[c]$ is a sub-table containing an array of cumulative sum
 RRR allows us to calculate popcounts in $O(1)$ time, and offers compression of our Wavelet Tree. Here we are using a binary RRR structure, but it is possible to support multi-ary WTs with a more extensive class allocation, for example on an alphabet $\Sigma = \{ A, B, C, D \}$ classes could be a 3-tuple of counts for $|\Sigma| - 1$ symbols. The G-table entries would have to hold more than one cumulative sums, too. We would also need to adjust the hashing algorithm for the lookup, but an upper bound is known, and hence a perfect hashing function is possible.
 
 		\DefFig{fig:blocks}{preliminaries/blocks}{0.8}
-			{Block division scheme for ``Peter Piper...'' Wavelet Tree's root
+			{Block division scheme for `Peter Piper...' Wavelet Tree's root
 			node bit-vector}
 
 		\DefFig{fig:rrr-seq}{preliminaries/classoffsets}{0.8}
