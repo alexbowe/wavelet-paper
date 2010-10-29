@@ -1,11 +1,19 @@
-In recent years, self-indexes for pattern matching based on Suffix
-Arrays and the Burrows-Wheeler Transform (BWT) have grown
-increasingly popular. The fundamental operation on these is the
-rank-query; $rank(i, c)$ requests the number of occurrences of
-symbol $c$ before position $i$ in strings. This is best provided by
-a Wavelet Tree (WT). Currently, WT implementations encode the BWT
-in binary. A generalisation of this extends WTs to higher order
-encoding, i.e. multi-arity, which reduces the depth of a WT, in
-theory making traversal faster. This paper aims to investigate the
-benefits of multi-ary WTs in practice, and whether specific
-properties of the BWT induce space-savings in the WT.
+Self-indexes for pattern matching based on Suffix
+Arrays and the \\ Burrows-Wheeler Transform have recently grown increasingly 
+popular.
+The fundamental operation in these self-indexes is the rank-query; $rank(i, c)$ 
+requests the 
+number of occurrences of symbol $c$ before position $i$ in strings. The Wavelet 
+Tree is the data structure of choice for implementing these rank queries. 
+Currently, Wavelet Tree implementations encode the Burrows-Wheeler Transform in 
+binary, which they then store as RRR sequences;
+a structure offering $O(1)$ rank queries and zeroth-order entropy compression on 
+binary strings. A generalisation of this extends Wavelet Trees to have higher 
+order encoding, that is increased branching, in theory making traversal faster. 
+To support the implementation of a Multiary
+Wavelet Tree, this thesis investigates the generalisation of RRR to sequences 
+over small alphabets. We also analyse the use of concatenated bitmaps to 
+represent sequences over small alphabets, thus allowing continued use of the
+binary RRR structure. Our results show that Multiary Wavelet Trees are faster
+than their binary counterparts, but have memory issues in the case of the
+Generalised RRR. We also show a practical alternative to be binary RRR on concatenated bitmaps.

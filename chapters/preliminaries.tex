@@ -1,7 +1,6 @@
 \section{Preliminaries}
 This section will discuss previous data structure development.
 
-
 \subsection{Suffix Arrays}
 In its simplest form, a suffix array can be constructed for a string
 $S[0..N-1]$ - where the first character of $S$ is $S[0]$, and $N$ is the
@@ -166,33 +165,42 @@ For an example see Figure .... It is clear that popcounts will not work
 here like they do for binary, and hence the RRR requires modification too.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
-		\DefFig{fig:bin-wt-pp}{preliminaries/placeholder}{0.3}
+		\DefFig{fig:bin-wt-pp}{preliminaries/binaryWT}{1}
 			{Binary Wavelet Tree for ``Peter Piper...'' with alphabet
 			encodings at each level for the left-most branch}
-
-		%\DefFig{fig:multi-wt}{preliminaries/multiaryWT}{0.7}
-		%	{Multi-ary Wavelet Tree for ``Peter Piper...'' with alphabet
-		%	encodings at each level for the left-most branch.}
+		
+		\DefFig{fig:multi-wt-pp}{preliminaries/multiaryWT}{1}
+			{Multi-ary Wavelet Tree for ``Peter Piper...'' with alphabet
+			encodings at each level for the left-most branch.}
 
 
 
 \subsection{RRR}
-To construct the RRR we divide the bit-vector into several so called \emph{superblocks}, we then divide these superblocks into further \emph{blocks}, as in Figure%ref{fig:blocks}.
+To construct the RRR we divide the bit-vector into several so called \emph{superblocks}, we then divide these superblocks into further \emph{blocks}, as in Figure \ref{fig:blocks}.
 
 For each of these blocks we store a class number $c$, which is the number of $1$s in the block. This is used as a lookup key in a table $G$, which is a table of tables, and will be explained shortly. We also store offset $o$, which is an index into the table at $G[c]$. See Figure% \ref{fig:classes}.
 
-$G$ is a table where $G[c]$ is a sub-table containing an array of cumulative sums for each respective bit, on all permutations of $c$ 1-bits. It is important to note that the size of $o$ varies, due to it being an offset into $G[c]$, where $|G[c]| = b \choose c$, and hence can be encoded in $\log b \choose c$ bits. See Figure %\ref{fig:gtab} .
+$G$ is a table where $G[c]$ is a sub-table containing an array of cumulative sums for each respective bit, on all permutations of $c$ 1-bits. It is important to note that the size of $o$ varies, due to it being an offset into $G[c]$, where $|G[c]| = b \choose c$, and hence can be encoded in $\log b \choose c$ bits. See Figure \ref{fig:bin-gtab} .
 
 RRR allows us to calculate popcounts in $O(1)$ time, and offers compression of our Wavelet Tree. Here we are using a binary RRR structure, but it is possible to support multi-ary WTs with a more extensive class allocation, for example on an alphabet $\Sigma = \{ A, B, C, D \}$ classes could be a 3-tuple of counts for $|\Sigma| - 1$ symbols. The G-table entries would have to hold more than one cumulative sums, too. We would also need to adjust the hashing algorithm for the lookup, but an upper bound is known, and hence a perfect hashing function is possible.
 
-%\DefFig{fig:blocks}{preliminaries/blocks}{0.6}{Block division scheme for ``Peter Piper...'' Wavelet Tree's root node bit-vector}
+		\DefFig{fig:blocks}{preliminaries/blocks}{0.8}
+			{Block division scheme for ``Peter Piper...'' Wavelet Tree's root
+			node bit-vector}
 
-%\DefFig{fig:classes}{preliminaries/classoffsets}{0.45}{Superblocks pointing to classes and offsets of each block they are responsible for}
+		\DefFig{fig:rrr-seq}{preliminaries/classoffsets}{0.8}
+		{RRR Sequence with three superblocks and the blocks for which they
+		maintain intermediate counts}
 
-%\DefFig{fig:gtab}{preliminaries/gtable}{0.75}{G-table entry for $c = 2$ for RRR over ``Peter Piper...'' Wavelet Tree's root node bit-vector}
+		\DefFig{fig:bin-gtab}{preliminaries/binary-g-table}{0.75}
+			{Binary RRR Count Table, with example lookup for class $c = 2$
+			and offset $o = 3$ in a RRR sequence}
 
-
-
+		\DefFig{fig:gen-gtab}{preliminaries/multi-g-table}{1}
+			{`Four-ary' RRR Count Table, with example lookup for class $c = 2$, 
+			which represents $(2, 2, 0, 1)$, and offset $o = 3$ in a RRR
+			sequence}
+			
 \subsection{Multiary Wavelet Trees}
 \begin{itemize}
 \item
