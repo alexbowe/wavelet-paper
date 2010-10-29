@@ -44,10 +44,10 @@ size = $size
 file = "images/experiments/data/".type.".".size."MB"
 
 
-set size 1.2,1.2
-set origin -0.16,-0.15
+set size 1.1,1.2
+set origin -0.18,-0.15
 set xlabel "Arity"
-set xlabel offset 28,-1
+set xlabel offset 19,-1
 set multiplot layout 1,4
 
 # get baseline
@@ -59,13 +59,13 @@ base(x) = baseline
 
 set bmarg 0
 
-set title "simple"
+set title "Simple WT"
 struct = 0
 plot file i struct u \
 	(log($1)/log(2)):((($3 + $4)/(1024*1024))/size) \
 	title "RRR Table" lc rgb table, \
  	"" i struct u (log($1)/log(2)):(($3/(1024*1024))/size) lc rgb tree \
-	title "Wavelet Tree", base(x) title "fc-rrr" lc rgb base lw 2 lt 2
+	title "Wavelet Tree", base(x) title "Claude RRR" lc rgb base lw 2 lt 2
 
 unset ylabel
 unset xlabel
@@ -75,28 +75,28 @@ set border 1
 set tic scale 0
 set format y ""
 
-set title "multi-sdarray"
-struct = 1
-plot file i struct u \
-	(log($1)/log(2)):((($3 + $4)/(1024*1024))/size) \
-	title "RRR Table" lc rgb table, \
- 	"" i struct u (log($1)/log(2)):(($3/(1024*1024))/size) lc rgb tree \
-	title "Wavelet Tree", base(x) title "fc-rrr" lc rgb base lw 2 lt 2
+#set title "multi-sdarray"
+#struct = 1
+#plot file i struct u \
+#	(log($1)/log(2)):((($3 + $4)/(1024*1024))/size) \
+#	title "RRR Table" lc rgb table, \
+# 	"" i struct u (log($1)/log(2)):(($3/(1024*1024))/size) lc rgb tree \
+#	title "Wavelet Tree", base(x) title "Claude RRR" lc rgb base lw 2 lt 2
 
-set title "ab-rrr"
+set title "Generalised RRR"
 struct = 2
 plot file i struct u \
 	(log($1)/log(2)):((($3 + $4)/(1024*1024))/size) \
 	title "RRR Table" lc rgb table, \
  	"" i struct u (log($1)/log(2)):(($3/(1024*1024))/size) lc rgb tree \
-	title "Wavelet Tree", base(x) title "fc-rrr" lc rgb base lw 2 lt 2
+	title "Wavelet Tree", base(x) title "Claude RRR" lc rgb base lw 2 lt 2
 
-set title "multi-fcrrr"
+set title "Multi-Binary RRR"
 struct = 3
 plot file i struct u \
 	(log($1)/log(2)):((($3 + $4)/(1024*1024))/size) \
 	title "RRR Table" lc rgb table, \
  	"" i struct u (log($1)/log(2)):(($3/(1024*1024))/size) lc rgb tree \
-	title "Wavelet Tree", base(x) title "fc-rrr" lc rgb base lw 2 lt 2
+	title "Wavelet Tree", base(x) title "Claude RRR" lc rgb base lw 2 lt 2
 
 unset multiplot

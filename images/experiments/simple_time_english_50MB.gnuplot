@@ -47,5 +47,5 @@ file = "images/experiments/data/".type.".".size."MB"
 # 4 - FC-RRR
 #unset grid
 set pointsize 1
-plot file i 0 u (log($1)/log(2)):(($2)) title "simple" w lp lw 4 lt 1 \
+plot file i 0 u (log($1)/log(2)):(($2)) title "Simple WT" w lp lw 4 lt 1 \
 	lc rgb three pt 5 ps 0.8

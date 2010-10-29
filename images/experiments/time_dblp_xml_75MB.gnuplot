@@ -46,12 +46,13 @@ base(x) = baseline
 # 4 - FC-RRR
 #unset grid
 set pointsize 1
-plot file i 2 u (log($1)/log(2)):(($2)*1000) title "ab-rrr" w lp lw 4 lt 1 \
+plot file i 2 u (log($1)/log(2)):(($2)*1000) title "Generalized RRR" w lp lw 4 lt 1 \
     lc rgb one pt 11 ps 1.2,\
-    "" i 1 u (log($1)/log(2)):(($2)*1000) title "multi-sdarray" w lp lw 4 lt 1\
-    lc rgb two pt 5 ps 0.8,\
-	"" i 3 u (log($1)/log(2)):(($2)*1000) title "multi-fcrrr" w lp lw 4 lt 1\
+	"" i 3 u (log($1)/log(2)):(($2)*1000) title "Multi-Binary RRR" w lp lw 4 lt 1\
 	lc rgb three pt 9 ps 1.2,\
-	base(x) title "fc-rrr" lc rgb base lt 2 lw 4
+	base(x) title "Claude RRR" lc rgb base lt 2 lw 4
+	
 #title "Wavelet Tree", base(x) title "fc-rrr" lc rgb base lw 2 lt 2
 #i 0 u (log($1)/log(2)):(($2)*1000) title "simple" w lp,\
+#"" i 1 u (log($1)/log(2)):(($2)*1000) title "multi-sdarray" w lp lw 4 lt 1\
+#lc rgb two pt 5 ps 0.8,\

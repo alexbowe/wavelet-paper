@@ -27,7 +27,7 @@ Burrows-Wheeler Transform (BWT), which enables \emph{self indexing}; we can
 discard the original text and perform fast pattern matching by using a `backward 
 search'.
 
-		\DefFig{fig:overview}{preliminaries/overview}{1}
+		\DefFig{fig:overview}{introduction/overview}{1}
 			{Simplified view of the key data structures}
 
 Backwards searching with a BWT requires a fundamental operation called a 
@@ -88,6 +88,5 @@ In the following sections these data structures are discussed in further detail,
 including some implementation details of interest. We give a description of our
 how we measured the time and space performance for each Multiary Wavelet Tree 
 variation for each dataset used, and discover that although Multiary Wavelet 
-Trees are faster, generalised RRR is impractical in is current form. We suggest
-some improvements that might be made, but also discover that our alternative 
-which uses binary RRR is practical.
+Trees are faster, generalised RRR is impractical in is current form, but also 
+discover that our alternative which uses binary RRR is practical.
