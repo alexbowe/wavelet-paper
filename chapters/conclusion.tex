@@ -1,14 +1,53 @@
 \section{Conclusion}
 From this we have shown that...
- 1. The table expands too rapidly to make increasing the arity worthwhile
- 2. There are simple ways to implement Multiary Wavelet Trees using rank
+\begin{enumerate}
+\item
+ 	The table expands too rapidly to make increasing the arity worthwhile,
+	unless this issue can be addressed (see Future Work).
+\item
+	There are simple ways to implement Multiary Wavelet Trees using rank
 	structures for binary alphabets.
- 3. This is faster, but no longer smaller than the original text.
- 4. Utilising a binary RRR has better compression than SDArray for this purpose.
-
+\item
+	Using the above method, rank queries become faster, but the Wavelet Tree is 
+	not necessarily smaller than the original text.
+\item
+	Utilising a binary RRR has better compression than SDArray for this purpose.
+\end{enumerate}
 
 \section{Future Work}
- * Investigate if there is any way to make the count table smaller, or if a more
-   efficient implementation could make it worthwhile... or if there is some way
-   to utilise sparsity.
- * Implement a multi-ary huffman shaped wavelet tree
+Some future avenues that could be considered include:
+
+\begin{enumerate}
+\item
+	Investigate if there is any way to make the count table for Generalized RRR 
+	smaller. One such idea might be to only store base offsets that can generate
+	all cyclic permutations, depending on the index. (Detail this in an 
+	appendix?)
+	
+\item
+	Implement and investigate a multiary huffman shaped wavelet tree (see 
+	M\"{a}kinen's work for details on huffman shaped wavelet
+	trees~\cite{huffmanWT:makinen2005}). This may
+	overcome the count table issue while still reducing the tree depth.
+
+\item
+	The possibility of restructuring a RRR table to allow for more
+    efficient caching, thus enabling it to be accessed efficiently from the
+	hard drive if it can't fit in memory
+
+\item
+	Improved serialisation, for faster import of the structures from disk to
+	memory
+
+\item
+	Distribution of the RRR table among nodes in a cluster, allowing it to be
+	held in memory as restricted by the cluster as a whole, not a single
+	computer. Then, increasing arity would be an issue of how many nodes are
+	on the cluster.
+
+\item
+	Non-linear pattern matching; as a suffix array is similar in functionality
+	to a regular expression, what if we were to apply this to a more 
+	structured format? For example, searching for structural patterns in code
+	for use in refactoring
+\end{enumerate}

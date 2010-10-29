@@ -1,13 +1,14 @@
 \section{Experiments}
-We will detail below what our expected findings were, and our method, including the data selected for the experiments.
+We will detail below what our expected findings were, and our method, including 
+the data selected for the experiments.
 
 \subsection{Hypotheses}
-% todo : UpDATE THIS
 The experiments were constructed to test these hypotheses:
 
 \begin{itemize}
     \item 	
-			RRR classes, and offsets, are not equally distributed
+			Since BWTs have many runs of the same symbol, RRR classes and 
+			offsets will not be equally distributed
 
     \item 	
 			Increasing the arity of a Wavelet Tree will make it shallower,
@@ -95,7 +96,7 @@ words     & 83083  & 5969593  & 115754 & 11860943 & 164757 & 17668587 \\
 \end{center}
 
 \subsection{Results}
-A table of results is available in Appendix A. \emph{Please note that 
+A table of results is available in Appendix A\footnote{The preprocessed data is available at http://github.com/alexbowe/multiary-wt}. \emph{Please note that 
 measurements for the Generalized RRR with arity 16 are missing, since memory 
 constraints meant the experiments took too long due to paging. Also, note that
 the simple wavelet tree timings have been plotted on a different graph due to
