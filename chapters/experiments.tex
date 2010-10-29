@@ -24,12 +24,14 @@ The data set is described below.
 % * TABLE OF SIGMA VALUES
 
 \begin{center}
-\begin{tabular}{ccccccc}
+\begin{tabular}{crrrrrr}
 \toprule
 \multirow{2}{*}{Data} & \multicolumn{2}{c}{25 MB} & \multicolumn{2}{c}{50 MB} &  
 	\multicolumn{2}{c}{75 MB}\\
 		  \cmidrule(r){2-7}
-	      &$\sigma$& length   &$\sigma$& length   &$\sigma$& length \\
+	      &\multicolumn{1}{c}{$\sigma$}& \multicolumn{1}{c}{length}
+		  &\multicolumn{1}{c}{$\sigma$}&\multicolumn{1}{c}{length}
+		  &\multicolumn{1}{c}{$\sigma$}&\multicolumn{1}{c}{length}\\
 \midrule
 xml 	  & 96	   & 26214400 & 98 	   & 52428804 & 98 	   & 78643208 \\
 dna 	  & 14     & 26214400 & 19 	   & 52428804 & 21     & 78643208 \\
@@ -41,7 +43,8 @@ words     & 83083  & 5969593  & 115754 & 11860943 & 164757 & 17668587 \\
 \end{tabular}
 \end{center}
 
-\DefFig{fig:testgraph}{experiments/mem_english_ints_75MB}{1}{test test}
-\DefFig{fig:testgraph}{experiments/mem_english_ints_50MB}{1}{test test}
-\DefFig{fig:testgraph}{experiments/mem_english_ints_25MB}{1}{test test}
-\DefFig{fig:testgraph}{experiments/mem_english_75MB}{1}{test test}
+\DefFig{fig:testgraph}{experiments/simple_time_english_75MB}{1}{test test}
+\DefFig{fig:testgraph2}{experiments/time_english_75MB}{1}{test test}
+\DefFig{fig:testgraph3}{experiments/mem_english_ints_75MB}{1}{test test}
+\DefFig{fig:testgraph4}{experiments/mem_english_75MB}{1}{test test}
+\DefFig{fig:testgraph5}{experiments/mem_proteins_75MB}{1}{test test}

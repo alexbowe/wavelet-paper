@@ -48,7 +48,7 @@ set size 1.2,1.2
 set origin -0.16,-0.15
 set xlabel "Arity"
 set xlabel offset 28,-1
-set multiplot title "[ file: ".type.".".size."MB ]" layout 1,4
+set multiplot layout 1,4
 
 # get baseline
 set table "temp"
