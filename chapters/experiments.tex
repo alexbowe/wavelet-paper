@@ -22,11 +22,11 @@ The experiments were designed to test these hypotheses:
 
 \subsection{Method}
 For each Multiary Wavelet Tree variant (using Generalised RRR, Multi-binary
-RRR, Multi-binary Sadakane Array, and simple concatenated bitmaps to provide
-sequence ranking at each node), we generated 1000 random rank queries $rank(c, 
-i)$. For three runs the mean query time was recorded, and the minimum result was
-taken as our result, to reduce interference from external factors. We repeated
-this as we doubled the arity.
+RRR, and simple concatenated bitmaps to provide
+sequence ranking at each node which we call ``simple''), we generated 1000 
+random rank queries $rank(c, i)$. For three runs the mean query time was 
+recorded, and the minimum result was taken as our result, to reduce interference 
+from external factors. We repeated this as we doubled the arity.
 
 The size of  the Wavelet Tree (including the encoded sequences at each node) was 
 recorded. The size of the RRR count tables was recorded for the cases which used 
@@ -62,10 +62,10 @@ representative of the sort of problems a suffix array may be used for. In the
 case of the English corpus, we also took a word-based integer mapping, allowing 
 us to test word-based indexing.
 
-Three sizes to test the scalability: 25MB, 50MB and 75MB. These were selected as 
-to not be in cache entirely, but not take large amounts of time
-for experimentation. The length and alphabet size of these files are described 
-in Table \ref{tab:files}.
+Three data sizes were used to test the scalability: 25MB, 50MB and 75MB. 
+These were selected as to not be in cache entirely, but not take large amounts 
+of time for experimentation. The length and alphabet size of these files are 
+described in Table \ref{tab:files}.
 
 \begin{center}
 \begin{table}[h]
