@@ -120,8 +120,9 @@ column isn't stored as we store $C$ instead.
 
 \clearpage
 \subsection{Binary Wavelet Trees}
-Binary Wavelet Trees encode the BWT as a tree of bit vectors, to enable
-$O(\log \sigma)$ time - where $\sigma$ is the size of the alphabet - rank queries. The tree is defined recursively as follows:
+Binary Wavelet Trees encode the BWT as a balanced binary tree of bit vectors, to 
+enable $O(\log \sigma)$ time - where $\sigma$ is the size of the alphabet - rank 
+queries. The tree is defined recursively as follows:
 
 \begin{enumerate}
     \item
@@ -147,28 +148,34 @@ The encoded binary Wavelet Tree root node for the `mississippi` BWT is shown in 
 
 After this, a rank query can be done by $\log N$ popcounts\footnote{A
 $popcount(i)$ operation counts all $1$s up to a point $i$. To count $0$s, this
-number is subtracted from $i$. This is equivalent to a binary rank query.} on the bit-vectors. For example, if we wanted to 
-know $rank(5, e)$ in Figure binary-wt, we know that $enc(e) = 0$ at this level, so:
+number is subtracted from $i$. This is equivalent to a binary rank query.} on 
+the bit-vectors. For example, if we wanted to know $rank(5, e)$ in Figure 
+binary-wt, we know that $enc(e) = 0$ at this level, so:
 
 \begin{enumerate}
     \item
-		We count the number of $0$s on $bitvector[0..5]$, which is $4$, this
+		Count the number of $0$s on $bitvector[0..5]$, which is $4$, this
    		gives us the index to query in our 0-child (although it is $3$, not $4$ 
 		due to zero-basing);
     \item
-		We query $popcount(3) = 2$, as $e$ is now encoded as $1$. We traverse
-    	the 1-branch this time.
+		Calculate $popcount(3) = 2$, as $e$ is now encoded as $1$. We traverse
+    	the 1-branch this time, with the next index as $1$.
     \item
 		$popcount(1) = 2$, which we use as the index in the child on the
-    	1-branch.
+    	1-branch, with our next index as $1$.
     \item
-		$popcount(1) = 0$, which we subtract from two, as $e$ is encoded as
+		$popcount(1) = 0$, which we subtract from $2$, as $e$ is encoded as
     	$0$ here, and hence get $2$. Since our children at this point are leaf
     	nodes, we return $2$ as our result.
 \end{enumerate}
 
-Hence $rank(5, e) = 2$. Popcounts are fast - $O(1)$ - on these bit-vectors due
-to RRR.
+Hence the result of $rank(5, e)$ is $2$. If we store these nodes in RRR, 
+popcounts can be answered in $O(1)$ time.
+
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:bin-wt-pp}{preliminaries/binwt}{1}
+			{Binary Wavelet Tree for `Peter Piper...' where space is displayed
+			as `\_'}
 
 \subsection{RRR}
 To construct the RRR we divide the bit-vector into several so called \emph{superblocks}, we then divide these superblocks into further \emph{blocks}, as in Figure \ref{fig:blocks}.
@@ -190,11 +197,6 @@ RRR allows us to calculate popcounts in $O(1)$ time, and offers compression of o
 		\DefFig{fig:bin-gtab}{preliminaries/binary-g-table}{0.75}
 			{Binary RRR Count Table, with example lookup for class $c = 2$
 			and offset $o = 3$ in a RRR sequence}
-
-		\DefFig{fig:gen-gtab}{preliminaries/multi-g-table}{1}
-			{`Four-ary' RRR Count Table, with example lookup for class $c = 2$, 
-			which represents $(2, 2, 0, 1)$, and offset $o = 3$ in a RRR
-			sequence}
 			
 \subsection{Multiary Wavelet Trees}
 \begin{itemize}
@@ -216,15 +218,11 @@ Similar to a Binary Wavelet Tree, although now we encode it like so:
 \end{enumerate}
 For an example see Figure .... It is clear that popcounts will not work
 here like they do for binary, and hence the RRR requires modification too.
-
-		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
-		\DefFig{fig:bin-wt-pp}{preliminaries/binaryWT}{1}
-			{Binary Wavelet Tree for `Peter Piper...' with alphabet
-			encodings at each level for the left-most branch}
 		
-		\DefFig{fig:multi-wt-pp}{preliminaries/multiaryWT}{1}
-			{Multi-ary Wavelet Tree for `Peter Piper...' with alphabet
-			encodings at each level for the left-most branch.}
+		\DefFig{fig:multi-wt-pp}{preliminaries/fourwt}{1}
+			{`Four'-ary Wavelet Tree for `Peter Piper...' where space is 
+			displayed as `\_'}
+			
 
 \subsubsection{Multiary Wavelet Tree Variation 1 : Uncompressed}
 \begin{itemize}
@@ -242,3 +240,9 @@ here like they do for binary, and hence the RRR requires modification too.
   these bitmaps are stored in a binary RRR, as implemented by
   Francisco Claude.
 \end{itemize}
+
+\subsection{Generalized RRR}
+\DefFig{fig:gen-gtab}{preliminaries/multi-g-table}{1}
+	{`Four-ary' RRR Count Table, with example lookup for class $c = 2$, 
+	which represents $(2, 2, 0, 1)$, and offset $o = 3$ in a RRR
+	sequence}
