@@ -150,7 +150,9 @@ After this, a rank query can be done by $\log N$ popcounts\footnote{A
 $popcount(i)$ operation counts all $1$s up to a point $i$. To count $0$s, this
 number is subtracted from $i$. This is equivalent to a binary rank query.} on 
 the bit-vectors. For example, if we wanted to know $rank(5, e)$ in Figure 
-binary-wt, we know that $enc(e) = 0$ at this level, so:
+\ref{fig:bin-wt-pp}, we use the following procedure which is illustrated in 
+Figure \ref{fig:rank-bin-wt-pp}. 
+We know that $enc(e) = 0$ at this level, so:
 
 \begin{enumerate}
     \item
@@ -176,7 +178,13 @@ popcounts can be answered in $O(1)$ time.
 		\DefFig{fig:bin-wt-pp}{preliminaries/binwt}{1}
 			{Binary Wavelet Tree for `Peter Piper...' where space is displayed
 			as `\_'}
+		
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:rank-bin-wt-pp}{preliminaries/binwt-query}{0.9}
+			{Answering $rank(5, e)$ over the Binary Wavelet Tree for `Peter
+			Piper...' where space is displayed as `\_'}
 
+\clearpage
 \subsection{RRR}
 To construct the RRR we divide the bit-vector into several so called \emph{superblocks}, we then divide these superblocks into further \emph{blocks}, as in Figure \ref{fig:blocks}.
 
