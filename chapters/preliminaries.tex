@@ -217,8 +217,8 @@ the number of possible permutations of $c$ bits, and hence entries in $G[c]$, is
 The purpose of the superblocks is to provide partial sums at each block where $n 
 \ge 0$. It also provides an initial address for the variable-length offset 
 values (also using a prefix sum). After finding the first offset in a RRR
-sequence, they are sampled according to their class $c$ by reading $\log {b 
-\choose c}$ bits. See Figure \ref{fig:rrr-seq}.
+sequence, they are sampled according to their class $c$ by reading $\lceil\log 
+{b \choose c}\rceil$ bits. See Figure \ref{fig:rrr-seq}.
 
 		\DefFig{fig:rrr-seq}{preliminaries/classoffsets}{0.9}
 		{RRR Sequence with three superblocks and the blocks for which they
@@ -226,8 +226,8 @@ sequence, they are sampled according to their class $c$ by reading $\log {b
 
 RRR allows us to calculate popcounts on binary sequences in $O(1)$ time, and 
 offers compression of our Wavelet Tree. It is possible to support multiary 
-Wavelet Trees with a more extensive class allocation, which we will discuss in 
-shortly.
+Wavelet Trees using RRR with a more extensive class allocation, which we will 
+discuss shortly.
 
 \clearpage
 \subsection{Multiary Wavelet Trees}
@@ -246,41 +246,85 @@ Multiary Wavelet Trees are analogous to their binary counterparts, although now 
 	less than or equal to $A - 1$.
 \end{enumerate}
 
-For an example see Figure \ref{fig:multi-wt-pp}.
+See Figure \ref{fig:multi-wt-pp} for a multiary Wavelet Tree constructed over
+the `Peter Piper...' string.\\
 
-It is clear that popcounts will not work
-here like they do for binary, and hence the RRR requires modification too.
-
-In order to create a shallower, multiary Wavelet Tree, we discuss three approaches.
+Popcounts will not work here like they do for binary. We discuss three 
+alternative approaches in the following sections.
 
 \subsubsection{Multiary Wavelet Tree Variation 1 : Uncompressed}
+		\DefFig{fig:bitmaps}{preliminaries/bitmaps}{0.4}
+		{Concatenated bitmap binary encoding of multiary Wavelet Tree Node
+		representing `eeecedecfcedee' from the `Peter Piper...' string.}
+		
 It is possible to represent each encoded symbol $c$, where $c$ is an element of
 ${ 0, 1,..., A - 1}$ and $A$ is the arity, using $A$ bitmaps. First we construct
-the bitmaps for each symbol, as in Figure... then we concatenate these bitmaps
-and store them as one bitvector. A rank query then involves ranged popcount
-on $N[c L, c L + i]$ at each node $N$, where $L$ is the length of the node 
-string before concatenation, and $i$ is the position.
+the bitmaps for each symbol, as in Figure \ref{fig:bitmaps}, then we concatenate these bitmaps and store them as one 
+bit-vector. A rank query then involves ranged popcount on $N[c L, c L + i]$ at 
+each node $N$, where $L$ is the length of the node string before concatenation, 
+and $i$ is the position.
 
 We use $A$ bits per symbol, when they could be represented in $\log A$ bits, but
 this allows us to utilise binary RRR.
 
-\subsubsection{Multiary Wavelet Tree Variation 2 : Multi-binary RRR}
-\begin{itemize}
-\item
-  As above, bitmaps are created for each symbol
-\item
-  these bitmaps are stored in a binary RRR, as implemented by
-  Francisco Claude.
-\end{itemize}
+\subsubsection{Multiary Wavelet Tree Variation 2 : Multi-Binary RRR}
+Like the uncompressed version, bitmaps are created for each symbol and 
+concatenated, but the bit-vector is stored in a binary RRR sequence. A query 
+then becomes two popcounts\footnote{In our implementation we pre-calculate the 
+first popcount for each symbol and store it with the node.};
+	\begin{align}
+	popcount(c * L - 1) \\
+	popcount(c * L + i)
+	\end{align}
 
-\subsection{Generalized RRR}
+Where $c$ is the symbol we are querying at position $i$,
+$c > 0$, and $L$ is 
+the original length before concatenation. If $c = 0$ then we say the result of 
+the first popcount is $0$. The final result of $rank(i, c)$ is calculated as 
+the second popcount minus the first.
+
+This variation means that we won't need to store a bigger $G$ table to 
+accommodate the additional classes when increasing the arity, when compared with
+a generalised RRR structure, but does not offer the same sequence compression as
+the concatenated bitmaps take more bits than required.\\
+
+Our third variation stores the symbols (without binary encoding) in a 
+generalised RRR structure.
+
+\subsection{Generalised RRR}
+
 \DefFig{fig:gen-gtab}{preliminaries/multi-g-table}{1}
 	{`Four-ary' RRR Count Table, with example lookup for class $c = 2$, 
 	which represents $(2, 2, 0, 1)$, and offset $o = 3$ in a RRR
 	sequence}
-	for 
-	example on an alphabet $\Sigma = \{ A, B, C, D \}$ classes could be a  of counts for 
-	$|\Sigma| - 1$ symbols. The G-table entries would have to hold more than one 
-	cumulative sums, too. We would also need to adjust the hashing algorithm for the 
-	lookup, but an upper bound is known, and hence a perfect hashing function is 
-	possible.
+	
+The generalised RRR structure differs from binary RRR in that it accepts
+sequences of symbols on the range $[0..A-1]$ for arity $A$, which requires these
+differences:
+
+\begin{itemize}
+	\item
+		Rather than simply being the number of 1-bits, classes are now 
+		considered to be a tuple of $(N^0, N^1, ..., N^{A-1})$ for a given 
+		block, where $N^0$ is the number of $0$s, $N^1$ is the number of $1$s, 
+		and so on. The RRR sequence still stores classes as a unique integer, 
+		though.
+
+	\item
+		Rather than having $b \choose N^1$ permutations per class for blocksize 
+		$b$, there are now ${b \choose N^0, N^1,...,N^{A-1}} = 
+		\prod_{i = 1}^{A} {{b - \sum_{j = 1}^{i - 1} N^j} \choose N^i}
+		$ different permutations\footnote{This grows rapidly as arity increases, 
+		so our implementation only stored the classes and offsets that we 
+		encountered in an attempt to make use of sparsity.}.
+		Each offset value $o$ therefore requires $\lceil\log {b \choose N^0, 
+		N^1,...,N^{A-1}}\rceil$ bits.
+
+	\item
+		The $G$ table must also store cumulative ranks for each symbol, per 
+		permutation. See Figure \ref{fig:gen-gtab}.
+
+	\item
+		Each superblock now has $A$ partial sums of the ranks for $f$ blocks, 
+		where $f$ is the super-block factor; a partial rank for each symbol.
+\end{itemize}
