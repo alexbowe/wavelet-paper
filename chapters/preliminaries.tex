@@ -210,19 +210,20 @@ permutation of $c$ 1-bits, $G[c]$ contains an array of cumulative sums for each
 respective bit. It is important to note that the size of $o$ varies, since 
 the number of possible permutations of $c$ bits, and hence entries in $G[c]$, is $b \choose c$, and can be encoded in $\log {b \choose c}$ bits. See Figure \ref{fig:bin-gtab}.
 
-		\DefFig{fig:bin-gtab}{preliminaries/binary-g-table}{0.7}
-			{Binary RRR Count Table, with example lookup for class $c = 2$
-			and offset $o = 3$ in a RRR sequence}
-
 The purpose of the superblocks is to provide partial sums at each block where $n 
 \ge 0$. It also provides an initial address for the variable-length offset 
 values (also using a prefix sum). After finding the first offset in a RRR
 sequence, they are sampled according to their class $c$ by reading $\lceil\log 
 {b \choose c}\rceil$ bits. See Figure \ref{fig:rrr-seq}.
 
-		\DefFig{fig:rrr-seq}{preliminaries/classoffsets}{0.9}
+		\DefFig{fig:bin-gtab}{preliminaries/binary-g-table}{0.7}
+		{Binary RRR Count Table, with example lookup for class $c = 2$
+		and offset $o = 3$ in a RRR sequence}
+
+		\DefFig{fig:rrr-seq}{preliminaries/superblocks}{0.9}
 		{RRR Sequence with three superblocks and the blocks for which they
-		maintain intermediate counts}
+		maintain intermediate counts. The dashed lines indicate what
+		the superblocks are used for, and what they are composed of.}
 
 RRR allows us to calculate popcounts on binary sequences in $O(1)$ time, and 
 offers compression of our Wavelet Tree. It is possible to support multiary 
