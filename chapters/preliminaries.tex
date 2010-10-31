@@ -46,12 +46,10 @@ The Burrows-Wheeler Transform (BWT) is calculated by $BWT[i] = S[SA[i]-1]$, and 
 
 When the BWT is stored in a Wavelet Tree for rank queries, this becomes what is known as a \emph{`FM-index'}, which enables backwards search.
 
-
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:sa-bwt-mis}{preliminaries/mississippi-sa}{0.35}
 			{Suffix Array and Burrows-Wheeler Transform for
 			`mississippi' string}
-
 
 \subsubsection{Rank Query}
 A Rank Query is defined as $rank(i, c) = n $, with $n$ being the number of
@@ -119,18 +117,18 @@ column isn't stored as we store $C$ instead.
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:bws-2}{preliminaries/bwt-2}{0.5}
 			{Second stage of backwards search for `iss' on `mississippi'
-			string. All the occurrences of `s' lie in $SA[8..11]$.}
+			string. All the occurrences of `s' lie in $SA[9..12]$.}
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:bws-3}{preliminaries/bwt-3}{0.5}
 			{Third stage of backwards search for `iss' on `mississippi'
-			string. All the occurrences of `ss' lie in $SA[8..9]$.}
+			string. All the occurrences of `ss' lie in $SA[11..12]$.}
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:bws-4}{preliminaries/bwt-4}{0.5}
 			{Fourth and final stage of backwards search for `iss' on
 			`mississippi' string. All the occurrences of `iss' lie in
-			$SA[3..4]$.}
+			$SA[4..5]$.}
 
 \clearpage
 \subsection{Binary Wavelet Trees}
