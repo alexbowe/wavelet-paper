@@ -5,23 +5,25 @@ from string import Template
 
 header = r'''\begin{table}[h]
 \begin{center}
-\begin{tabular}{crr}
+\begin{tabular}{crrrrrr}
 \toprule
-Arity & \multicolumn{1}{c}{Max Total Classes} &
-\multicolumn{1}{c}{Max Total Permutations}\\
+ & \multicolumn{2}{c}{Arity 2} & \multicolumn{2}{c}{Arity 4} & \multicolumn{2}{c}{Arity 8} \\
+\cmidrule(r){2-7}
+ & \multicolumn{1}{c}{Class \%} & \multicolumn{1}{c}{Perm. \%}
+ & \multicolumn{1}{c}{Class \%} & \multicolumn{1}{c}{Perm. \%}
+ & \multicolumn{1}{c}{Class \%} & \multicolumn{1}{c}{Perm. \%}\\
 \midrule'''
 
 footer = r'''\bottomrule
 \end{tabular}
-\caption{Maximum Total Classes and Offsets possible with a blocksize of 15 for arity 
-    values 2, 4, and 8}
-\label{tab:maxclass}
+\caption{}
+\label{tab:sparsity}
 \end{center}
 \end{table}'''
 
 templates = { #'outfile' : Template('abrrrtable.tex'),
-             # 'outrow'  : Template('$arity & $max_class')
-            }
+              #'outrow'  : Template('$arity $class_percentage $offset_percentage')
+}
 
 max_classes = { }
 max_offsets = { }
@@ -69,16 +71,14 @@ if __name__ == '__main__':
             data = list(processFile(f))
         
         print header
-        arity = 2
-        while arity < 16:
-            print str(arity) +' & ' + max_classes[arity] + ' & ' + max_offsets[arity] + r'\\'
-            arity *= 2
-        print footer
         
-        #print header
-        #for row in data:
-        #    print outRow(row)
-        #print footer
+        for row in data:
+            filename = row['type']
+            
+            print  filename + r' \\'
+            curr_file = filename
+    
+        print footer
     
     except Exception as e:
         sys.stderr.write(str(e) + '\n')

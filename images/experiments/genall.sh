@@ -7,5 +7,6 @@ do
     outfile=$outfile.gnuplot
     ./genMemPlots.py $file > mem_$outfile
     ./genTimePlots.py $file > time_$outfile
+    outfile=`echo $outfile | sed -E 's/_[0-9][0-9]MB//'`
     ./genSimpleTimePlots.py $file > simple_time_$outfile
 done

@@ -1,0 +1,61 @@
+\section{Results}
+\emph{Note that measurements for the Generalized RRR with arity 16 are missing, since the experiments took too long due to paging.}
+
+\emph{Also Note that the simple wavelet tree timings have been plotted on a different graph 
+due to the difference in scale.}\\
+
+From Figure \ref{fig:stime-eng}, we can see how increasing the arity affects
+querying a non-compressed Wavelet Tree. It is slower for increasing file size
+because it is calculating popcounts without the assistance of RRR.
+
+
+		\DefFig{fig:stime-eng}{experiments/simple_time_english}{0.9}
+			{Query Times for Simple Multiary Wavelet Tree of increasing arity
+			for each \emph{English} file.}
+		
+		\DefFig{fig:time-eng-25}{experiments/time_english_25MB}{0.9}
+			{Query Times for Non-simple Wavelet Trees of increasing arity
+			for the 25MB \emph{English} file}
+		
+		\DefFig{fig:time-eng-50}{experiments/time_english_50MB}{0.9}
+			{Query Times for Non-simple Wavelet Trees of increasing arity
+			for the 50MB \emph{English} file}
+		
+		\DefFig{fig:time-eng-75}{experiments/time_english_75MB}{0.9}
+			{Query Times for Non-simple Wavelet Trees of increasing arity
+			for the 75MB \emph{English} file}
+
+From Figures \ref{fig:time-eng-25} through to \ref{fig:time-eng-75} we are able 
+to see that increasing the file size does not significantly affect the time
+performance of the Wavelet Trees which utilise RRR.
+
+The Generalised RRR is slower than Claude's. We suspect that this is due to our 
+use of pointers required to create a sparse table, whereas Claude's avoids 
+dereferencing and makes better use of cache. The trend is similar to the
+other multiary Wavelet Trees, though. the `Multi-Binary RRR' Wavelet Tree
+is faster than Claude's when the arity is increased, but appears to plateau.
+
+All other time graphs show similar trends, and so have been omitted\footnote{The 
+other graphs are available at http://github.com/alexbowe/honours-thesis/}.
+
+		\DefFig{fig:mem-eng-75}{experiments/mem_english_ints_75MB}{0.9}
+			{Memory consumption for Wavelet Trees of increasing arity for
+			the 75MB \emph{Words} file}
+
+Figure \ref{fig:mem-eng-75} shows how changing the arity affects the memory
+consumption of the structures. We only show this for the 75MB file, as the 
+others compress (or expand) with similar coefficients. Note that even though 
+the generalised RRR structure's Wavelet Tree (which includes the RRR sequences 
+it stores) is smaller than the original text, the size to contain the supporting 
+RRR count structure is very large.
+
+		\DefFig{fig:mem-prot-75}{experiments/mem_proteins_75MB}{0.9}
+			{Memory consumption for Wavelet Trees of increasing arity for
+			the 75MB \emph{Proteins} file}
+
+The large size of the RRR Table for the Generalised RRR in Figure 
+\ref{fig:mem-prot-75} appears to be the result of the large number of unique
+permutations encountered for the Proteins file, since it has less classes but 
+more permutations than the words file. See Tables .. and \ref{tab:maxclass}.
+
+\input{chapters/maxclasstab}

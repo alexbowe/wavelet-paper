@@ -1,5 +1,5 @@
 set terminal postscript eps enhanced color "Helvetica" 16
-set output "generated/experiments/simple_time_proteins_75MB.eps"
+set output "generated/experiments/simple_time_dna.eps"
 
 set key right top
 
@@ -28,10 +28,10 @@ three = "#485C58"
 base  = "#362E31"
 
 # dna, dblp.xml, english, english.ints, sources, proteins
-type = "proteins"
+type = "dna"
 # 25, 50, 75
 size = 75
-file = "images/experiments/data/".type.".".size."MB"
+file = "images/experiments/data/".type."."
 
 # get baseline
 #set table "temp"
@@ -47,5 +47,9 @@ file = "images/experiments/data/".type.".".size."MB"
 # 4 - FC-RRR
 #unset grid
 set pointsize 1
-plot file i 0 u (log($1)/log(2)):(($2)) title "Simple WT" w lp lw 4 lt 1 \
-	lc rgb three pt 5 ps 0.8
+plot file."25MB" i 0 u (log($1)/log(2)):(($2)) title "25MB" w lp lw 4 lt 1 \
+	lc rgb three pt 5 ps 1,\
+	file."50MB" i 0 u (log($1)/log(2)):(($2)) title "50MB" w lp lw 4 lt 1 \
+		lc rgb two pt 9 ps 1.2,\
+	file."75MB" i 0 u (log($1)/log(2)):(($2)) title "75MB" w lp lw 4 lt 1 \
+		lc rgb one pt 11 ps 1.2
