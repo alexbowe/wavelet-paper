@@ -2,7 +2,7 @@
 
 As our collections of text grow larger, our need to find information in them
 and infer patterns and rankings increases, too. Suffix arrays, first
-described by Manber and Myers~\cite{manber1990}, allow a variety of complex 
+described by Manber and Myers~\cite{manber1993}, allow a variety of complex 
 pattern matching and pattern discovery problems to be performed in optimal time. 
 There are many areas where suffix arrays are likely the most appropriate data 
 structure for the task, including:
@@ -57,12 +57,12 @@ they must work with keywords and are thus inappropriate for many applications,
 such as searches on certain oriental languages, and other strings that don't
 have a clear definition of keywords (MIDI, for example). Suffix arrays are also 
 more efficient than inverted files for searching phrases or partial 
-patterns~\cite{MN10}.
+patterns~\cite{marin2003}.
 
 This was originally
 possible with a suffix tree~\cite{McCreight76}, although suffix trees require
-three to five times as much space~\cite{manber1990}. A suffix array can require
-around $5N$ bytes of memory~\cite{manber1990}.
+three to five times as much space~\cite{manber1993}. A suffix array can require
+around $5N$ bytes of memory~\cite{manber1993}.
 
 There have been many additional improvements made to suffix arrays
 in recent years. One such improvement is the \emph{`backward search'} 
@@ -73,7 +73,7 @@ lies on by successive binary searches.
 
 Backward search utilises the BWT in a series of rank queries, further
 improving the query performance considerably ~\cite{CN08, FGM09, FMMN07, GMR06,
-MN07:rankselect, MN07:selfindex, MN10, MN06}. One of the most effective data
+MN07:rankselect, MN07:selfindex, marin2003, MN06}. One of the most effective data
 structures for answering rank queries is the wavelet tree~\cite{CN08, FGM09,
 FMMN07, GGV03, MN07:selfindex}. As proposed by Ferragina and Manzini, when a BWT 
 is stored alongside a Suffix Array, it is called an 

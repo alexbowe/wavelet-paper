@@ -2,12 +2,41 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for Alex Bowe at 2010-10-25 22:36:52 +1100 
+%% Created for Alex Bowe at 2010-11-01 15:19:00 +1100 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@incollection{yu2009,
+	Abstract = {This paper considers a type of orthogonal range query, called orthogonal range successor query, which is defined as follows: Let P be a set of n points that lie on an n ×n grid. Then, for any given rectangle R, our target is to report, among all points of P ∩ R, the point which has the smallest y-coordinate. We propose two indexing data structures for P so that online orthogonal range successor queries are supported efficiently. The first one is a succinct index where only O(n) words are allowed for the index space. We show that each query can be answered in O(logn / loglogn) time, thus improving the best-known O(logn) time by M{\"a}kinen and Navarro. The improvement stems from the design of an index with O(1) query time when the points are restricted to lie on a narrow grid, which in turn extends the recent wavelet tree technique to support the desired query. Our second result is a general framework for indexing points in the d-dimensional grids. We show an O(n 1 + ε )-space index that supports each d-dimensional query in optimal O(1) time. Our second index is very simple and when d = 2, it is as efficient as the existing index by Crochemore et al.},
+	Author = {Yu, Chih-Chiang and Hon, Wing-Kai and Wang, Biing-Feng},
+	Booktitle = {Computing and Combinatorics},
+	Date-Added = {2010-11-01 15:18:52 +1100},
+	Date-Modified = {2010-11-01 15:18:52 +1100},
+	Pages = {96-105},
+	Publisher = {Springer},
+	Series = {Lecture Notes in Computer Science},
+	Title = {Efficient Data Structures for the Orthogonal Range Successor Problem},
+	Url = {http://dx.doi.org/10.1007/978-3-642-02882-3_11},
+	Volume = {5609},
+	Year = {2009},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1007/978-3-642-02882-3_11}}
+
+@incollection{marin2003,
+	Affiliation = {Dept. of Computer Science, University of Magallanes},
+	Author = {Mar{\'\i}n, Mauricio and Navarro, Gonzalo},
+	Booktitle = {String Processing and Information Retrieval},
+	Date-Added = {2010-11-01 15:11:57 +1100},
+	Date-Modified = {2010-11-01 15:13:54 +1100},
+	Pages = {311-325},
+	Publisher = {Springer},
+	Series = {Lecture Notes in Computer Science},
+	Title = {Distributed Query Processing Using Suffix Arrays},
+	Volume = {2857},
+	Year = {2003},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1007/978-3-540-39984-1_24}}
 
 @article{genome:flicek2009,
 	Abstract = {The most important first step in understanding next-generation sequencing data is the initial alignment or assembly that determines whether an experiment has succeeded and provides a first glimpse into the results. In parallel with the growth of new sequencing technologies, several algorithms that align or assemble the large data output of today's sequencing machines have been developed. We discuss the current algorithmic approaches and future directions of these fundamental tools and provide specific examples for some commonly used tools.},
@@ -36,11 +65,11 @@
 
 @article{genome:abouelhoda2004,
 	Author = {Mohamed Ibrahim Abouelhoda and Stefan Kurtz and Enno Ohlebusch},
+	Date-Modified = {2010-11-01 14:35:08 +1100},
 	Doi = {DOI: 10.1016/S1570-8667(03)00065-0},
 	Issn = {1570-8667},
 	Journal = {Journal of Discrete Algorithms},
 	Keywords = {Pattern matching},
-	Note = {The 9th International Symposium on String Processing and Information Retrieval},
 	Number = {1},
 	Pages = {53 - 86},
 	Title = {Replacing suffix trees with enhanced suffix arrays},
@@ -96,19 +125,6 @@
 	Title = {Arc Diagrams: Visualizing Structure in Strings},
 	Year = {2002}}
 
-@inproceedings{yu2009,
-	Address = {Berlin},
-	Author = {Chih-Chiang Yu and Wing-Kai Hon and Biing-Feng Wang},
-	Booktitle = {Computing and Combinatorics},
-	Date-Added = {2010-05-25 18:57:27 +1000},
-	Date-Modified = {2010-05-25 19:25:06 +1000},
-	Keywords = {data structures, algorithms, range searching, indexes, wavelet trees},
-	Pages = {96-105},
-	Publisher = {Springer},
-	Title = {Efficient Data Structures for the Orthogonal Range Successor Problem},
-	Volume = {5609},
-	Year = {2009}}
-
 @article{MN06,
 	Author = {G. Navarro and V. M{\"a}kinen},
 	Journal = {ACM Computing Surveys},
@@ -156,9 +172,10 @@
 @article{FGM09,
 	Address = {Duluth, MN, USA},
 	Author = {Ferragina, Paolo and Giancarlo, Raffaele and Manzini, Giovanni},
+	Date-Modified = {2010-11-01 14:39:02 +1100},
 	Doi = {http://dx.doi.org/10.1016/j.ic.2008.12.010},
 	Issn = {0890-5401},
-	Journal = {Inf. Comput.},
+	Journal = {Information and Computation},
 	Number = {8},
 	Pages = {849--866},
 	Publisher = {Academic Press, Inc.},
@@ -193,8 +210,8 @@
 
 @article{MN07:rankselect,
 	Author = {V. M{\"a}kinen and G. Navarro},
+	Date-Modified = {2010-11-01 14:39:21 +1100},
 	Journal = {Theoretical Computer Science},
-	Note = {Special issue on ``The Burrows-Wheeler Transform and its Applications''},
 	Number = 3,
 	Pages = {332--347},
 	Title = {Rank and Select Revisited and Extended},
@@ -210,22 +227,16 @@
 	Title = {Practical Implementation of Rank and Select Queries},
 	Year = {2005}}
 
-@conference{MN10,
-	Author = {Mar{\'\i}n, M. and Navarro, G.},
-	Booktitle = {String Processing and Information Retrieval},
-	Organization = {Springer},
-	Pages = {311--325},
-	Title = {{Distributed query processing using suffix arrays}},
-	Year = {2010}}
-
-@inproceedings{manber1990,
-	Author = {Manber, U. and Myers, G.},
-	Booktitle = {Proceedings of the first annual ACM-SIAM symposium on Discrete algorithms},
-	Date-Modified = {2010-10-25 22:36:01 +1100},
+@article{manber1993,
+	Address = {Philadelphia, PA, USA},
+	Author = {Manber, Udi and Myers, Gene},
+	Journal = {SIAM Journal on Computing},
+	Number = {5},
 	Organization = {Society for Industrial and Applied Mathematics},
-	Pages = {319--327},
+	Pages = {935--948},
 	Title = {Suffix arrays: A new method for on-line string searches},
-	Year = {1990}}
+	Volume = {22},
+	Year = {1993}}
 
 @article{McCreight76,
 	Address = {New York, NY, USA},
