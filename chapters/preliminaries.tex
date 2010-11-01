@@ -1,4 +1,5 @@
 \section{Preliminaries}
+\label{sec:prelim}
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:mis}{preliminaries/mississippi}{0.55}
@@ -18,6 +19,29 @@ the $5^{th}$ prefix in Figure \ref{fig:mis} is $S[1..5] = $ `missi'.
 
 The $log$ operation is base 2 unless otherwise stated.
 
+\subsection{Background}
+In 1970 Knuth, Morris and Pratt (KMP) discovered an algorithm to match patterns 
+in time proportional to the length of the text \cite{KMP77, 
+McCreight76}. If the text is large, then KMP is ineffective for ranking and 
+pattern discovery. KMP is only useful for exact matches. % TODO: other algs
+
+One alternative to KMP for document ranking is the use of an inverted index, but
+they must work with keywords and are thus inappropriate for many applications,
+such as searches on certain oriental languages, and other strings that don't
+have a clear definition of keywords (MIDI, for example). Suffix arrays are also 
+more efficient than inverted files for searching phrases or partial 
+patterns \cite{marin2003}. This was originally possible with a suffix 
+tree~\cite{McCreight76}, although suffix trees require three to five times as 
+much space~\cite{manber1993}.
+
+%Backward search utilises the BWT in a series of rank queries, further
+%improving the query performance considerably ~\cite{CN08, FGM09, FMMN07, GMR06,
+%MN07:rankselect, MN07:selfindex, marin2003, MN06}. One of the most effective %data
+%structures for answering rank queries is the wavelet tree~\cite{CN08, FGM09,
+%FMMN07, GGV03, MN07:selfindex}. As proposed by Ferragina and Manzini, when a BWT 
+%is stored alongside a Suffix Array, it is called an 
+%\emph{FM-Index}\cite{fmindex:ferragina2000}.
+
 \subsection{Suffix Arrays}
 In its simplest form, a suffix array can be constructed for a string
 $S[1..N]$ like so:
@@ -25,7 +49,7 @@ $S[1..N]$ like so:
 \begin{enumerate}
 	\item
 		Construct an array of pointers to all suffixes $S[1..N]$, 
-		$S[2..N]$, $S[3..N]$, ..., $S[N..N]$.
+		$S[2..N]$, ..., $S[N..N]$.
 	\item
 		Sort these pointers by the lexicographical ordering of their associated
 		suffixes.
@@ -62,9 +86,14 @@ times symbol $c$ appears on the range $[1, i]$. For example in Figure
 			Transform}
 
 \subsubsection{Backward Search}
-Backwards search involves a series of paired rank queries on the BWT to locate 
+Since all occurrences of a pattern lie in a contiguous portion of the Suffix
+Array, in earlier implementations we would locate the range that this pattern
+lies on by successive binary searches.
+
+Backward search involves a series of paired rank queries on the BWT to locate 
 the range in the Suffix Array that contains all the occurrences of the search
-pattern $P$. $|P|$ pairs, of rank queries will be issued, where $|P|$ denotes the length of the pattern. The rank queries we issue are:
+pattern $P$. $|P|$ pairs, of rank queries will be issued, where $|P|$ denotes 
+the length of the pattern. The rank queries we issue are:
 
 					$$ s' = C[P[i]] + rank(s - 1, P[i]) + 1$$
 					$$ e' = C[P[i]] + rank(e, P[i])$$
@@ -158,32 +187,30 @@ The encoded binary Wavelet Tree root node for the `mississippi` BWT is shown in 
 			{Root node of Binary Wavelet Tree encoding for `mississippi' BWT}
 
 
-After this, a rank query can be done by $\log N$ popcounts\footnote{A
-$popcount(i)$ operation counts all $1$s up to a point $i$. To count $0$s, this
-number is subtracted from $i$. This is equivalent to a binary rank query.} on 
-the bit-vectors. For example, if we wanted to know $rank(6, e)$ in Figure 
+After this, a rank query can be done by $\log \sigma$ binary rank queries 
+on the bit vectors. For example, if we wanted to know $rank(6, e)$ in Figure 
 \ref{fig:bin-wt-pp}, we use the following procedure which is illustrated in 
 Figure \ref{fig:rank-bin-wt-pp}. 
 We know that $enc(e) = 0$ at this level, so:
 
 \begin{enumerate}
     \item
-		Count the number of $0$s on $bitvector[1..6]$, which is $4$, this
-   		gives us the index to query in our 0-child.
+		Count the number of $0$s on $bitvector[1..6]$,
+		which is given by $rank(6, 0) = 4$. This gives us the index to query in 
+		our 0-child.
     \item
-		Calculate $popcount(4) = 2$, as $e$ is now encoded as $1$. We traverse
+		Calculate $rank(4, 1) = 2$, as $e$ is now encoded as $1$. We traverse
     	the 1-branch this time, with the next index as $1$.
     \item
-		$popcount(2) = 2$, which we use as the index in the child on the
+		$rank(2, 1) = 2$, which we use as the index in the child on the
     	1-branch, with our next index as $1$.
     \item
-		$popcount(2) = 0$, which we subtract from $2$, as $e$ is encoded as
-    	$0$ here, and hence get $2$. Since our children at this point are leaf
-    	nodes, we return $2$ as our result.
+		$rank(2, 0) = 2$, as $e$ is encoded as $0$ here. Since our children at 
+		this point are leaf nodes, we return $2$ as our result.
 \end{enumerate}
 
 Hence the result of $rank(6, e)$ is $2$. If we store these nodes in RRR, 
-popcounts can be answered in $O(1)$ time.
+binary rank queries can be answered in $O(1)$ time.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:bin-wt-pp}{preliminaries/binwt}{1}
@@ -236,7 +263,7 @@ sequence, they are sampled according to their class $c$ by reading $\lceil\log
 		maintain intermediate counts. The dashed lines indicate what
 		the superblocks are used for, and what they are composed of.}
 
-RRR allows us to calculate popcounts on binary sequences in $O(1)$ time, and 
+RRR allows us to calculate binary rank queries on binary sequences in $O(1)$ time, and 
 offers compression of our Wavelet Tree. It is possible to support multiary 
 Wavelet Trees using RRR with a more extensive class allocation, which we will 
 discuss shortly.
@@ -258,11 +285,12 @@ Multiary Wavelet Trees are analogous to their binary counterparts, although now 
 	less than or equal to $A - 1$.
 \end{enumerate}
 
-See Figure \ref{fig:multi-wt-pp} for a multiary Wavelet Tree constructed over
+See Figure \ref{fig:multi-wt-pp} for a Multiary Wavelet Tree constructed over
 the `Peter Piper...' string.\\
 
-Popcounts will not work here like they do for binary. We discuss three 
-alternative approaches in the following sections.
+We can not use binary rank queries, and hence Binary RRR, the same way as we do 
+with a Binary Wavelet Tree. We discuss three alternative approaches in the 
+following sections.
 
 \subsubsection{Multiary Wavelet Tree Variation 1 : Uncompressed}
 		\DefFig{fig:bitmaps}{preliminaries/bitmaps}{0.4}
@@ -271,10 +299,11 @@ alternative approaches in the following sections.
 		
 It is possible to represent each encoded symbol $c$, where $c$ is an element of
 ${ 0, 1,..., A - 1}$ and $A$ is the arity, using $A$ bitmaps. First we construct
-the bitmaps for each symbol, as in Figure \ref{fig:bitmaps}, then we concatenate these bitmaps and store them as one 
-bit-vector. A rank query then involves ranged popcount on $N[c L, c L + i]$ at 
-each node $N$, where $L$ is the length of the node string before concatenation, 
-and $i$ is the position.
+the bitmaps for each symbol, as in Figure \ref{fig:bitmaps}, then we concatenate 
+these bitmaps and store them as one 
+bit-vector. A rank query then involves a ranged binary rank query on $N[c L, c L 
++ i]$ at each node $N$, where $L$ is the length of the node string before 
+concatenation, and $i$ is the position.
 
 We use $A$ bits per symbol, when they could be represented in $\log A$ bits, but
 this allows us to utilise binary RRR.
@@ -282,18 +311,20 @@ this allows us to utilise binary RRR.
 \subsubsection{Multiary Wavelet Tree Variation 2 : Multi-Binary RRR}
 Like the uncompressed version, bitmaps are created for each symbol and 
 concatenated, but the bit-vector is stored in a binary RRR sequence. A query 
-then becomes two popcounts\footnote{In our implementation we pre-calculate the 
-first popcount for each symbol and store it with the node.};
+then becomes two binary rank queries\footnote{In our implementation we 
+pre-calculate the first binary rank queries for each symbol and store it with 
+the node.};
+
 	\begin{align}
-	popcount(c * L - 1) \\
-	popcount(c * L + i)
+	rank(c * L - 1, 1) \\
+	rank(c * L + i, 1)
 	\end{align}
 
 Where $c$ is the symbol we are querying at position $i$,
 $c > 0$, and $L$ is 
 the original length before concatenation. If $c = 0$ then we say the result of 
-the first popcount is $0$. The final result of $rank(i, c)$ is calculated as 
-the second popcount minus the first.
+the first binary rank query is $0$. The final result of $rank(i, c)$ is 
+calculated as the second binary rank query minus the first.
 
 This variation means that we won't need to store a bigger $G$ table to 
 accommodate the additional classes when increasing the arity, when compared with
