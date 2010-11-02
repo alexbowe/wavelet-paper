@@ -3,7 +3,7 @@
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:mis}{preliminaries/mississippi}{0.55}
-			{Array representation of	`mississippi' string}
+			{Array representation of	`mississippi' string.}
 			
 Throughout this paper we represent the string we are searching as $S$ of length 
 $|S| = N$, and the pattern we are searching for as $P$. $S[i]$ represents the 
@@ -34,13 +34,6 @@ patterns \cite{marin2003}. This was originally possible with a suffix
 tree~\cite{McCreight76}, although suffix trees require three to five times as 
 much space~\cite{manber1993}.
 
-%Backward search utilises the BWT in a series of rank queries, further
-%improving the query performance considerably ~\cite{CN08, FGM09, FMMN07, GMR06,
-%MN07:rankselect, MN07:selfindex, marin2003, MN06}. One of the most effective %data
-%structures for answering rank queries is the wavelet tree~\cite{CN08, FGM09,
-%FMMN07, GGV03, MN07:selfindex}. As proposed by Ferragina and Manzini, when a BWT 
-%is stored alongside a Suffix Array, it is called an 
-%\emph{FM-Index}\cite{fmindex:ferragina2000}.
 
 \subsection{Suffix Arrays}
 In its simplest form, a suffix array can be constructed for a string
@@ -55,9 +48,8 @@ $S[1..N]$ like so:
 		suffixes.
 \end{enumerate}
 
-Take for example the string `mississippi' in Figure \ref{fig:mis}.
-The construction of the corresponding suffix array is shown in Figure
-\ref{fig:sa-make-mis}.
+Figure \ref{fig:mis} shows an example string, `mississippi'. The construction of 
+the corresponding suffix array is shown in Figure \ref{fig:sa-make-mis}.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:sa-make-mis}{preliminaries/mississippi-sa-sort}{0.65}
@@ -66,64 +58,78 @@ The construction of the corresponding suffix array is shown in Figure
 
 
 \subsection{Burrows-Wheeler Transform}
-The Burrows-Wheeler Transform (BWT) is calculated by $BWT[i] = S[SA[i]-1]$, and $BWT[1] = $ `\$' (that is, it is the character previous to the suffix), as in Figure \ref{fig:sa-bwt-mis}.
+The Burrows-Wheeler Transform (BWT) is calculated by $BWT[i] = S[SA[i]-1]$, and $BWT[1] = $ `\$', that is, the $i^{th}$ symbol of the BWT is the symbol prior to the $i^{th}$ suffix in the Suffix Array $SA$. See Figure \ref{fig:sa-bwt-mis}.
 
-When the BWT is stored in a Wavelet Tree for rank queries, this becomes what is known as a \emph{`FM-index'}, which enables backwards search.
+As proposed by Ferragina and Manzini, when a BWT is stored alongside a Suffix Array, it is known as a \emph{FM-Index} \cite{fmindex:ferragina2000}, which supports backwards search.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:sa-bwt-mis}{preliminaries/mississippi-sa}{0.35}
 			{Suffix Array and Burrows-Wheeler Transform for
-			`mississippi' string}
+			`mississippi' string.}
 
 \subsubsection{Rank Query}
-A Rank Query is defined as $rank(i, c) = n $, with $n$ being the number of
-times symbol $c$ appears on the range $[1, i]$. For example in Figure
-\ref{fig:rank-mis}, $rank(9, s) = 3$. If $i \le 0$ then $rank(i, c) = 0$.
+A Rank Query on the string $S$ is defined as $rank_S(i, c) = n $, with $n$ being 
+the number of times symbol $c$ appears in the range $S[1, i]$. This paper omits 
+the subscript when the string we are querying is clear from the context. For 
+example in Figure \ref{fig:rank-mis}, $rank(9, s) = 3$. If $i \le 0$ then 
+$rank(i, c) = 0$.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:rank-mis}{preliminaries/rankquery}{0.6}
-			{Rank query $rank(9, s) = 3$ on `mississippi' Burrows-Wheeler 
-			Transform}
+			{Rank query $rank(9, s) = 3$ on the Burrows-Wheeler Transform
+			of `mississippi'.}
 
 \subsubsection{Backward Search}
-Since all occurrences of a pattern lie in a contiguous portion of the Suffix
-Array, in earlier implementations we would locate the range that this pattern
-lies on by successive binary searches.
+Since all occurrences of a search pattern $P$ lie in a contiguous portion of the 
+Suffix Array, in earlier implementations we would locate the range that this 
+pattern lies on by successive binary searches. Backward search utilises the BWT 
+in a series of paired rank queries, further improving the query performance 
+considerably ~\cite{CN08, FGM09, ferragina07, GMR06, MN07:rankselect,
+MN07:selfindex, marin2003, MN06}
 
-Backward search involves a series of paired rank queries on the BWT to locate 
-the range in the Suffix Array that contains all the occurrences of the search
-pattern $P$. $|P|$ pairs, of rank queries will be issued, where $|P|$ denotes 
-the length of the pattern. The rank queries we issue are:
+Backward search issues $|P|$ pairs of rank queries will be issued, where $|P|$ 
+denotes the length of the pattern. The paired rank queries are:
 
 					$$ s' = C[P[i]] + rank(s - 1, P[i]) + 1$$
 					$$ e' = C[P[i]] + rank(e, P[i])$$
 
-Where $s$ denotes the start of the range, initiated at $s = 1$, and $e$ is the 
-end of the range, $e = N$. $C$ is an array containing the count of all symbols 
-in $\Sigma$ which sort lexicographically before $P[i]$, where $\Sigma$ is the 
-alphabet from our original string $S$, as in Figure 
-\ref{fig:c-tab}\footnote{Note that we are indexing $C$ by a symbol $P[i]$, so 
-this may be implemented with a suitable hash function.}. In the first iteration 
-we query the final character of the pattern, so $i = |P| - 1$.  For each 
-iteration, we decrement $i$ until zero, or $e < s$, which indiciates that
-the pattern doesn't exist in our original string.
+Where $s$ denotes the start of the range, initially at $s = 1$, and $e$ is the 
+end of the range, initially $e = N$.
+
+In Figure \ref{fig:bws-1} there is a column $F$, which contains the first 
+symbol for each suffix. Note that the $F$ column isn't stored as we store 
+$C$ instead.
+
+$C$ is an array\footnote{Note that we are indexing $C$ by a symbol $P[i]$, so 
+this may be implemented with a suitable hash function.} containing the count of 
+all symbols in $\Sigma$ which sort lexicographically before $P[i]$, where 
+$\Sigma$ is the alphabet from our original string $S$, as in Figure 
+\ref{fig:c-tab}.
+
+In the first iteration 
+we query the final character of the pattern, so $i = |P|$.  For each 
+iteration, we decrement $i$ until $i = 1$. This maintains the invariant that
+$SA[s..e]$ contains all the occurrences of $P[i..|P|]$, which is illustrated in 
+Figure \ref{fig:bws-2} through to Figure \ref{fig:bws-4}. If at any stage $e < 
+s$, then the pattern doesn't exist in our original string.
 
 An example is given in Figure \ref{fig:bws-1} through to Figure \ref{fig:bws-4},
 Where the pattern \emph{`iss'} is searched for in the string `mississippi',
-starting with $i = 3$, $P[3] = `s'$. The working for each rank query is shown below. We represent the current symbol as $c$ to avoid confusion between `s' and $s$ and $s'$.
+starting with $i = 3$, $P[3] = `s'$. The working for each rank query is shown 
+below. We represent the current symbol as $c$ to avoid confusion between `s' and 
+$s$ and $s'$.
 
-The $F$ column contains the first symbol for each suffix. Note that the $F$ 
-column isn't stored as we store $C$ instead.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:c-tab}{preliminaries/C-table}{0.3}
-			{Table $C$ of first occurrences of each symbol}
-			
+			{Table $C$ of number of occurrences in F of each symbol which
+			sorts alphabetically before the displayed symbol.}
+
+\clearpage			
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:bws-1}{preliminaries/bwt-1}{0.5}
 			{First stage of backwards search for `iss' on `mississippi'
 			 string - before any rank queries have been made.}
-
 
 \begin{enumerate}
 	\item
@@ -131,36 +137,45 @@ column isn't stored as we store $C$ instead.
 		and $c = P[i] = $`s' where $i = 3$, we make our first two rank queries:
 			$$s' = C[c] + rank(0, c) + 1 = 8 + 0 + 1 = 9$$
 			$$e' = C[c] + rank(12, c) = 8 + 4 = 12$$
+		
+			%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+			\DefFig{fig:bws-2}{preliminaries/bwt-2}{0.5}
+				{Second stage of backwards search for `iss' on `mississippi'
+				string. All the occurrences of `s' lie in $SA[9..12]$.}
+\clearpage				
 	\item
 		From $s = 9$ and $e = 11$ as in Figure \ref{fig:bws-2},
 		and $c = P[i] = $`s' where $i = 2$, our next two rank queries are:
 			$$s'' = C[c] + rank(8, c) + 1 = 8 + 2 + 1 = 11$$
-			$$e' = C[c] + rank(12, c) = 8 + 4 = 12$$
+			$$e'' = C[c] + rank(12, c) = 8 + 4 = 12$$
+	
+			
+			%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+			\DefFig{fig:bws-3}{preliminaries/bwt-3}{0.5}
+				{Third stage of backwards search for `iss' on `mississippi'
+				string. All the occurrences of `ss' lie in $SA[11..12]$.}
+	
 	\item
 		From $s = 11$ and $e = 12$ as in Figure \ref{fig:bws-3},
 		and $c = P[i] = $`i' where $i = 1$, our final two rank queries are:
 			$$s''' = C[c] + rank(10, c) + 1 = 1 + 2 + 1 = 4$$
 			$$e''' = C[c] + rank(12, c) = 1 + 4 = 5$$
+			
+			
+			%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+			\DefFig{fig:bws-4}{preliminaries/bwt-4}{0.5}
+				{Fourth and final stage of backwards search for `iss' on
+				`mississippi' string. All the occurrences of `iss' lie in
+				$SA[4..5]$.}
+				
 \end{enumerate}
-
-		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
-		\DefFig{fig:bws-2}{preliminaries/bwt-2}{0.5}
-			{Second stage of backwards search for `iss' on `mississippi'
-			string. All the occurrences of `s' lie in $SA[9..12]$.}
-
-		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
-		\DefFig{fig:bws-3}{preliminaries/bwt-3}{0.5}
-			{Third stage of backwards search for `iss' on `mississippi'
-			string. All the occurrences of `ss' lie in $SA[11..12]$.}
-
-		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
-		\DefFig{fig:bws-4}{preliminaries/bwt-4}{0.5}
-			{Fourth and final stage of backwards search for `iss' on
-			`mississippi' string. All the occurrences of `iss' lie in
-			$SA[4..5]$.}
 
 \clearpage
 \subsection{Binary Wavelet Trees}
+%One of the most effective %data
+%structures for answering rank queries is the wavelet tree~\cite{CN08, FGM09,
+%FMMN07, GGV03, MN07:selfindex}.
+
 Binary Wavelet Trees encode the BWT as a balanced binary tree of bit vectors, to 
 enable $O(\log \sigma)$ time - where $\sigma$ is the size of the alphabet - rank 
 queries. The tree is defined recursively as follows:
@@ -184,7 +199,7 @@ The encoded binary Wavelet Tree root node for the `mississippi` BWT is shown in 
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:wt-enc-bwt}{preliminaries/encodebwt}{0.5}
-			{Root node of Binary Wavelet Tree encoding for `mississippi' BWT}
+			{Root node of Binary Wavelet Tree encoding for `mississippi' BWT.}
 
 
 After this, a rank query can be done by $\log \sigma$ binary rank queries 
@@ -235,7 +250,7 @@ number of block in a superblock the \emph{superblock-factor}, $f$.
 
 		\DefFig{fig:blocks}{preliminaries/blocks}{0.85}
 			{Block division scheme for `Peter Piper...' Wavelet Tree's root
-			node bit-vector}
+			node bit-vector.}
 
 For each of these blocks we store a class number $c$, which in the binary case 
 is the number of  $1$s in the block. This is used as a lookup key in a table 
@@ -256,7 +271,7 @@ sequence, they are sampled according to their class $c$ by reading $\lceil\log
 
 		\DefFig{fig:bin-gtab}{preliminaries/binary-g-table}{0.7}
 		{Binary RRR Count Table, with example lookup for class $c = 2$
-		and offset $o = 3$ in a RRR sequence}
+		and offset $o = 3$ in a RRR sequence.}
 
 		\DefFig{fig:rrr-seq}{preliminaries/superblocks}{0.9}
 		{RRR Sequence with three superblocks and the blocks for which they
@@ -329,7 +344,7 @@ calculated as the second binary rank query minus the first.
 This variation means that we won't need to store a bigger $G$ table to 
 accommodate the additional classes when increasing the arity, when compared with
 a generalised RRR structure, but does not offer the same sequence compression as
-the concatenated bitmaps take more bits than required.\\
+the concatenated bitmaps take more bits than required.
 
 Our third variation stores the symbols (without binary encoding) in a 
 generalised RRR structure.
@@ -337,9 +352,9 @@ generalised RRR structure.
 \subsection{Generalised RRR}
 
 \DefFig{fig:gen-gtab}{preliminaries/multi-g-table}{1}
-	{`Four-ary' RRR Count Table, with example lookup for class $c = 2$, 
+	{4-ary RRR Count Table, with example lookup for class $c = 2$, 
 	which represents $(2, 2, 0, 1)$, and offset $o = 3$ in a RRR
-	sequence}
+	sequence.}
 	
 The generalised RRR structure differs from binary RRR in that it accepts
 sequences of symbols on the range $[0..A-1]$ for arity $A$, which requires these
