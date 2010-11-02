@@ -109,8 +109,9 @@ $\Sigma$ is the alphabet from our original string $S$, as in Figure
 In the first iteration 
 we query the final character of the pattern, so $i = |P|$.  For each 
 iteration, we decrement $i$ until $i = 1$. This maintains the invariant that
-$SA[s..e]$ contains all the occurrences of $P[i..|P|]$, which is illustrated in 
-Figure \ref{fig:bws-2} through to Figure \ref{fig:bws-4}. If at any stage $e < 
+$SA[s..e]$ contains all the suffixes of which $P[i..|P|]$ is a prefix, and hence
+all locations of $P[i..|P|]$ in $S$. This is illustrated in Figure 
+\ref{fig:bws-2} through to Figure \ref{fig:bws-4}. If at any stage $e < 
 s$, then the pattern doesn't exist in our original string.
 
 An example is given in Figure \ref{fig:bws-1} through to Figure \ref{fig:bws-4},
@@ -254,8 +255,8 @@ binary rank queries can be answered in $O(1)$ time.
 \subsection{RRR}
 RRR was first proposed by Raman et al. \cite{rrr2007}. The purpose of RRR is to
 encode a bitsequence in such a way that supports $O(1)$ time binary rank 
-queries. It also provides implicit zeroth-order entropy compression, which 
-is discussed in Section \ref{sec:entropy}.
+queries. It also provides implicit zero-order empirical entropy compression, 
+which is described in Section \ref{sec:entropy}.
 
 To construct the RRR we divide the bit-vector into several so called 
 \emph{superblocks}, we then divide these superblocks further, into 
@@ -325,9 +326,15 @@ $0$.}.
 It is possible to support Multiary Wavelet Trees using RRR with a more extensive 
 class allocation, which we will discuss in Section \ref{sec:gen-rrr}.
 
-\subsubsection{Zeroth-Order Entropy Compression}
+\subsubsection{Zero-Order Entropy Compression}
 \label{sec:entropy}
-
+Zero-order empirical entropy is a lower bound for the average codeword size
+when a symbol is mapped to the same code word irrespective or the context in
+which they appear. It can be calculated as $H_0(S) = \sum_{i = 1}^{\sigma}
+\frac{N^i}{N} \log \frac{N}{N^i}$, for an alphabet $\Sigma$ size of $\sigma$, 
+and $N^i$ is the number of occurrences of the $i^{th}$ element of $\Sigma$ in 
+our text $S[1..N]$. 
+%The overall space requirement is $NH_0 + O(N \log \log N / \log N)$ bits \cite.
 
 
 
