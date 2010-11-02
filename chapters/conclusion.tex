@@ -1,43 +1,53 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-From this we have shown that...
-\begin{enumerate}
-\item
- 	The table expands too rapidly to make increasing the arity worthwhile,
-	unless this issue can be addressed (see Future Work).
-\item
-	There are simple ways to implement Multiary Wavelet Trees using rank
-	structures for binary alphabets.
-\item
-	Using the above method, rank queries become faster, but the Wavelet Tree is 
-	not necessarily smaller than the original text.
-\end{enumerate}
+From our observations, we have discovered that in the case of documents that fit 
+in memory, the RRR count table expands too rapidly to make increasing the arity 
+worthwhile, unless its growth can be addressed (see Section \label{sec:future}).
+
+Something about sparsity...
+
+Since the RRR count table is shared among all nodes and even all Wavelet Trees
+of the same or smaller arity and blocksize, it may be the case that when 
+documents are significantly large, the overhead of the RRR count table becomes 
+negligible, and having a shallower tree would far outweigh this. For such 
+documents, a distributed approach may be required. The more documents we index, 
+the less significant the table size will be.
+
+However, in the case of smaller documents, we have shown that there are simple 
+ways to implement Multiary Wavelet Trees using rank structures for binary 
+alphabets. In the case of our `Multi-Binary RRR' Wavelet Tree, we saw rank 
+queries become faster, while the Wavelet Tree nodes didn't grow too large. The 
+table didn't grow, and as such...
 
 \section{Future Work}
 \label{sec:future}
-Some future avenues that could be considered include:
+There are several promising avenues for future work which this thesis has helped
+reveal:
 
 \begin{enumerate}
 \item
 	Investigate if there is any way to make the count table for Generalized RRR 
 	smaller. One such idea might be to only store base counts which can
-	generate all cyclic permutations.
+	generate all cyclic permutations of a block.
 	
 \item
-	Implement and investigate a multiary huffman shaped wavelet tree (see 
-	M\"{a}kinen's work for details on huffman shaped wavelet
-	trees~\cite{huffmanWT:makinen2005}). This may
+	Similar to above, another option is to share count table entries among 
+	different blocks which have similar positioning but for different symbols. 
+	For example the block $b_1 = [0, 1, 2, 2, 3]$ has the same count table entry 
+	for $c = 2$ as the block $b_2 = [0, 2, 1, 1, 0]$ does for $c = 1$.
+	
+\item
+	Implement and investigate a Multiary Huffman-Shaped Wavelet Tree (see 
+	M\"{a}kinen's work for details on Huffman-Shaped Wavelet
+	Trees~\cite{huffmanWT:makinen2005}). This may
 	overcome the count table issue while still reducing the tree depth.
 
 \item
-	The possibility of restructuring a RRR table to allow for more
-    efficient caching, thus enabling it to be accessed efficiently from the
-	hard drive if it can't fit in memory
-
-\item
-	Improved serialisation, for faster import of the structures from disk to
-	memory
+	There may be certain blocks which are queried more often, so we may only
+	need to keep a certain percentage of those blocks in memory. The other 
+	blocks may be stored on disk and loaded into memory on the occasion that 
+	they are queried.
 
 \item
 	Distribution of the RRR table among nodes in a cluster, allowing it to be
@@ -46,8 +56,8 @@ Some future avenues that could be considered include:
 	on the cluster.
 
 \item
-	Non-linear pattern matching; as a suffix array is similar in functionality
-	to a regular expression, what if we were to apply this to a more 
-	structured format? For example, searching for structural patterns in code
-	for use in refactoring.
+	Investigate Multiary Wavelet Trees which use the bitmap concatenation 
+	technique, but encode each node using other binary sequence structures which 
+	answer rank queries, such as a Sadakane Array.
+
 \end{enumerate}
