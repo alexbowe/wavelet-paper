@@ -10,9 +10,8 @@ Something about sparsity...
 Since the RRR count table is shared among all nodes and even all Wavelet Trees
 of the same or smaller arity and blocksize, it may be the case that when 
 documents are significantly large, the overhead of the RRR count table becomes 
-negligible, and having a shallower tree would far outweigh this. For such 
-documents, a distributed approach may be required. The more documents we index, 
-the less significant the table size will be.
+negligible. For such documents, a distributed approach may be required. The more 
+documents we index, the less significant the table size will be.
 
 However, in the case of smaller documents, we have shown that there are simple 
 ways to implement Multiary Wavelet Trees using rank structures for binary 

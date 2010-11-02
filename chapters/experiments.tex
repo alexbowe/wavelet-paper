@@ -10,12 +10,12 @@ The experiments were designed to test these hypotheses:
 \begin{itemize}
     \item 	
 			Since BWTs have many runs of the same symbol, RRR classes and 
-			offsets will not be equally distributed
+			offsets will not be equally distributed.
 
     \item 	
 			Increasing the arity of a Wavelet Tree will make it shallower,
 		   	hence reducing the amount of nodes a query must visit, resulting
-		   	in faster queries
+		   	in faster queries.
 			
     \item  
 			There is a practical limit to the order of the arity increase for 
@@ -23,29 +23,31 @@ The experiments were designed to test these hypotheses:
 \end{itemize}
 
 \subsection{Method}
-For each Multiary Wavelet Tree variant\footnote{All source code is available at http://github.com/alexbowe/multiary-wt} (using Generalised RRR, Multi-binary
-RRR, and simple concatenated bitmaps to provide
-sequence ranking at each node which we call ``simple''), we generated 1000 
+For each Multiary Wavelet Tree variant\footnote{All source code is available at http://github.com/alexbowe/multiary-wt.} (using Generalised RRR, Multi-binary
+RRR, and uncompressed concatenated bitmaps to provide
+sequence ranking at each node), we generated 1000 
 random rank queries $rank(c, i)$. For three runs the mean query time was 
 recorded, and the minimum result was taken as our result, to reduce interference 
 from external factors. We repeated this as we doubled the arity.
 
-The size of  the Wavelet Tree (including the encoded sequences at each node) was 
-recorded. The size of the RRR count tables was recorded for the cases which used 
-a variant of RRR. For the Generalized RRR, we recorded how many unique class and 
-offset values were encountered, and calculated the percentage of total possible 
+The size of  the Wavelet Tree (including the RRR encoded sequences at each node) 
+was recorded. The size of the RRR count tables was recorded for the cases which 
+used a variant of RRR. For the Generalized RRR, we recorded how many unique 
+class and offset values were encountered, and calculated the percentage of total 
+possible 
 classes and offsets these were\footnote{All raw and processed data is 
 available at http://github.com/alexbowe/multiary-wt, and the graphs are 
 available at http://github.com/alexbowe/honours-thesis.}.
 
-We used Francisco Claude's SPIRE 20... (FIXME)\footnote{Claude's compressed data 
+We used Francisco Claude's SPIRE 2008 implementation of binary 
+RRR\footnote{Claude's compressed data 
 structures library is available at http://libcds.recoded.cl} implementation as a 
-base line for comparison. We used the same default block-size and 
-super-block factor as Claude.
+base line for comparison \cite{claude2008}. We used the same default block-size 
+and super-block factor as Claude.
 
 The data set is described below\footnote{The BWT files for each dataset are 
 available at\\ http://bwt-corpus.s3.amazonaws.com/list.html, and are 
-reconstructible using the scripts at http://github.com/alexbowe/bwt-corpus}.
+reconstructible using the scripts at http://github.com/alexbowe/bwt-corpus.}.
 
 The experiments were run on Mac OS X Snow Leopard with a 2.4 GHz Intel Core 2
 Duo processor, and 4GB 1067 MHz DDR3 RAM.
@@ -90,7 +92,7 @@ english   & 154    & 26214400 & 179    & 52428804 & 188    & 78643208 \\
 words     & 83083  & 5969593  & 115754 & 11860943 & 164757 & 17668587 \\
 \bottomrule
 \end{tabular}
-\caption{Text lengths and alphabet sizes for each test file}
+\caption{Text lengths and alphabet sizes for each test file.}
 \label{tab:files}
 \end{table}
 \end{center}

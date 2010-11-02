@@ -59,7 +59,7 @@ base(x) = baseline
 
 set bmarg 0
 
-set title "Simple WT"
+set title "Uncompressed WT"
 struct = 0
 plot file i struct u \
 	(log($1)/log(2)):((($3 + $4)/(1024*1024))/size) \

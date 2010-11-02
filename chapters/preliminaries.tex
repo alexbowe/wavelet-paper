@@ -84,7 +84,7 @@ Since all occurrences of a search pattern $P$ lie in a contiguous portion of the
 Suffix Array, in earlier implementations we would locate the range that this 
 pattern lies on by successive binary searches. Backward search utilises the BWT 
 in a series of paired rank queries, further improving the query performance 
-considerably ~\cite{CN08, FGM09, ferragina07, GMR06, MN07:rankselect,
+considerably ~\cite{claude2008, FGM09, ferragina07, GMR06, MN07:rankselect,
 MN07:selfindex, marin2003, MN06}
 
 Backward search issues $|P|$ pairs of rank queries will be issued, where $|P|$ 
@@ -172,7 +172,7 @@ $s$ and $s'$.
 
 \clearpage
 \subsection{Binary Wavelet Trees}
-One of the most effective datas tructures for answering rank queries is the Wavelet Tree \cite{CN08, FGM09, ferragina07, GGV03, MN07:selfindex}.
+One of the most effective datas tructures for answering rank queries is the Wavelet Tree \cite{claude2008, FGM09, ferragina07, GGV03, MN07:selfindex}.
 
 Binary Wavelet Trees encode the BWT as a perfect binary tree of bit vectors, to 
 enable $O(\log \sigma)$ time rank queries, where $\sigma$ is the size of the alphabet. The tree is defined recursively as follows:
@@ -295,8 +295,8 @@ can be answered like so:
 		Set \texttt{result} to the sum of previous ranks at $i_s$ boundary (which is 
 		pre-calculated).
 	\item
-		For each class-offset pair $(c, o)$, add the rank for that entire block 
-		to \texttt{result}.
+		Using each blocks class-offset pair $(c, o)$ after the boundary at 
+		$i_s$, add the rank for that entire block to \texttt{result}.
 	\item
 		Repeat previous step until we reach $i_b$. We then add $rank_{i_b}(j, 
 		c)$ to our result, where $j = i \mod b$, and is the position we are 
@@ -317,9 +317,10 @@ $0$.}.
 		and offset $o = 3$ in a RRR sequence.}
 
 		\DefFig{fig:rrr-seq}{preliminaries/superblocks}{0.9}
-		{RRR Sequence with three superblocks and the blocks for which they
-		maintain intermediate counts. The dashed lines indicate what
-		the superblocks are used for, and what they are composed of.}
+		{RRR Sequence divided into three superblocks. For each superblock
+		boundary, a sum of previous ranks is stored, as well as the address
+		of the first offset value. These allow us to reduce the amount of 
+		iteration required to answer a rank query.}
 
 It is possible to support Multiary Wavelet Trees using RRR with a more extensive 
 class allocation, which we will discuss in Section \ref{sec:gen-rrr}.
@@ -349,7 +350,7 @@ Multiary Wavelet Trees are analogous to their binary counterparts, although now 
 \end{enumerate}
 
 See Figure \ref{fig:multi-wt-pp} for a Multiary Wavelet Tree constructed over
-the `Peter Piper...' string.\\
+the `Peter Piper...' string.
 
 We can not use binary rank queries, and hence Binary RRR, the same way as we do 
 with a Binary Wavelet Tree. We discuss three alternative approaches in the 
@@ -405,9 +406,9 @@ generalised RRR structure.
 	which represents $(2, 2, 0, 1)$, and offset $o = 3$ in a RRR
 	sequence.}
 	
-The generalised RRR structure differs from binary RRR in that it accepts
-sequences of symbols on the range $[0..A-1]$ for arity $A$, which requires these
-differences:
+The purpose of the Generalised RRR structure is to provide $O(1)$ time rank
+queries and compression of a sequence of small integers on the range 
+$[0..A-1]$ for arity $A$. This requires these differences:
 
 \begin{itemize}
 	\item
@@ -432,6 +433,6 @@ differences:
 		permutation. See Figure \ref{fig:gen-gtab}.
 
 	\item
-		Each superblock now has $A$ partial sums of the ranks for $f$ blocks, 
-		where $f$ is the super-block factor; a partial rank for each symbol.
+		Each superblock now has $A$ rank sums of each previous block - a rank 
+		sum for each symbol.
 \end{itemize}
