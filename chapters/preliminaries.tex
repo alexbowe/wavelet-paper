@@ -21,8 +21,8 @@ The $log$ operation is base 2 unless otherwise stated.
 
 \subsection{Background}
 In 1970 Knuth, Morris and Pratt (KMP) discovered an algorithm to match patterns 
-in time proportional to the length of the text \cite{KMP77, 
-McCreight76}. If the text is large, then KMP is ineffective for ranking and 
+in time proportional to the length of the text \cite{knuth1977, 
+mccreight1976}. If the text is large, then KMP is ineffective for ranking and 
 pattern discovery. KMP is only useful for exact matches. % TODO: other algs
 
 One alternative to KMP for document ranking is the use of an inverted index, but
@@ -31,7 +31,7 @@ such as searches on certain oriental languages, and other strings that don't
 have a clear definition of keywords (MIDI, for example). Suffix arrays are also 
 more efficient than inverted files for searching phrases or partial 
 patterns \cite{marin2003}. This was originally possible with a suffix 
-tree~\cite{McCreight76}, although suffix trees require three to five times as 
+tree~\cite{mccreight1976}, although suffix trees require three to five times as 
 much space~\cite{manber1993}.
 
 
@@ -60,7 +60,7 @@ the corresponding suffix array is shown in Figure \ref{fig:sa-make-mis}.
 \subsection{Burrows-Wheeler Transform}
 The Burrows-Wheeler Transform (BWT) is calculated by $BWT[i] = S[SA[i]-1]$, and $BWT[1] = $ `\$', that is, the $i^{th}$ symbol of the BWT is the symbol prior to the $i^{th}$ suffix in the Suffix Array $SA$. See Figure \ref{fig:sa-bwt-mis}.
 
-As proposed by Ferragina and Manzini, when a BWT is stored alongside a Suffix Array, it is known as a \emph{FM-Index} \cite{fmindex:ferragina2000}, which supports backwards search.
+As proposed by Ferragina and Manzini, when a BWT is stored alongside a Suffix Array, it is known as a \emph{FM-Index} \cite{ferragina2000}, which supports backwards search.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:sa-bwt-mis}{preliminaries/mississippi-sa}{0.35}
@@ -84,8 +84,8 @@ Since all occurrences of a search pattern $P$ lie in a contiguous portion of the
 Suffix Array, in earlier implementations we would locate the range that this 
 pattern lies on by successive binary searches. Backward search utilises the BWT 
 in a series of paired rank queries, further improving the query performance 
-considerably ~\cite{claude2008, FGM09, ferragina07, GMR06, MN07:rankselect,
-MN07:selfindex, marin2003, MN06}
+considerably ~\cite{claude2008, ferragina2009, ferragina2007, golynski2006, makinen2007b,
+makinen2007a, marin2003, navarro2006}
 
 Backward search issues $|P|$ pairs of rank queries will be issued, where $|P|$ 
 denotes the length of the pattern. The paired rank queries are:
@@ -173,7 +173,7 @@ $s$ and $s'$.
 
 \clearpage
 \subsection{Binary Wavelet Trees}
-One of the most effective datas tructures for answering rank queries is the Wavelet Tree \cite{claude2008, FGM09, ferragina07, GGV03, MN07:selfindex}.
+One of the most effective datas tructures for answering rank queries is the Wavelet Tree \cite{claude2008, ferragina2009, ferragina2007, grossi2003, makinen2007a}.
 
 Binary Wavelet Trees encode the BWT as a perfect binary tree of bit vectors, to 
 enable $O(\log \sigma)$ time rank queries, where $\sigma$ is the size of the alphabet. The tree is defined recursively as follows:
@@ -253,7 +253,7 @@ binary rank queries can be answered in $O(1)$ time.
 
 
 \subsection{RRR}
-RRR was first proposed by Raman et al. \cite{rrr2007}. The purpose of RRR is to
+RRR was first proposed by Raman et al. \cite{raman2007}. The purpose of RRR is to
 encode a bitsequence in such a way that supports $O(1)$ time binary rank 
 queries. It also provides implicit zero-order empirical entropy compression, 
 which is described in Section \ref{sec:entropy}.

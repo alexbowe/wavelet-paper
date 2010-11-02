@@ -14,9 +14,9 @@ structure for the task, including:
     insufficient;
 \item
 	Pattern discovery and visualisation using arc diagrams, as proposed by
-    Wattenberg~\cite{arc:wattenberg2002};
+    Wattenberg~\cite{wattenberg2002};
 \item
-	Genome analysis~\cite{genome:abouelhoda2004, genome:flicek2009}.
+	Genome analysis~\cite{abouelhoda2004, flicek2009}.
 \end{itemize}
 
 Due to its performance in these important applications, the improvement of 
@@ -41,7 +41,7 @@ some sense allows us to replace the original text with a self index.
 	Wavelet Tree.}
 
 One such self index is known as the \emph{`FM-Index'}, proposed by
-Feraggina and Manzini \cite{fmindex:ferragina2000}. An FM-Index utilises a 
+Feraggina and Manzini \cite{ferragina2000}. An FM-Index utilises a 
 Suffix Array and a \emph{Burrows-Wheeler Transform} (BWT) (the two leftmost 
 diagrams in Figure \ref{fig:overview}) of the original text, and supports fast 
 pattern matching operations by using a \emph{`backward search'}.
@@ -60,12 +60,12 @@ hierarchy of bit vectors. These bit vectors are then uses to answers rank
 queries by traversing and performing \emph{binary} rank queries\footnote{ Binary rank queries are also known as \emph{popcounts} in other literature.}.
 
 Binary rank queries can be performed in $O(1)$ time when the bit vectors are stored in
-a RRR sequence, as proposed by Raman, Raman and Rao \cite{rrr2007}. RRR also 
+a RRR sequence, as proposed by Raman, Raman and Rao \cite{raman2007}. RRR also 
 offers compression of the Wavelet Tree.
 
 The key motivation behind this project arises from the increasing number of
 papers, such as Yu et al. 2009 \cite{yu2009}, and Ferragina et al. 
-\cite{ferragina07}, which utilise \emph{Multiary} Wavelet Trees as a theoretical tool, that is, Wavelet Trees with a branching 
+\cite{ferragina2007}, which utilise \emph{Multiary} Wavelet Trees as a theoretical tool, that is, Wavelet Trees with a branching 
 factor greater than two. However no known implementations of Multiary Wavelet 
 Trees exist. This thesis aims to address this need, and bring theory closer to 
 practice. It was expected that increasing arity would improve the time 
@@ -76,7 +76,7 @@ performance of self-indexes which use a BWT.
 
 This papers contribution is the analysis of two types of Multiary Wavelet Tree. 
 One of these implements a Generalised RRR to support rank queries on small 
-alphabets, first suggested by Ferragina et al. \cite{ferragina07}.
+alphabets, first suggested by Ferragina et al. \cite{ferragina2007}.
 
 The other Multiary Wavelet Tree continues to utilise Binary RRR by using 
 concatenated bitmaps to represent sequences on small alphabets as bit vectors.
