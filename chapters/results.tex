@@ -10,23 +10,30 @@ querying a non-compressed Wavelet Tree. It is slower for increasing file size
 because it is calculating rank queries without the assistance of RRR.
 
 
-		\DefFig{fig:stime-eng}{experiments/simple_time_english}{0.9}
+		\DefFig[English]
+			{fig:stime-eng}{experiments/simple_time_english}{0.9}
 			{Query times for Uncompressed Multiary Wavelet Tree of increasing 
 			arity for each \emph{English} file.}
 		
-		\DefFig{fig:time-eng-25}{experiments/time_english_25MB}{0.9}
-			{Query times for RRR Wavelet Trees of increasing arity
-			for the 25MB \emph{English} file.}
+			\begin{figure}[h]
+			\begin{center}$
+			\begin{array}{cc}
+			\mbox{English (25MB)} & \mbox{English (50MB)} \\
+			\includegraphics[width=2.5in]{experiments/time_english_25MB} &
+			\includegraphics[width=2.5in]{experiments/time_english_50MB}
+			\end{array}$
+			\end{center}
+			\caption{Query times for RRR Wavelet Trees of increasing arity
+			for the 25MB and 50MB \emph{English} files.}
+			\label{fig:time-eng-25-50}
+			\end{figure}
 		
-		\DefFig{fig:time-eng-50}{experiments/time_english_50MB}{0.9}
-			{Query times for RRR Wavelet Trees of increasing arity
-			for the 50MB \emph{English} file.}
-		
-		\DefFig{fig:time-eng-75}{experiments/time_english_75MB}{0.9}
+		\DefFig[English (75MB)]
+			{fig:time-eng-75}{experiments/time_english_75MB}{0.9}
 			{Query times for RRR Wavelet Trees of increasing arity
 			for the 75MB \emph{English} file.}
 
-From Figures \ref{fig:time-eng-25} through to \ref{fig:time-eng-75} we are able 
+From Figures \ref{fig:time-eng-25-50} and \ref{fig:time-eng-75} we are able 
 to see that increasing the file size does not significantly affect the time
 performance of the Wavelet Trees which utilise RRR.
 
@@ -39,7 +46,8 @@ is faster than Claude's when the arity is increased, but appears to plateau.
 All other time graphs show similar trends, and so have been omitted\footnote{The 
 other graphs are available at http://github.com/alexbowe/honours-thesis/}.
 
-		\DefFig{fig:mem-eng-75}{experiments/mem_english_ints_75MB}{0.9}
+		\DefFig[Words (75MB)]
+			{fig:mem-eng-75}{experiments/mem_english_ints_75MB}{0.9}
 			{Memory consumption for Wavelet Trees of increasing arity for
 			the 75MB \emph{Words} file. The size coefficient is a multiplier
 			on the original file size. The bar stacked on top is the space for
@@ -55,7 +63,8 @@ the generalised RRR structure's Wavelet Tree (which includes the RRR sequences
 it stores) is smaller than the original text, the size to contain the supporting 
 RRR count structure is very large.
 
-		\DefFig{fig:mem-prot-75}{experiments/mem_proteins_75MB}{0.9}
+		\DefFig[Proteins (75MB)]
+			{fig:mem-prot-75}{experiments/mem_proteins_75MB}{0.9}
 			{Memory consumption for Wavelet Trees of increasing arity for
 			the 75MB \emph{Proteins} file. The size coefficient is a multiplier
 			on the original file size. The bar stacked on top is the space for
@@ -63,6 +72,54 @@ RRR count structure is very large.
 			the Wavelet Tree (which had negligible overhead) and each of its
 			nodes, as RRR sequences or not. The Uncompressed Wavelet Tree is
 			the only one which does not have a RRR table.}
+		
+	
+\begin{figure}[h]
+\begin{center}$
+\begin{array}{cc}
+\mbox{English} & \mbox{Words} \\
+\includegraphics[width=2.5in]{experiments/sparse_english} &
+\includegraphics[width=2.5in]{experiments/sparse_english_ints} \\ \\
+\mbox{DNA} & \mbox{Proteins} \\ 
+\includegraphics[width=2.5in]{experiments/sparse_dna} &
+\includegraphics[width=2.5in]{experiments/sparse_proteins} \\ \\
+\mbox{Sources} & \mbox{XML} \\
+\includegraphics[width=2.5in]{experiments/sparse_sources} &
+\includegraphics[width=2.5in]{experiments/sparse_dblp_xml}
+\end{array}$
+\end{center}
+\caption{my caption}
+\label{fig:sparse}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}$
+\begin{array}{cc}
+\mbox{English} & \mbox{Words} \\
+\includegraphics[width=2.5in]{experiments/unique_english} &
+\includegraphics[width=2.5in]{experiments/unique_english_ints} \\ \\
+\mbox{DNA} & \mbox{Proteins} \\ 
+\includegraphics[width=2.5in]{experiments/unique_dna} &
+\includegraphics[width=2.5in]{experiments/unique_proteins} \\ \\
+\mbox{Sources} & \mbox{XML} \\
+\includegraphics[width=2.5in]{experiments/unique_sources} &
+\includegraphics[width=2.5in]{experiments/unique_dblp_xml}
+\end{array}$
+\end{center}
+\caption{my caption}
+\label{fig:unique}
+\end{figure}
+		
+%\begin{figure}[h]
+%\begin{center}$
+%\begin{array}{cc}
+%\includegraphics[width=2.5in]{experiments/mem_proteins_75MB} &
+%\includegraphics[width=2.5in]{experiments/mem_proteins_50MB} \\ %\includegraphics[width=2.5in]{experiments/mem_proteins_75MB} &
+%\includegraphics[width=2.5in]{experiments/mem_proteins_50MB} \\
+%\end{array}$
+%\end{center}
+%\caption{my caption}
+%\end{figure}
 
 The large size of the RRR Table for the Generalised RRR in Figure 
 \ref{fig:mem-prot-75} appears to be the result of the large number of unique
