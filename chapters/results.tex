@@ -72,28 +72,7 @@ RRR count structure is very large.
 			the Wavelet Tree (which had negligible overhead) and each of its
 			nodes, as RRR sequences or not. The Uncompressed Wavelet Tree is
 			the only one which does not have a RRR table.}
-		
-	
-\begin{figure}[h]
-\begin{center}$
-\begin{array}{cc}
-\mbox{English} & \mbox{Words} \\
-\includegraphics[width=2.5in]{experiments/sparse_english} &
-\includegraphics[width=2.5in]{experiments/sparse_english_ints} \\ \\ \\
-\mbox{DNA} & \mbox{Proteins} \\ 
-\includegraphics[width=2.5in]{experiments/sparse_dna} &
-\includegraphics[width=2.5in]{experiments/sparse_proteins} \\ \\ \\
-\mbox{Sources} & \mbox{XML} \\
-\includegraphics[width=2.5in]{experiments/sparse_sources} &
-\includegraphics[width=2.5in]{experiments/sparse_dblp_xml}
-\end{array}$
-\end{center}
-\caption{Sparsity measurements for each data file. The Y axis represents
-the percentage of \emph{total possible} classes or permutations that were
-witnessed for the given file size and arity when using the 
-Multiary Wavelet Tree with Generalised RRR.}
-\label{fig:sparse}
-\end{figure}
+
 
 \begin{figure}[h]
 \begin{center}$
@@ -115,17 +94,27 @@ permutations that were witnessed for the given file size and arity when using
 the Multiary Wavelet Tree with Generalised RRR.}
 \label{fig:unique}
 \end{figure}
-		
-%\begin{figure}[h]
-%\begin{center}$
-%\begin{array}{cc}
-%\includegraphics[width=2.5in]{experiments/mem_proteins_75MB} &
-%\includegraphics[width=2.5in]{experiments/mem_proteins_50MB} \\ %\includegraphics[width=2.5in]{experiments/mem_proteins_75MB} &
-%\includegraphics[width=2.5in]{experiments/mem_proteins_50MB} \\
-%\end{array}$
-%\end{center}
-%\caption{my caption}
-%\end{figure}
+	
+\begin{figure}[h]
+\begin{center}$
+\begin{array}{cc}
+\mbox{English} & \mbox{Words} \\
+\includegraphics[width=2.5in]{experiments/sparse_english} &
+\includegraphics[width=2.5in]{experiments/sparse_english_ints} \\ \\ \\
+\mbox{DNA} & \mbox{Proteins} \\ 
+\includegraphics[width=2.5in]{experiments/sparse_dna} &
+\includegraphics[width=2.5in]{experiments/sparse_proteins} \\ \\ \\
+\mbox{Sources} & \mbox{XML} \\
+\includegraphics[width=2.5in]{experiments/sparse_sources} &
+\includegraphics[width=2.5in]{experiments/sparse_dblp_xml}
+\end{array}$
+\end{center}
+\caption{Sparsity measurements for each data file. The Y axis represents
+the percentage of \emph{total possible} classes or permutations that were
+witnessed for the given file size and arity when using the 
+Multiary Wavelet Tree with Generalised RRR.}
+\label{fig:sparse}
+\end{figure}
 
 The large size of the RRR Table for the Generalised RRR in Figure 
 \ref{fig:mem-prot-75} appears to be the result of the large number of unique
