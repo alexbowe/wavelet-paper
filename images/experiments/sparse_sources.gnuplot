@@ -1,10 +1,10 @@
-set terminal postscript eps enhanced color "Helvetica" 22
+set terminal postscript eps enhanced color "Helvetica" 24
 set output "generated/experiments/sparse_sources.eps"
 
 set key outside
 set key horizontal right
 #set key top right
-set key at 16, 120
+set key at 17, 120
 
 
 set tmargin 0
@@ -32,7 +32,7 @@ set style histogram clustered
 set style histogram clustered gap 1
 set style fill solid 0.7
 set style fill noborder
-set boxwidth 0.9
+set boxwidth 1
 
 #set size 1.0,1.0
 #set origin -0.18,-0.15

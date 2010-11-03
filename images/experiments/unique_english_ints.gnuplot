@@ -1,24 +1,25 @@
-set terminal postscript eps enhanced color "Helvetica" 16
+set terminal postscript eps enhanced color "Helvetica" 24
 set output "generated/experiments/unique_english_ints.eps"
 
-#set key outside
-#set key horizontal right
-set key top left 
-#set key nobox
+set key outside
+set key horizontal right
+#set key top right
+set key at 17, 12
 
-set lmargin 15
-set rmargin 15
-set bmargin 0
 set tmargin 0
-set ylabel "Unique\nEncounters\n(millions)"
-set ylabel rotate by 0
-set ylabel offset 0, 1
+set lmargin 8
+set rmargin 2
+set bmargin 0
+
+set ylabel "Unique Encounters (millions)"
+#set ylabel rotate by 0
+#set ylabel offset 1, 0
 set xlabel "\nArity and File Size"
 #set xlabel offset 0,-5
 
-set size ratio 0.8
-set yrange [0:9]
-set ytics 1
+set size ratio 0.5
+set yrange [0:10]
+set ytics 2
 set grid noxtics ytics
 set border 3
 set xtics nomirror
@@ -28,7 +29,7 @@ set style histogram clustered
 set style histogram clustered gap 1
 set style fill solid 0.7
 set style fill noborder
-set boxwidth 0.9
+set boxwidth 1
 
 #set size 1.0,1.0
 #set origin -0.18,-0.15
