@@ -1,23 +1,34 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-From our observations, we have discovered that in the case of documents that fit 
-in memory, the RRR count table expands too rapidly to make increasing the arity 
-worthwhile, unless its growth can be addressed (see Section \ref{sec:future}).
-
-Something about sparsity...
+From our observations we have discovered that there is sparsity in all data 
+sets, and it can have a significant effect on the supporting table size, in
+the case of Generalised RRR. Although, making use of this sparsity dynamically
+requires pointers, and may be the cause of some time overhead and cache misses 
+while querying.
 
 Since the RRR count table is shared among all nodes and even all Wavelet Trees
 of the same or smaller arity and blocksize, it may be the case that when 
-documents are significantly large, the overhead of the RRR count table becomes 
-negligible. For such documents, a distributed approach may be required. The more 
-documents we index, the less significant the table size will be.
+documents are significantly large, or we are indexing a large collection of 
+documents, the overhead of the RRR count table becomes negligible. For such 
+documents, a distributed approach may be required; we may store the RRR table on
+multiple computers, or increase the arity so that the table fits in one central
+server for querying by the computers that host the Wavelet Trees.
+
+In fact, it is this configuration that may need the extra speed while querying,
+since it is typical of a search engine to host indexes over many servers and
+calculate many queries per second.
+
+For single documents, or small collections of documents, the RRR table expands 
+too rapidly to make increasing the arity worthwhile, unless its growth can be 
+addressed (see Section \ref{sec:future}).
 
 However, in the case of smaller documents, we have shown that there are simple 
 ways to implement Multiary Wavelet Trees using rank structures for binary 
-alphabets. In the case of our `Multi-Binary RRR' Wavelet Tree, we saw rank 
-queries become faster, while the Wavelet Tree nodes didn't grow too large. The 
-table didn't grow, and as such...
+alphabets. In the case of our `Multi-Binary RRR' Wavelet Tree we saw rank 
+queries become faster, while the Wavelet Tree nodes did not grow too large. The
+Multi-Binary RRR Wavelet Tree was usually larger than the original text, 
+however.
 
 \section{Future Work}
 \label{sec:future}
@@ -37,19 +48,34 @@ reveal:
 	for $c = 2$ as the block $b_2 = [0, 2, 1, 1, 0]$ does for $c = 1$.
 	
 \item
+	Reduce the use of pointers when creating a sparse RRR table. This may be
+	done by completing a full scan of the text before constructing the table,
+	and tracking how many unique blocks there are, then allocating them 
+	contiguously.
+
+\item
+ 	Search for a good tradeoff between arity and block size for the
+	Generalised RRR; the Generalised RRR Table will grow smaller if a smaller 
+	block size is used, but the sequences then become bigger as they have more
+	class and offset values (which require less bits, but perhaps not 
+	significantly so), which may not be preferable since the table can be shared 
+	among many sequences.
+
+\item
 	Implement and investigate a Multiary Huffman-Shaped Wavelet Tree (see 
 	M\"{a}kinen's work for details on Huffman-Shaped Wavelet
 	Trees~\cite{makinen2005}). This may
-	overcome the count table issue while still reducing the tree depth.
+	overcome the count table memory consumption while still reducing the tree 
+	depth.
 
 \item
-	There may be certain blocks which are queried more often, so we may only
-	need to keep a certain percentage of those blocks in memory. The other 
-	blocks may be stored on disk and loaded into memory on the occasion that 
-	they are queried.
+	Real world query patterns may show that there are certain blocks which are 
+	queried more frequently, so we may only need to keep the RRR table entries
+	for these blocks in memory at all times. The other RRR table sections may be 
+	stored on disk and loaded into memory on the occasion that they are queried.
 
 \item
-	Distribution of the RRR table among nodes in a cluster, allowing it to be
+	Distribute the RRR table among nodes in a cluster, allowing it to be
 	held in memory as restricted by the cluster as a whole, not a single
 	computer. Then, increasing arity would be an issue of how many nodes are
 	on the cluster.

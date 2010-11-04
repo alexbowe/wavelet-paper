@@ -139,6 +139,15 @@ other graphs are available at http://github.com/alexbowe/honours-thesis/}.
 		for the 25MB and 50MB \emph{English} files.}
 		\label{fig:mem-eng-25-50}
 		\end{figure}
+		
+Figure \ref{fig:mem-eng-75} and Figure \ref{fig:mem-eng-25-50} show how changing 
+the arity affects the memory consumption of the structures, for each English 
+file.
+
+Note that even though the Generalised RRR Wavelet Tree size (which 
+includes the RRR sequences it stores) is smaller than the original text, and 
+smaller than the Multi-Binary RRR Wavelet Tree, the size to contain the 
+supporting RRR count structure is large.
 
 		\DefFig[Memory consumption for 75MB Words file]
 			{fig:mem-words-75}{experiments/mem_english_ints_75MB}{0.9}
@@ -164,13 +173,6 @@ other graphs are available at http://github.com/alexbowe/honours-thesis/}.
 			\label{fig:time-words-25-50}
 			\end{figure}
 
-Figure \ref{fig:mem-eng-75} shows how changing the arity affects the memory
-consumption of the structures. We only show this for the 75MB file, as the 
-others compress (or expand) with similar coefficients. Note that even though 
-the generalised RRR structure's Wavelet Tree (which includes the RRR sequences 
-it stores) is smaller than the original text, the size to contain the supporting 
-RRR count structure is very large.
-
 		\DefFig[Memory consumption for 75MB Proteins file]
 			{fig:mem-prot-75}{experiments/mem_proteins_75MB}{0.9}
 			{Memory consumption for Wavelet Trees of increasing arity for
@@ -195,7 +197,12 @@ RRR count structure is very large.
 		\label{fig:mem-prot-25-50}
 		\end{figure}
 		
-The large size of the RRR Table for the Generalised RRR in Figure 
-\ref{fig:mem-prot-75} appears to be the result of the large number of unique
-permutations encountered for the Proteins file, since it has less classes but 
-more permutations than the words file. See Tables .. and \ref{tab:maxclass}.
+The Proteins files have less classes (Figure \ref{fig:sparse}) but more 
+permutations (Figure \ref{fig:unique}) than the Words files. This may be the 
+cause of the large table size for the Generalised RRR Wavelet Tree in Figure
+\ref{fig:mem-prot-75} compared with Figure \ref{fig:mem-words-75}.
+
+In all cases, the Generalised RRR Wavelet Tree size is less than the original
+text size. It is important to note that the RRR table can be shared among
+Wavelet Trees, but this may cause it to grow to it's full amount, depending
+on the nature of the data.
