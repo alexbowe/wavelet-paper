@@ -341,7 +341,8 @@ our text $S[1..N]$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \subsection{Multiary Wavelet Trees}
-Multiary Wavelet Trees are analogous to their binary counterparts, although now we encode each node recursively like so:
+Multiary Wavelet Trees are analogous to their binary counterparts, although now 
+we encode each node recursively like so:
 
 \begin{enumerate}
     \item Encoding one $A^{th}$ of the alphabet as $0$, the next $A^{th}$ as 
@@ -380,6 +381,7 @@ We use $A$ bits per symbol, when they could be represented in $\log A$ bits, but
 this allows us to utilise binary RRR.
 
 \subsubsection{Multiary Wavelet Tree Variation 2 : Multi-Binary RRR}
+\label{sec:multi-bin-rrr}
 Like the uncompressed version, bitmaps are created for each symbol and 
 concatenated, but the bit-vector is stored in a binary RRR sequence. A query 
 then becomes two binary rank queries\footnote{In our implementation we 
