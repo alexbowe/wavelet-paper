@@ -68,8 +68,9 @@ As proposed by Ferragina and Manzini, when a BWT is stored alongside a Suffix Ar
 			`mississippi' string.}
 
 \subsubsection{Rank Query}
-A Rank Query on the string $S$ is defined as $rank_S(i, c) = n $, with $n$ being 
-the number of times symbol $c$ appears in the range $S[1, i]$. This paper omits 
+As first described by Munro \cite{munro1996}, a Rank Query on the string $S$ is 
+defined as $rank_S(i, c) = n $, with $n$ being the number of times symbol $c$ 
+appears in the range $S[1, i]$. This paper omits 
 the subscript when the string we are querying is clear from the context. For 
 example in Figure \ref{fig:rank-mis}, $rank(9, s) = 3$. If $i \le 0$ then 
 $rank(i, c) = 0$.
@@ -254,10 +255,12 @@ binary rank queries can be answered in $O(1)$ time.
 
 \subsection{RRR}
 \label{sec:rrr}
-RRR was first proposed by Raman et al. \cite{raman2007}. The purpose of RRR is to
-encode a bitsequence in such a way that supports $O(1)$ time binary rank 
+RRR was first proposed by Raman et al. \cite{raman2007}. The purpose of RRR is 
+to encode a bitsequence in such a way that supports $O(1)$ time binary rank 
 queries. It also provides implicit zero-order empirical entropy compression, 
-which is described in Section \ref{sec:entropy}.
+which is described in Section \ref{sec:entropy}, whereas the classical $O(1)$ 
+time implementation of binary rank queries required $O(N \log \log N / \log N)$ 
+additional bits \cite{gonzalez2005}.
 
 To construct the RRR we divide the bit-vector into several so called 
 \emph{superblocks}, we then divide these superblocks further, into 

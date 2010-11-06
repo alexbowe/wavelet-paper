@@ -46,7 +46,7 @@ base(x) = baseline
 # 4 - FC-RRR
 #unset grid
 set pointsize 1
-plot file i 2 u (log($1)/log(2)):(($2)*1000) title "Generalized RRR" w lp lw 4 lt 1 \
+plot file i 2 u (log($1)/log(2)):(($2)*1000) title "Generalised RRR" w lp lw 4 lt 1 \
     lc rgb one pt 11 ps 1.2,\
 	"" i 3 u (log($1)/log(2)):(($2)*1000) title "Multi-Binary RRR" w lp lw 4 lt 1\
 	lc rgb three pt 9 ps 1.2,\
