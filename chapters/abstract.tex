@@ -1,20 +1,19 @@
 Self-index data structures for pattern matching based on Suffix
 Arrays and the Burrows-Wheeler Transform have recently grown
-popular.
-The fundamental operation in these self-indexes is the rank-query; $rank(i, c)$ 
-requests the 
-number of occurrences of symbol $c$ before position $i$ in a string. The Wavelet 
-Tree is the data structure of choice for implementing these rank queries. 
-Currently, Wavelet Tree implementations encode the Burrows-Wheeler Transform as 
-a hierarchy of binary strings, which they then store as RRR sequences;
+popular. The fundamental operation in these self-indexes is the rank-query: 
+$rank(i, c)$ requests the number of occurrences of symbol $c$ before position 
+$i$ in a string. The \emph{wavelet 
+tree} is currently the data structure of choice for implementing these rank 
+queries. Current wavelet tree implementations encode the Burrows-Wheeler 
+Transform as a hierarchy of binary strings, which they then store as RRR sequences;
 the RRR structure offers $O(1)$ rank queries and zeroth-order entropy compression for 
-binary strings. A generalisation of this extends Wavelet Trees to have higher 
-order encoding, that is increased branching, in theory making traversal faster. 
-To support the implementation of such a Multiary
-Wavelet Tree, this thesis investigates the generalisation of RRR to sequences 
+binary strings. A generalisation of this extends wavelet trees to have higher 
+order encoding, that is, increased branching, in theory making traversal faster. 
+To support the implementation of such a multiary
+wavelet tree, this thesis investigates the generalisation of RRR to sequences 
 over small alphabets. We also analyse the use of concatenated bitmaps to 
 represent sequences over small alphabets, thus allowing continued use of the
-binary RRR structure. Our results show that Multiary Wavelet Trees are faster
-than their binary counterparts, but have require large amounts of memmory in the 
-case of the Generalised RRR. We also show binary RRR on concatenated bitmaps to 
-be a practical alternative.
+binary RRR structure. Our results show that multiary wavelet trees are faster
+than their binary counterparts, but require large amounts of memory in the 
+case of the generalised RRR. We also show binary RRR on concatenated bitmaps to 
+be an effective, practical alternative.

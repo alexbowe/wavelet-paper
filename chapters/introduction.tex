@@ -1,6 +1,6 @@
 \section{Introduction}
 
-As our collections of text grow larger, our need to find information in them
+As collections of text grow larger, our need to find information in them
 and infer patterns and rankings increases, too. Suffix arrays, first
 described by Manber and Myers \cite{manber1993}, allow a variety of complex 
 pattern matching and pattern discovery problems to be performed in optimal time. 
@@ -29,20 +29,22 @@ some sense allows us to replace the original text with a self index.
 \DefFig{fig:overview}{introduction/overview}{1}
 	{Simplified view of the key data structures and their relationship
 	with each other. When a Suffix Array and a Burrows-Wheeler 
-	Transform (BWT) are combined, they form an FM-Index. FM-Indexes use 
+	Transform (BWT) \cite{burrows1994} are combined, they form an FM-Index 
+	\cite{ferragina2000}. FM-Indexes use 
 	Backward Searches on the BWT to provide fast pattern 
 	matching, counting, and substring extraction operations. Backward
 	Search requires rank operations, which are best implemented using
-	a Wavelet Tree (WT). A WT encodes a string as a hierarchy of bit vectors, 
+	a Wavelet Tree (WT) \cite{grossi2003}. A WT encodes a string as a hierarchy of bit vectors, 
 	which it uses to answer rank queries using $\log \sigma$ \emph{binary} rank 
 	queries. Binary rank queries can be answered in $O(1)$ time when the bit 
-	vector is stored as a RRR sequence, which utilise a global table of 
-	pre-calculated ranks. The RRR data structure also offers compression of the 
-	Wavelet Tree.}
+	vector is stored as a RRR sequence \cite{raman2007}, which utilise a global 
+	table of pre-calculated ranks. The RRR data structure also offers 
+	compression of the Wavelet Tree. (we defer a detailed discussion of RRR to
+	Section \ref{sec:rrr})}
 
 One such self index is known as the \emph{`FM-Index'}, proposed by
-Feraggina and Manzini \cite{ferragina2000}. An FM-Index utilises a 
-Suffix Array and a \emph{Burrows-Wheeler Transform} (BWT) (the two leftmost 
+Ferragina and Manzini \cite{ferragina2000}. An FM-Index utilises a 
+sparse Suffix Array and a \emph{Burrows-Wheeler Transform} (BWT) \cite{burrows1994} (the two leftmost 
 diagrams in Figure \ref{fig:overview}) of the original text, and supports fast 
 pattern matching operations by using a \emph{`backward search'}.
 
@@ -53,10 +55,10 @@ to a given position in the string.
 While a naive implementation of the rank query operation might inspect every 
 symbol of the BWT, and do so in $O(N)$ time where $N$ is the length of the BWT, 
 it is possible to improve this to $O(\log \sigma)$ where $\sigma$ is the size of 
-the alphabet. To do this, we implement the BWT on a Wavelet Tree (the third 
+the alphabet. To do this, we implement a Wavelet Tree \cite{grossi2003} over the BWT (the third 
 diagram in Figure 
 \ref{fig:overview}). A Wavelet Tree is constructed by encoding the string as a 
-hierarchy of bit vectors. These bit vectors are then uses to answers rank 
+hierarchy of bit vectors. These bit vectors are then used to answer rank 
 queries by traversing and performing \emph{binary} rank queries\footnote{ Binary rank queries are also known as \emph{popcounts} in other literature.}.
 
 Binary rank queries can be performed in $O(1)$ time when the bit vectors are stored in
@@ -64,8 +66,10 @@ a RRR sequence, as proposed by Raman, Raman and Rao \cite{raman2007}. RRR also
 offers compression of the Wavelet Tree.
 
 The key motivation behind this project arises from the increasing number of
-papers, such as Yu et al. 2009 \cite{yu2009}, and Ferragina et al. 
-\cite{ferragina2007}, which utilise \emph{Multiary} Wavelet Trees as a theoretical tool, that is, Wavelet Trees with a branching 
+papers, such as Ferragina et al. 2007
+\cite{ferragina2007}, Yu et al. 2009 \cite{yu2009}, and Barbay et al. 2010
+\cite{barbay2010}, which utilise \emph{Multiary} Wavelet Trees as a theoretical 
+tool, that is, Wavelet Trees with a branching 
 factor greater than two. However no known implementations of Multiary Wavelet 
 Trees exist. This thesis aims to address this need, and bring theory closer to 
 practice. It was expected that increasing arity would improve the time 
@@ -74,32 +78,33 @@ performance of self-indexes which use a BWT.
 
 \subsection{Our Contribution}
 
-This papers contribution is the analysis of two types of Multiary Wavelet Tree. 
-One of these implements a Generalised RRR to support rank queries on small 
-alphabets, first suggested by Ferragina et al. \cite{ferragina2007}.
+The contribution of this paper is the experimental analysis of two types of 
+Multiary Wavelet Tree. 
+The first of these, to our knowledge, is the first implementation of the Generalised RRR structure, which is used to support rank queries on small 
+alphabets, as first suggested by Ferragina et al. \cite{ferragina2007}.
 
-The other Multiary Wavelet Tree continues to utilise Binary RRR by using 
-concatenated bitmaps to represent sequences on small alphabets as bit vectors.
-This variation hasn't been discussed before.
+We also propose a new data structure, a Multiary Wavelet Tree that utilises 
+Binary RRR using concatenated bitmaps to represent sequences on small alphabets 
+as bit vectors.
 
 We discover that although Multiary Wavelet Trees are faster, Generalised RRR 
 requires significant memory for the supporting global table in its current form, 
-which depending on the size of the text may be impractical. We show that our 
-alternative, which continues to use Binary RRR, is a practical way to increase 
-the speed of rank queries.
+which, depending on the size of the text, may be impractical. We show that our 
+alternative data structure, which continues to use Binary RRR, is a practical 
+way to make rank queries faster.
 
 
 \subsection{Roadmap}
 
 The rest of the thesis is organised as follows. Section \ref{sec:prelim} begins 
-with a definition of our notation, followed by some background on the problem 
+with a some notation, followed by background on the problem 
 domain. We then discuss how each data structure is built and used together, 
 followed by a discussion of how our Multiary Wavelet Trees are designed, 
 including some implementation details of interest.
 
-In Section \ref{sec:experiments} We give a description of how we measured the 
+In Section \ref{sec:experiments} we describe how we measured the 
 time and space performance for each Multiary Wavelet Tree variation,
-and a description and rationale of our dataset. Our results are presented in 
+and provide a rationale of our test dataset. Our results are presented in 
 Section \ref{sec:results}, accompanied by a discussion of the apparent trends.
 
 The conclusion follows in Section \ref{sec:conclusion}. We discuss the 

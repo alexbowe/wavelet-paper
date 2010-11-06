@@ -2,12 +2,40 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for Alex Bowe at 2010-11-03 00:03:15 +1100 
+%% Created for Alex Bowe at 2010-11-06 13:36:13 +1100 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@incollection{barbay2010,
+	Abstract = {Binary relations are an important abstraction arising in a number of data representation problems. Each existing data structure specializes in the few basic operations required by one single application, and takes only limited advantage of the inherent redundancy of binary relations. We show how to support more general operations efficiently, while taking better advantage of some forms of redundancy in practical instances. As a basis for a more general discussion on binary relation data structures, we list the operations of potential interest for practical applications, and give reductions between operations. We identify a set of operations that yield the support of all others. As a first contribution to the discussion, we present two data structures for binary relations, each of which achieves a distinct tradeoff between the space used to store and index the relation, the set of operations supported in sublinear time, and the time in which those operations are supported. The experimental performance of our data structures shows that they not only offer good time complexities to carry out many operations, but also take advantage of regularities that arise in practical instances to reduce space usage.},
+	Affiliation = {University of Chile Department of Computer Science},
+	Author = {Barbay, J{\'e}r{\'e}my and Claude, Francisco and Navarro, Gonzalo},
+	Booktitle = {LATIN 2010: Theoretical Informatics},
+	Date-Added = {2010-11-06 13:11:21 +1100},
+	Date-Modified = {2010-11-06 13:17:44 +1100},
+	Editor = {L{\'o}pez-Ortiz, Alejandro},
+	Pages = {170-183},
+	Publisher = {Springer Berlin / Heidelberg},
+	Series = {Lecture Notes in Computer Science},
+	Title = {Compact Rich-Functional Binary Relation Representations},
+	Url = {http://dx.doi.org/10.1007/978-3-642-12200-2_17},
+	Volume = {6034},
+	Year = {2010},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1007/978-3-642-12200-2_17}}
+
+@techreport{burrows1994,
+	Address = {Palo Alto, California},
+	Author = {M. Burrows and D. J. Wheeler},
+	Date-Added = {2010-11-06 13:00:22 +1100},
+	Date-Modified = {2010-11-06 13:02:15 +1100},
+	Institution = {Digital Equipment Corporation},
+	Keywords = {burrows wheeler, compression},
+	Number = {124},
+	Title = {A block-sorting lossless data compression algorithm},
+	Year = {1994}}
 
 @incollection{russo2010,
 	Abstract = {We study parallel and distributed compressed indexes. Compressed indexes are a new and functional way to index text strings. They exploit the compressibility of the text, so that their size is a function of the compressed text size. Moreover, they support a considerable amount of functions, more than many classical indexes. We make use of this extended functionality to obtain, in a shared-memory parallel machine, near-optimal speedups for solving several stringology problems. We also show how to distribute compressed indexes across several machines.},
@@ -25,8 +53,8 @@
 	Url = {http://dx.doi.org/10.1007/978-3-642-13509-5_31},
 	Volume = {6129},
 	Year = {2010},
-	Bdsk-Url-1 = {http://dx.doi.org/10.1007/978-3-642-13509-5_31},
-	Bdsk-File-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAiwAAAAAAiwAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAMfVMoFIKwAAADTxsB9QYXJhbGxlbCBhbmQgRGlzdHJpYiMzNEYxRjAucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANPHwx+I7YwAAAAAAAAAAAAEAAwAACSAAAAAAAAAAAAAAAAAAAAAGcGFwZXJzABAACAAAx9SX0QAAABEACAAAx+GuwwAAAAEAFAA08bAA4hKKABI6BAAITKcAAJLzAAIAUU1hY2ludG9zaCBIRDpVc2VyczpBbGV4OmRldjpob25vdXJzLXRoZXNpczpwYXBlcnM6UGFyYWxsZWwgYW5kIERpc3RyaWIjMzRGMUYwLnBkZgAADgByADgAUABhAHIAYQBsAGwAZQBsACAAYQBuAGQAIABEAGkAcwB0AHIAaQBiAHUAdABlAGQAIABDAG8AbQBwAHIAZQBzAHMAZQBkACAASQBuAGQAZQB4AGUAcwAgACAAWwByAHUAcwBzAG8AXQAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIAXVVzZXJzL0FsZXgvZGV2L2hvbm91cnMtdGhlc2lzL3BhcGVycy9QYXJhbGxlbCBhbmQgRGlzdHJpYnV0ZWQgQ29tcHJlc3NlZCBJbmRleGVzICBbcnVzc29dLnBkZgAAEwABLwAAFQACAAv//wAAgAXSHB0eH1gkY2xhc3Nlc1okY2xhc3NuYW1lox8gIV1OU011dGFibGVEYXRhVk5TRGF0YVhOU09iamVjdF8QP3BhcGVycy9QYXJhbGxlbCBhbmQgRGlzdHJpYnV0ZWQgQ29tcHJlc3NlZCBJbmRleGVzICBbcnVzc29dLnBkZtIcHSQloiUhXE5TRGljdGlvbmFyeRIAAYagXxAPTlNLZXllZEFyY2hpdmVyAAgAEQAWAB8AKAAyADUAOgA8AEUASwBSAF0AZQBsAG8AcQBzAHYAeAB6AHwAhgCTAJgAoALQAtIC1wLgAusC7wL9AwQDDQNPA1QDVwNkA2kAAAAAAAACAQAAAAAAAAAoAAAAAAAAAAAAAAAAAAADew==}}
+	Bdsk-File-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAkIAAAAAAkIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAMfVMoFIKwAAAQ64Qh9QYXJhbGxlbCBhbmQgRGlzdHJpYiMzNEYxRjAucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANPHwx+I7YwAAAAAAAAAAAAEABAAACSAAAAAAAAAAAAAAAAAAAAAIbm90Y2l0ZWQAEAAIAADH1JfRAAAAEQAIAADH4a7DAAAAAQAYAQ64QgA08bAA4hKKABI6BAAITKcAAJLzAAIAWk1hY2ludG9zaCBIRDpVc2VyczpBbGV4OmRldjpob25vdXJzLXRoZXNpczpwYXBlcnM6bm90Y2l0ZWQ6UGFyYWxsZWwgYW5kIERpc3RyaWIjMzRGMUYwLnBkZgAOAHIAOABQAGEAcgBhAGwAbABlAGwAIABhAG4AZAAgAEQAaQBzAHQAcgBpAGIAdQB0AGUAZAAgAEMAbwBtAHAAcgBlAHMAcwBlAGQAIABJAG4AZABlAHgAZQBzACAAIABbAHIAdQBzAHMAbwBdAC4AcABkAGYADwAaAAwATQBhAGMAaQBuAHQAbwBzAGgAIABIAEQAEgBmVXNlcnMvQWxleC9kZXYvaG9ub3Vycy10aGVzaXMvcGFwZXJzL25vdGNpdGVkL1BhcmFsbGVsIGFuZCBEaXN0cmlidXRlZCBDb21wcmVzc2VkIEluZGV4ZXMgIFtydXNzb10ucGRmABMAAS8AABUAAgAL//8AAIAF0hwdHh9YJGNsYXNzZXNaJGNsYXNzbmFtZaMfICFdTlNNdXRhYmxlRGF0YVZOU0RhdGFYTlNPYmplY3RfEEhwYXBlcnMvbm90Y2l0ZWQvUGFyYWxsZWwgYW5kIERpc3RyaWJ1dGVkIENvbXByZXNzZWQgSW5kZXhlcyAgW3J1c3NvXS5wZGbSHB0kJaIlIVxOU0RpY3Rpb25hcnkSAAGGoF8QD05TS2V5ZWRBcmNoaXZlcgAIABEAFgAfACgAMgA1ADoAPABFAEsAUgBdAGUAbABvAHEAcwB2AHgAegB8AIYAkwCYAKAC5gLoAu0C9gMBAwUDEwMaAyMDbgNzA3YDgwOIAAAAAAAAAgEAAAAAAAAAKAAAAAAAAAAAAAAAAAAAA5o=},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1007/978-3-642-13509-5_31}}
 
 @inproceedings{hon2009,
 	Abstract = {Given a set D={d1, d2,..., dD} of D strings of total length n, our task is to report the "most relevant"strings for a given query pattern P. This involves somewhat more advanced query functionality than the usual pattern matching, as some notion of "most relevant" is involved. In information retrieval literature, this task is best achieved by using inverted indexes. However, inverted indexes work only for some predefined set of patterns. In the pattern matching community, the most popular pattern-matching data structures are suffix trees and suffix arrays. However, a typical suffix tree search involves going through all the occurrences of the pattern over the entire string collection, which might be a lot more than the required relevant documents. The first formal framework to study such kind of retrieval problems was given by Muthukrishnan. He considered two metrics for relevance: frequency and proximity. He took a threshold-based approach on these metrics and gave data structures taking O(n log n) words of space. We study this problem in a slightly different framework of reporting the top k most relevant documents (in sorted order) under similar and more general relevance metrics. Our framework gives linear space data structure with optimal query times for arbitrary score functions. As a corollary, it improves the space utilization for the problems in while maintaining optimal query performance. We also develop compressed variants of these data structures for several specific relevance metrics.},
@@ -181,9 +209,10 @@
 	Bdsk-File-1 = {YnBsaXN0MDDUAQIDBAUIJidUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABqAkKFRYXGyIjVSRudWxs0wsMDQ4RFFpOUy5vYmplY3RzV05TLmtleXNWJGNsYXNzog8QgASABqISE4ACgAOAB1lhbGlhc0RhdGFccmVsYXRpdmVQYXRo0hgNGRpXTlMuZGF0YU8RAh4AAAAAAh4AAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAMfVMoFIKwAAAQ645h9Db21wcmVzc2VkIEZ1bGwtVGV4dCMzNEYxRDgucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANPHYx1U5NQAAAAAAAAAAAAEABAAACSAAAAAAAAAAAAAAAAAAAAAFY2l0ZWQAABAACAAAx9SX0QAAABEACAAAx1SehQAAAAEAGAEOuOYANPGwAOISigASOgQACEynAACS8wACAFdNYWNpbnRvc2ggSEQ6VXNlcnM6QWxleDpkZXY6aG9ub3Vycy10aGVzaXM6cGFwZXJzOmNpdGVkOkNvbXByZXNzZWQgRnVsbC1UZXh0IzM0RjFEOC5wZGYAAA4AXgAuAEMAbwBtAHAAcgBlAHMAcwBlAGQAIABGAHUAbABsAC0AVABlAHgAdAAgAEkAbgBkAGUAeABlAHMAIABbAG4AYQB2AGEAcgByAG8AMgAwADAANwBdAC4AcABkAGYADwAaAAwATQBhAGMAaQBuAHQAbwBzAGgAIABIAEQAEgBZVXNlcnMvQWxleC9kZXYvaG9ub3Vycy10aGVzaXMvcGFwZXJzL2NpdGVkL0NvbXByZXNzZWQgRnVsbC1UZXh0IEluZGV4ZXMgW25hdmFycm8yMDA3XS5wZGYAABMAAS8AABUAAgAL//8AAIAF0hwdHh9YJGNsYXNzZXNaJGNsYXNzbmFtZaMfICFdTlNNdXRhYmxlRGF0YVZOU0RhdGFYTlNPYmplY3RfEDtwYXBlcnMvY2l0ZWQvQ29tcHJlc3NlZCBGdWxsLVRleHQgSW5kZXhlcyBbbmF2YXJybzIwMDddLnBkZtIcHSQloiUhXE5TRGljdGlvbmFyeRIAAYagXxAPTlNLZXllZEFyY2hpdmVyAAgAEQAWAB8AKAAyADUAOgA8AEUASwBSAF0AZQBsAG8AcQBzAHYAeAB6AHwAhgCTAJgAoALCAsQCyQLSAt0C4QLvAvYC/wM9A0IDRQNSA1cAAAAAAAACAQAAAAAAAAAoAAAAAAAAAAAAAAAAAAADaQ==}}
 
 @conference{grossi2003,
+	Annote = {First Wavelet Tree Paper},
 	Author = {Grossi, R. and Gupta, A. and Vitter, J.S.},
 	Booktitle = {Proceedings of the fourteenth annual ACM-SIAM symposium on Discrete algorithms},
-	Date-Modified = {2010-11-02 23:16:20 +1100},
+	Date-Modified = {2010-11-06 12:46:44 +1100},
 	Organization = {Society for Industrial and Applied Mathematics},
 	Pages = {841--850},
 	Title = {{High-order entropy-compressed text indexes}},
