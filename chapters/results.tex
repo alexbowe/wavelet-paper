@@ -115,9 +115,6 @@ Wavelet Tree code, or because we need to do an extra calculation to work out
 the binary rank of all previous symbols (see Section 
 \ref{sec:multi-bin-rrr}).
 
-All other time graphs show similar trends, and so have been omitted\footnote{The 
-other graphs are available at http://github.com/alexbowe/honours-thesis/}.
-
 \clearpage
 		\DefFig[Memory consumption for 75MB English file]
 			{fig:mem-eng-75}{experiments/mem_english_75MB}{0.9}
@@ -194,28 +191,29 @@ cause of the large table size for the Generalised RRR Wavelet Tree in Figure
 \ref{fig:mem-prot-75} compared with that of the Words file in Figure 
 \ref{fig:mem-words-75}.
 
+In all cases, the Generalised RRR Wavelet Tree size is less than the original
+text size. It is important to note that the RRR count table can be shared among
+Wavelet Trees, but this may cause it to grow to its full amount, depending on
+the distribution of classes for the type of text we are indexing, as more 
+classes and permutations may be encountered.
+
 The tradeoff between memory and query time for the English files can be seen in 
 Figure \ref{fig:tradeoff-eng-75}. All other test data follows a similar trend, 
-so the graphs have been omitted, with the exception of Words (Figure 
+so the graphs have been omitted\footnote{The 
+other graphs are available at http://github.com/alexbowe/honours-thesis/.}, with the exception of Words (Figure 
 \ref{fig:tradeoff-words-75}), Proteins (Figure \ref{fig:tradeoff-prot-75}) and
 DNA.
 
-In Figure \ref{tradeoff-words-75} the query time for arity 8 increases. This 
+In Figure \ref{fig:tradeoff-words-75} the query time for arity 8 increases. This 
 may be due to the fact that all classes are encountered at arity 8. If we 
 increase the arity, this may move RRR count table entries further apart in 
 memory. When there happens to be a lot of RRR count table entries and the 
 benefit of shallowness of the tree diminishes as we increase the arity, cache 
 use might become a dominating factor.
 
-Figure \ref{tradeoff-prot-75} shows the query time increasing slightly for arity 
-4, then decreasing again for arity 8. This may be due to the small alphabet size
+Figure \ref{fig:tradeoff-prot-75} shows the query time increasing slightly for 
+arity 4, then decreasing again for arity 8. This may be due to the small 
+alphabet size
 of the Proteins file meaning the Wavelet Tree wouldn't get much shallower, and
-hence the performance may be dominated by other factors such as cache; 
-increasing arity may move counts further away from each other in the RRR count 
-table. This trend was seen in DNA as well, which also has a small alphabet.
-
-In all cases, the Generalised RRR Wavelet Tree size is less than the original
-text size. It is important to note that the RRR count table can be shared among
-Wavelet Trees, but this may cause it to grow to its full amount, depending on
-the distribution of classes for the type of text we are indexing, as more 
-classes and permutations may be encountered.
+as above the performance may be dominated by cache. This trend was seen in DNA 
+as well, which also has a small alphabet.
