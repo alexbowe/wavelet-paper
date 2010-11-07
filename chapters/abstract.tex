@@ -1,13 +1,16 @@
 Self-index data structures for pattern matching based on Suffix
 Arrays and the Burrows-Wheeler Transform have recently grown
-popular. The fundamental operation in these self-indexes is the rank-query: 
+popular. The fundamental operation in these self-indexes is the rank query: 
 $rank(i, c)$ requests the number of occurrences of symbol $c$ before position 
 $i$ in a string. The \emph{wavelet 
-tree} is currently the data structure of choice for implementing these rank 
+tree} is currently the data structure of choice for implementing rank 
 queries. Current wavelet tree implementations encode the Burrows-Wheeler 
-Transform as a hierarchy of binary strings, which they then store as RRR sequences;
-the RRR structure offers $O(1)$ rank queries and zeroth-order entropy compression for 
-binary strings. A generalisation of this extends wavelet trees to have higher 
+Transform as a hierarchy of binary strings, which they then store as RRR 
+sequences;
+the RRR structure offers $O(1)$ rank queries and zeroth-order entropy 
+compression for 
+binary strings. A generalisation of the RRR tecnique extends wavelet trees to 
+have higher 
 order encoding, that is, increased branching, in theory making traversal faster. 
 To support the implementation of such a multiary
 wavelet tree, this thesis investigates the generalisation of RRR to sequences 
