@@ -200,20 +200,21 @@ classes and permutations may be encountered.
 The tradeoff between memory and query time for the English files can be seen in 
 Figure \ref{fig:tradeoff-eng-75}. All other test data follows a similar trend, 
 so the graphs have been omitted\footnote{The 
-other graphs are available at http://github.com/alexbowe/honours-thesis/.}, with the exception of Words (Figure 
+other graphs are available at http://github.com/alexbowe/honours-thesis/.}, with 
+the exception of Words (Figure 
 \ref{fig:tradeoff-words-75}), Proteins (Figure \ref{fig:tradeoff-prot-75}) and
 DNA.
 
-In Figure \ref{fig:tradeoff-words-75} the query time for arity 8 increases. This 
-may be due to the fact that all classes are encountered at arity 8. If we 
-increase the arity, this may move RRR count table entries further apart in 
-memory. When there happens to be a lot of RRR count table entries and the 
-benefit of shallowness of the tree diminishes as we increase the arity, cache 
-use might become a dominating factor.
+In Figure \ref{fig:tradeoff-words-75} The Generalised RRR Wavelet Trees queries 
+slow down for arity 8. This may be due to fragmentation of the RRR count table
+memory; as the Wavelet Tree becomes less shallow as its arity increases, the
+benefit of cache may also diminish, since the RRR count table will become
+larger and possibly dispersed throughout memory. This would not affect the other
+RRR Wavelet Trees as their RRR count table is both contiguous and small, making 
+the best possible use of cache.
 
 Figure \ref{fig:tradeoff-prot-75} shows the query time increasing slightly for 
 arity 4, then decreasing again for arity 8. This may be due to the small 
-alphabet size
-of the Proteins file meaning the Wavelet Tree wouldn't get much shallower, and
-as above the performance may be dominated by cache. This trend was seen in DNA 
-as well, which also has a small alphabet.
+alphabet size of the Proteins file meaning the Wavelet Tree would not get much 
+shallower, and as above the performance may be dominated by cache. This trend 
+was seen in DNA as well, which also has a small alphabet.
