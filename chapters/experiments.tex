@@ -1,0 +1,108 @@
+\section{Experiments}
+\label{sec:experiments}
+
+We will detail below what our expected findings were, and our method, including 
+the data selected for the experiments and why it was chosen.
+
+\subsection{Hypotheses}
+The experiments were designed to test the following hypotheses:
+
+\begin{itemize}
+    \item 	
+			Since BWTs have many runs of the same symbol, RRR classes and 
+			offsets will not be equally distributed.
+
+    \item 	
+			Increasing the arity of a Wavelet Tree will make it shallower and
+		   	hence reduce the amount of nodes visited per query, resulting
+		   	in faster queries.
+			
+    \item  
+			There is a practical limit to the order of the arity increase for 
+		   	Generalized RRR, since the RRR count table will increase in size. In
+			particular there is tension between the size of the RRR 
+			count table and the size of the class / offset sequences.
+\end{itemize}
+
+\subsection{Method}
+For each Multiary Wavelet Tree variant\footnote{All source code is available at 
+http://github.com/alexbowe/multiary-wt.} (using Generalised RRR, Multi-binary
+RRR, and uncompressed concatenated bitmaps to provide
+sequence ranking at each node), we generated 1000 
+random rank queries $rank(c, i)$. For three runs the mean query time was 
+recorded, and the minimum result was taken as our result, as it is the time 
+least influenced by external factors (e.g. Operating System swapping). The above
+experiment was repeated as we doubled the arity.
+
+The size of  the Wavelet Tree (including the RRR encoded sequences at each node) 
+was recorded. The size of the RRR count tables was recorded for the cases which 
+used a variant of RRR. For the Generalized RRR, we recorded how many unique 
+class and offset values were encountered, and calculated the percentage of total 
+possible 
+classes and offsets these were\footnote{All raw and processed data is 
+available at http://github.com/alexbowe/multiary-wt, and the graphs are 
+available at http://github.com/alexbowe/honours-thesis.}.
+
+We used Francisco Claude's SPIRE 2008 implementation of binary 
+RRR\footnote{Claude's compressed data 
+structures library is available at http://libcds.recoded.cl} implementation as a 
+base line for comparison \cite{claude2008}. We used the same default block-size 
+and super-block factor as Claude, which were 15 and 32 respectively.
+
+The data set used for testing is described below\footnote{The BWT files for each 
+dataset are 
+available at\\ http://bwt-corpus.s3.amazonaws.com/list.html, and are 
+reconstructible using the scripts at http://github.com/alexbowe/bwt-corpus.} in 
+Section \ref{sec:data} with some statistics in Table \ref{tab:files}.
+
+The experiments were run on an otherwise idle Mac OS X Snow Leopard with a 2.4 
+GHz Intel Core 2 Duo processor, and 4GB 1067 MHz DDR3 RAM.
+
+\pagebreak
+\subsection{Test Data}
+\label{sec:data}
+Since a prime use of Wavelet Trees is to provide faster rank queries over BWTs 
+(as part of an FM-Index), we
+constructed BWT strings over a selection of texts taken from the 
+\emph{Pizza\&Chili}
+Corpus website\footnote{http://pizzachili.dcc.uchile.cl}. This is the standard
+corpus used when developing compressed self indexes, and has been collected by
+Paolo Ferragina and Gonzalo Navarro, two prominent contributors of suffix array 
+research.
+
+The corpus consists of source code for the Linux kernel and GNU C Compiler
+(GCC), protein sequences, DNA, English texts from Project
+Gutenberg\footnote{http://www.gutenberg.org}, and XML-formatted bibliographies
+from several major Computer Science journals. These are considered to be
+representative of the sort of texts a suffix array may be used for. In the 
+case of the English corpus, we also took a mapping of each unique word to an 
+integer, allowing us to test word-based indexing.
+
+Three data sizes were used to test the scalability: 25MB, 50MB and 75MB. 
+Importantly, these data sizes are much bigger than the available CPU cache, but
+will not take large amounts of time for experimentation. The length and alphabet 
+size of these files are described in Table \ref{tab:files}.
+
+\begin{center}
+\begin{table}[h]
+\begin{tabular}{crrrrrr}
+\toprule
+\multirow{2}{*}{Data} & \multicolumn{2}{c}{25 MB} & \multicolumn{2}{c}{50 MB} &  
+	\multicolumn{2}{c}{75 MB}\\
+		  \cmidrule(r){2-7}
+	      &\multicolumn{1}{c}{$\sigma$}& \multicolumn{1}{c}{length}
+		  &\multicolumn{1}{c}{$\sigma$}&\multicolumn{1}{c}{length}
+		  &\multicolumn{1}{c}{$\sigma$}&\multicolumn{1}{c}{length}\\
+\midrule
+xml 	  & 96	   & 26 214 400 & 98 	   & 52 428 804 & 98 	   & 78 643 208 \\
+dna 	  & 14     & 26 214 400 & 19 	   & 52 428 804 & 21     & 78 643 208 \\
+proteins  & 25     & 26 214 400 & 29     & 52 428 804 & 33     & 78 643 208 \\
+sources   & 116    & 26 214 400 & 229    & 52 428 804 & 229    & 78 643 208 \\
+english   & 154    & 26 214 400 & 179    & 52 428 804 & 188    & 78 643 208 \\
+words     & 83 083  & 5 969 593  & 115 754 & 11 860 943 & 164 757 & 17 668 587 \\
+\bottomrule
+\end{tabular}
+\caption{Text lengths and alphabet sizes for each test file.}
+\label{tab:files}
+\end{table}
+\end{center}

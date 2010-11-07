@@ -1,0 +1,182 @@
+\section{Preliminaries}
+\label{sec:prelim}
+
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:mis}{preliminaries/mississippi}{0.55}
+			{Array representation of	`mississippi' string.}
+			
+Throughout this paper we represent the string we are searching in as $S$ of 
+length 
+$|S| = N$, and the pattern we are searching for as $P$. $S[i]$ represents the 
+symbol located at position $i$ in $S$, and $S[i..j]$ represents the substring of 
+$S$ beginning at position $i$ and ending at $j$ inclusive. Strings are 
+one-based, so in Figure \ref{fig:mis} $S[1] = $ `m', $S[3] = $ `s', and $S[1..3] 
+= $ `mis'.
+
+The $i^{th}$ \emph{suffix} is thus defined as $S[i..N]$, so the $1^{st}$ suffix 
+in Figure \ref{fig:mis} is $S[1..12] = $ `mississipi\$', and the $5^{th}$ suffix 
+is $S[5..12] = $ `issippi\$'. The $i^{th}$ prefix is defined as $S[1..i]$, so
+the $5^{th}$ prefix in Figure \ref{fig:mis} is $S[1..5] = $ `missi'.
+
+The $log$ operation is base 2 unless otherwise stated.
+
+\subsection{Background}
+In 1970 Knuth, Morris and Pratt (KMP) discovered an algorithm to match patterns 
+in time proportional to the length of the text \cite{knuth1977, 
+mccreight1976}. If the text is large, then KMP is ineffective for ranking and 
+pattern discovery. Moreover KMP is only useful for exact matches.
+
+One alternative to KMP for document ranking is the use of an inverted index, but
+they must work with keywords and are thus inappropriate for many applications,
+such as searches on certain oriental languages, and other strings that do not
+have a clear definition of keywords (MIDI, for example). Suffix arrays are also 
+more efficient than inverted files for searching phrases or partial 
+patterns \cite{marin2003, hon2009}. This was originally possible with the suffix 
+tree~\cite{weiner1973, mccreight1976} (a precursor to the suffix array), 
+although suffix trees require three to five times as much 
+space~\cite{manber1993}.
+
+
+\subsection{Suffix Arrays}
+In its simplest form, a suffix array can be constructed for a string
+$S[1..N]$ like so:
+
+\begin{enumerate}
+	\item
+		Construct an array of pointers to all suffixes $S[1..N]$, 
+		$S[2..N]$, ..., $S[N..N]$.
+	\item
+		Sort these pointers by the lexicographical (i.e. alphabetical) ordering 
+		of their associated suffixes.
+\end{enumerate}
+
+Figure \ref{fig:mis} shows an example string, `mississippi'. The construction of 
+the corresponding suffix array is shown in Figure \ref{fig:sa-make-mis}.
+Construction of suffix arrays is now a well studied problem \cite{puglisi2007}.
+
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:sa-make-mis}{preliminaries/mississippi-sa-sort}{0.65}
+			{Construction of Suffix Array for `mississippi'.}
+
+
+
+\subsection{Burrows-Wheeler Transform}
+The Burrows-Wheeler Transform (BWT) is a string of length $N$ defined by the suffix array $SA$ and the original text $S$. In particular, $BWT[i] = S[SA[i]-1]$, and $BWT[1] = $ `\$', that is, the $i^{th}$ symbol of the BWT is the symbol prior to the $i^{th}$ suffix in the Suffix Array $SA$. See Figure \ref{fig:sa-bwt-mis}.
+
+As proposed by Ferragina and Manzini, when a BWT is stored alongside a Suffix Array, it is known as a \emph{FM-Index} \cite{ferragina2000}, which supports backwards search.
+
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:sa-bwt-mis}{preliminaries/mississippi-sa}{0.35}
+			{Suffix Array and Burrows-Wheeler Transform for
+			`mississippi' string.}
+
+\subsubsection{Rank Query}
+Munro \cite{munro1996} describes how to do rank queries on binary strings in $O(1)$ time using $o(n)$ bits of extra space. Much of the early work on rank
+queries focussed on binary strings.
+
+A rank query on the string $S$ is 
+defined as $rank_S(i, c) = n $, with $n$ being the number of times symbol $c$ 
+appears in the range $S[1, i]$. This paper omits 
+the subscript when the string we are querying is clear from the context. For 
+example in Figure \ref{fig:rank-mis}, $rank(9, s) = 3$. If $i \le 0$ then 
+$rank(i, c) = 0$.
+
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:rank-mis}{preliminaries/rankquery}{0.6}
+			{Rank query $rank(9, s) = 3$ on the Burrows-Wheeler Transform
+			of `mississippi'.}
+
+\subsubsection{Backward Search}
+Since any pattern $P$ in $S$ is a prefix of a suffix, and because the suffixes 
+are lexicographically ordered, all occurrences of a search pattern $P$ lie in a 
+contiguous portion of the 
+Suffix Array. In earlier implementations, the range that this 
+pattern lies on would be located by using successive binary searches. Backward 
+search utilises the BWT 
+in a series of paired rank queries, improving the query performance 
+considerably ~\cite{claude2008, ferragina2009, ferragina2007, golynski2006, 
+makinen2007b, makinen2007a, marin2003, navarro2006}
+
+Backward search issues $|P|$ pairs of rank queries, where $|P|$ 
+denotes the length of the pattern. The paired rank queries are:
+
+					$$ s' = C[P[i]] + rank(s - 1, P[i]) + 1$$
+					$$ e' = C[P[i]] + rank(e, P[i])$$
+
+Where $s$ denotes the start of the range, initially at $s = 1$, and $e$ is the 
+end of the range, initially $e = N$.
+
+In Figure \ref{fig:bws-1} there is a column $F$, which contains the first 
+symbol for each suffix. Note that the $F$ column is not stored as we encode it 
+as $C$ instead.
+
+$C$ is an array\footnote{Note that we are indexing $C$ by a symbol $P[i]$, so 
+this may be implemented with a suitable hash function.} containing the count of 
+all symbols in $\Sigma$ which sort lexicographically before $P[i]$, where 
+$\Sigma$ is the alphabet from our original string $S$, as in Figure 
+\ref{fig:c-tab}.
+
+In the first iteration 
+we query the final character of the pattern, so $i = |P|$.  For each 
+iteration, we decrement $i$ until $i = 1$. This maintains the invariant that
+$SA[s..e]$ contains all the suffixes of which $P[i..|P|]$ is a prefix, and hence
+all locations of $P[i..|P|]$ in $S$. This is illustrated in Figure 
+\ref{fig:bws-2} through to Figure \ref{fig:bws-4}. If at any stage $e < 
+s$, then the pattern does not exist in our original string.
+
+An example is given in Figure \ref{fig:bws-1} through to Figure \ref{fig:bws-4},
+Where the pattern \emph{`iss'} is searched for in the string `mississippi',
+starting with $i = 3$, $P[3] = `s'$. The working for each rank query is shown 
+below each figure. We represent the current symbol as $c$ to avoid confusion 
+between `s' and $s$ and $s'$.
+
+
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:c-tab}{preliminaries/C-table}{0.3}
+			{Table $C$ of number of occurrences in $F$ of each symbol which
+			sorts alphabetically before the displayed symbol.}
+
+\clearpage			
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:bws-1}{preliminaries/bwt-1}{0.5}
+			{First stage of backwards search for `iss' on `mississippi'
+			 string - before any rank queries have been made.}
+
+\begin{enumerate}
+	\item
+		Starting from $s = 1$ and $e = 12$ as in Figure \ref{fig:bws-1},
+		and $c = P[i] = $`s' where $i = 3$, we make our first two rank queries:
+			$$s' = C[c] + rank(0, c) + 1 = 8 + 0 + 1 = 9$$
+			$$e' = C[c] + rank(12, c) = 8 + 4 = 12$$
+		
+			%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+			\DefFig{fig:bws-2}{preliminaries/bwt-2}{0.5}
+				{Second stage of backwards search for `iss' on `mississippi'
+				string. All the occurrences of `s' lie in $SA[9..12]$.}
+\clearpage				
+	\item
+		From $s = 9$ and $e = 11$ as in Figure \ref{fig:bws-2},
+		and $c = P[i] = $`s' where $i = 2$, our next two rank queries are:
+			$$s'' = C[c] + rank(8, c) + 1 = 8 + 2 + 1 = 11$$
+			$$e'' = C[c] + rank(12, c) = 8 + 4 = 12$$
+	
+			
+			%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+			\DefFig{fig:bws-3}{preliminaries/bwt-3}{0.5}
+				{Third stage of backwards search for `iss' on `mississippi'
+				string. All the occurrences of `ss' lie in $SA[11..12]$.}
+	
+	\item
+		From $s = 11$ and $e = 12$ as in Figure \ref{fig:bws-3},
+		and $c = P[i] = $`i' where $i = 1$, our final two rank queries are:
+			$$s''' = C[c] + rank(10, c) + 1 = 1 + 2 + 1 = 4$$
+			$$e''' = C[c] + rank(12, c) = 1 + 4 = 5$$
+			
+			
+			%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+			\DefFig{fig:bws-4}{preliminaries/bwt-4}{0.5}
+				{Fourth and final stage of backwards search for `iss' on
+				`mississippi' string. All the occurrences of `iss' lie in
+				$SA[4..5]$.}
+				
+\end{enumerate}

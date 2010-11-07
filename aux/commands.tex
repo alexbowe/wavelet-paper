@@ -1,9 +1,10 @@
 % default figure
-\newcommand{\DefFig}[4]{% label, file, width, caption
+\newcommand{\DefFig}[5][]{% title, % label, file, width, caption
 	\begin{figure}[hbt]
         \centering
-        \includegraphics[width=#3\hsize]{#2}
-        \caption{#4}
-        \label{#1}
+		\mbox{#1}\\
+        \includegraphics[width=#4\hsize]{#3}
+        \caption{#5}
+        \label{#2}
     \end{figure}
 }

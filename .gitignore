@@ -11,4 +11,13 @@
 *.aux
 *.fls
 *.log
+*.bbl
+*.blg
+*.loa
+*.lof
+*.toc
 generated/
+
+
+## MISC
+temp

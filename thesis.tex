@@ -1,35 +1,88 @@
-\documentclass[a4paper]{report}
+\documentclass[a4paper]{article}
 
+%%%%%%%% PACKAGES %%%%%%%%
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage[numbers,sort]{natbib}
+%\usepackage{showkeys} % Shows citation and reference keys on your pdf
 
-% The path(s) to the graphics files:
-\graphicspath{{images/}{generated/}}
+% Algorithms
+\usepackage{algorithmic}
+% This gives floating, captioned algorithms
+\usepackage{algorithm}
 
+% Tables
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% Equals-aligned equations
+\usepackage{amsmath}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%% MACROS %%%%%%%%%
 % This LaTeX file contains some macros for the CC license page.
 \input{aux/creativecommons}
 
 % My self defined commands
 \input{aux/commands}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%% SETTINGS %%%%%%%%
+% The paths to the graphics files:
+\graphicspath{{images/}{generated/}}
+
+% Section counting
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
 \title{Multiary Wavelet Trees in Practice}
-\author{Alex Bowe}
-\date{\today}
+\author{Alex Bowe\\
+\texttt{alex.bowe@rmit.edu.au} \\ \\
+Honours Thesis \\ \\
+\textbf{Supervisor:} Simon Puglisi\\ \\ \\
+School of Computer Science and Information Technology \\
+RMIT University\\
+Melbourne, AUSTRALIA}
 
-% Work out how to put Simon Puglisi as supervisor + email and what not
+\date{November 2010}
 
 \maketitle
 
-\include{chapters/LicenseDisclaimer}
-
 \begin{abstract}
-\input{chapters/abstract}
+\input{chapters/abstract} \\ \\
 \end{abstract}
 
-\include{chapters/chap01}
+\textbf{Keywords:} data structures, algorithms, string search, compression, indexes
 
-\include{chapters/chap02}
+%\include{chapters/LicenseDisclaimer}
+
+\newpage
+\tableofcontents
+\newpage
+
+\include{chapters/introduction}
+
+\include{chapters/preliminaries}
+
+\include{chapters/wtrrr}
+
+\include{chapters/multiarywtgrrr}
+
+\include{chapters/experiments}
+
+\include{chapters/results}
+
+\include{chapters/conclusion}
+
+\include{chapters/acknowledgements}
+
+%\appendix
+%\include{chapters/tables}
+
+\bibliographystyle{abbrv}
+\bibliography{bibliography}
 
 \end{document}

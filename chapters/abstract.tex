@@ -1,11 +1,22 @@
-In recent years, self-indexes for pattern matching based on Suffix
-Arrays and the Burrows-Wheeler Transform (BWT) have grown
-increasingly popular. The fundamental operation on these is the
-rank-query; $rank(i, c)$ requests the number of occurrences of
-symbol $c$ before position $i$ in strings. This is best provided by
-a Wavelet Tree (WT). Currently, WT implementations encode the BWT
-in binary. A generalisation of this extends WTs to higher order
-encoding, i.e. multi-arity, which reduces the depth of a WT, in
-theory making traversal faster. This paper aims to investigate the
-benefits of multi-ary WTs in practice, and whether specific
-properties of the BWT induce space-savings in the WT.
+Self-index data structures for pattern matching based on Suffix
+Arrays and the Burrows-Wheeler Transform have recently grown
+popular. The fundamental operation in these self-indexes is the rank query: 
+$rank(i, c)$ requests the number of occurrences of symbol $c$ before position 
+$i$ in a string. The \emph{wavelet 
+tree} is currently the data structure of choice for implementing rank 
+queries. Current wavelet tree implementations encode the Burrows-Wheeler 
+Transform as a hierarchy of binary strings, which they then store as RRR 
+sequences;
+the RRR structure offers $O(1)$ rank queries and zeroth-order entropy 
+compression for 
+binary strings. A generalisation of the RRR tecnique extends wavelet trees to 
+have higher 
+order encoding, that is, increased branching, in theory making traversal faster. 
+To support the implementation of such a multiary
+wavelet tree, this thesis investigates the generalisation of RRR to sequences 
+over small alphabets. We also analyse the use of concatenated bitmaps to 
+represent sequences over small alphabets, thus allowing continued use of the
+binary RRR structure. Our results show that multiary wavelet trees are faster
+than their binary counterparts, but require large amounts of memory in the 
+case of the generalised RRR. We also show binary RRR on concatenated bitmaps to 
+be an effective, practical alternative.
