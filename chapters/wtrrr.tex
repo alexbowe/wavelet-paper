@@ -1,0 +1,179 @@
+\section{Binary Wavelet Trees and RRR}
+\label{sec:wt-rrr}
+
+This section describes the Binary Wavelet Tree, which provides fast rank queries over
+strings with an alphabet size larger than $2$, and the RRR structure, 
+which is used for fast \emph{binary} rank queries and compression.
+
+\subsection{Binary Wavelet Trees}
+One of the most effective data structures for answering rank queries is the 
+Wavelet Tree \cite{claude2008, ferragina2009, ferragina2007, grossi2003, 
+makinen2007a}.
+
+Binary Wavelet Trees encode the BWT (or any string over which we require fast 
+rank queries) as a perfect binary tree of bit vectors, to 
+enable $O(\log \sigma)$ time rank queries, where $\sigma$ is the size of the 
+alphabet. The tree is defined recursively as follows:
+
+\begin{enumerate}
+    \item
+		Encoding half the alphabet as 0, and half as 1, for example:
+    		$$\Sigma = \{ \$, i, m, p, s \}$$
+			$$enc(\Sigma) = \{ 0, 0, 0, 1, 1 \}$$
+    \item
+		Group each 0-encoded symbol, $\{ \$, i, m \}$, as a sub-tree;
+    \item
+		Group each 1-encoded symbol, $\{ p, s \}$, as a sub-tree;
+    \item
+		Reapply to each sub-tree recursively until there is only one symbol
+    	left.
+\end{enumerate}
+
+The encoded binary Wavelet Tree \emph{root node} for the `mississippi` BWT is 
+shown in Figure \ref{fig:wt-enc-bwt}. For a more detailed example, showing the 
+whole tree, see Figure \ref{fig:bin-wt-pp}.
+
+
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:wt-enc-bwt}{preliminaries/encodebwt}{0.5}
+			{Root node of Binary Wavelet Tree encoding for `mississippi' BWT.
+			Each symbol in the string is assigned a bit (0 or 1) depending
+			on which half of the alphabet it is from.}
+
+After the tree is constructed, a rank query on a Wavelet Tree can be done with $\log \sigma$ binary 
+rank queries on the bit vectors. For example, if we wanted to know $rank(6, e)$ 
+in Figure \ref{fig:bin-wt-pp}, we use the following procedure which is 
+illustrated in Figure \ref{fig:rank-bin-wt-pp}. We know that $enc(e) = 0$ at 
+this level, so:
+
+\begin{enumerate}
+    \item
+		At the root node, count the number of $0$s on $bitvector[1..6]$,
+		which is given by $rank(6, 0) = 4$. This gives us the index to query in 
+		our 0-child.
+    \item
+		Calculate $rank(4, 1) = 2$, as $e$ is encoded as $1$ at this child. We 
+		traverse the 1-branch this time, with the next index as $2$.
+    \item
+		$rank(2, 1) = 2$, which we use as the index in the child on the
+    	1-branch, with our next index as $2$.
+    \item
+		$rank(2, 0) = 2$, as $e$ is encoded as $0$ here. Since our children at 
+		this point are leaf nodes, we return $2$ as our result.
+\end{enumerate}
+
+Hence the result of $rank(6, e)$ is $2$. If we store these nodes in RRR, 
+binary rank queries can be answered in $O(1)$ time.
+
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:bin-wt-pp}{preliminaries/binwt}{1}
+			{Binary Wavelet Tree for `Peter Piper...' where spaces are displayed
+			as underscores.}
+			
+		\DefFig{fig:multi-wt-pp}{preliminaries/fourwt}{1}
+			{4-ary Wavelet Tree for `Peter Piper...' where spaces are 
+			displayed as underscores.}
+\clearpage
+		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
+		\DefFig{fig:rank-bin-wt-pp}{preliminaries/binwt-query}{0.9}
+			{Answering $rank(6, e)$ over the Binary Wavelet Tree for `Peter
+			Piper...' where spaces are displayed as underscores.}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+\subsection{RRR}
+\label{sec:rrr}
+RRR was first proposed by Raman et al. \cite{raman2007}. The purpose of RRR is 
+to encode a bit sequence in such a way that supports $O(1)$ time binary rank 
+queries. It also provides implicit (i.e. automatic) compression, 
+requiring $N H_0(S) + o(N)$ where $H_0(S)$ is the \emph{zero-order empirical 
+entropy} of $S$. 
+
+Zero-order empirical entropy is a lower bound for the average code word size
+when a symbol is mapped to the same code word irrespective of the context in
+which they appear. It can be calculated as $H_0(S) = \sum_{i = 1}^{\sigma}
+\frac{N^i}{N} \log \frac{N}{N^i}$, for an alphabet $\Sigma$ size of $\sigma$, 
+and $N^i$ is the number of occurrences of the $i^{th}$ element of $\Sigma$ in 
+our text $S[1..N]$.
+
+The classical $O(1)$ time implementation of binary rank queries required $N + 
+o(N)$ bits \cite{gonzalez2005}.
+
+To construct the RRR we divide the bit-vector into several so-called 
+\emph{superblocks}, we then divide these superblocks further, into 
+\emph{blocks} of $b$ bits each, as in Figure \ref{fig:blocks}. We call the 
+number of blocks in a superblock the \emph{superblock-factor}, $f$.
+
+		\DefFig{fig:blocks}{preliminaries/blocks}{0.85}
+			{Block division scheme for `Peter Piper...' Wavelet Tree's root
+			node bit vector.}
+
+For each of these blocks we store a class number $c$, which in the binary case 
+is the number of  $1$s in the block. This is used as a lookup key in a table 
+$G$, which is a table of tables, and will be explained shortly. We also store 
+offset $o$, which is an index into the table at $G[c]$. Each offset value $o$ 
+tells us precisely which of the possible blocks of class $c$ a block is. See 
+Figure \ref{fig:rrr-seq}.
+
+$G$ is a table having subtables $G[c]$ for each class $c$. For every possible 
+permutation of $c$ 1-bits, $G[c]$ contains an array of cumulative sums for each 
+position in the block of given offset and class - this is illustrated in Figure \ref{fig:bin-gtab}. It is important to note that 
+the size of $o$ varies, since the number of possible permutations of $c$ bits, 
+and hence entries in $G[c]$, is $b \choose c$, and can be encoded in $\log {b 
+\choose c}$ bits.
+
+The reason for grouping blocks into superblocks is to avoid iterating over each
+block to answer a rank query; a query requires the sum of the ranks of previous
+blocks as well, as depicted in See Figure \ref{fig:rrr-seq}. If we store the sum 
+of all block ranks up to a superblock boundary, then a rank query $rank(i, c)$ 
+can be answered like so:
+
+\begin{enumerate}
+	\item
+		Calculate which block our index is in as $i_b = i / b$.
+	\item
+		Calculate which superblock our block resides in as $i_s = i_b / f$.
+	\item
+		Set \texttt{result} to the sum of previous ranks at $i_s$ boundary (which is 
+		pre-calculated).
+	\item
+		Using each blocks class-offset pair $(c, o)$ after the boundary at 
+		$i_s$, add the rank for that entire block to \texttt{result}.
+	\item
+		Repeat previous step until we reach $i_b$. We then add $rank_{i_b}(j, 
+		c)$ to our result, where $j = i \mod b$, and is the position we are 
+		querying local to $i_b$. Our final answer is \texttt{result}.
+\end{enumerate}
+
+With the superblock we also store an initial address for the variable-length 
+offset values. After finding the first offset address in a superblock, we 
+calculate the 
+next offset address in bits according to the blocks class $c$ as $\lceil\log 
+{b \choose c}\rceil$ bits, which we add to the current address. See Figure 
+\ref{fig:rrr-seq}, which shows what is calculated for each 
+superblock\footnote{We omit the first superblock, since the first offset address 
+is easy to find, and the sum of ranks before the first superblock is always 
+$0$.}.
+
+		\DefFig{fig:bin-gtab}{preliminaries/binary-g-table}{0.7}
+		{Binary RRR Count Table, with example lookup for class $c = 2$
+		and offset $o = 3$ in a RRR sequence.}
+
+		\DefFig{fig:rrr-seq}{preliminaries/superblocks}{0.9}
+		{RRR Sequence divided into three superblocks. For each superblock
+		boundary, a sum of previous ranks is stored, as well as the address
+		of the first offset value. These allow us to reduce the amount of 
+		iteration required to answer a rank query.}
+
+It is possible to support Multiary Wavelet Trees using RRR with a more extensive 
+class allocation, which we will discuss in Section \ref{sec:gen-rrr}.

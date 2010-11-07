@@ -8,34 +8,42 @@ There are many areas where suffix arrays are likely the most appropriate data
 structure for the task, including:
 
 \begin{itemize}
-\item
-	Searching for patterns in oriental languages; as some oriental languages
-    do not have spaces between certain particles, an inverted file would be
-    insufficient;
-\item
-	Pattern discovery and visualisation using arc diagrams, as proposed by
-    Wattenberg~\cite{wattenberg2002};
-\item
-	Genome analysis~\cite{abouelhoda2004, flicek2009}.
+	\item
+		Genome analysis~\cite{abouelhoda2004, flicek2009};
+	\item
+		Searching for patterns in non-word data such as images, multimedia 
+		signals and DNA~\cite{culpepper2010}
+	\item
+		Searching for patterns in oriental languages; as some oriental languages
+    	do not have spaces between certain particles, an inverted file would be
+    	insufficient;
+	\item
+		Pattern discovery and visualisation using arc diagrams, as proposed by
+    	Wattenberg~\cite{wattenberg2002};
 \end{itemize}
 
 Due to its performance in these important applications, the improvement of 
 suffix arrays has been the focus of intensive research over the past 20 years. 
-\emph{Self indexing} is one of these improvements. Self indexes support 
-fast pattern counting, fast pattern matching and extraction of arbitrary 
-substrings of the original text, including the original text itself, which in 
-some sense allows us to replace the original text with a self index.
+\emph{Self-indexing} is one of these improvements. Self indexes support 
+fast pattern counting (reporting the number of occurrences of a pattern in a 
+text), fast pattern matching (reporting the positions of each pattern 
+occurrence) and extraction of arbitrary 
+substrings of the original text, including the original text itself. These 
+operations in some sense allow us to replace the original text with a self 
+index.
 
 \DefFig{fig:overview}{introduction/overview}{1}
-	{Simplified view of the key data structures and their relationship
+	{Overview of the key data structures and their relationship
 	with each other. When a Suffix Array and a Burrows-Wheeler 
 	Transform (BWT) \cite{burrows1994} are combined, they form an FM-Index 
 	\cite{ferragina2000}. FM-Indexes use 
 	Backward Searches on the BWT to provide fast pattern 
 	matching, counting, and substring extraction operations. Backward
 	Search requires rank operations, which are best implemented using
-	a Wavelet Tree (WT) \cite{grossi2003}. A WT encodes a string as a hierarchy of bit vectors, 
-	which it uses to answer rank queries using $\log \sigma$ \emph{binary} rank 
+	a Wavelet Tree (WT) \cite{grossi2003}. A WT encodes a string as a hierarchy 
+	of bit vectors, 
+	which it uses to answer general rank queries using $\log \sigma$ 
+	\emph{binary} rank 
 	queries. Binary rank queries can be answered in $O(1)$ time when the bit 
 	vector is stored as a RRR sequence \cite{raman2007}, which utilise a global 
 	table of pre-calculated ranks. The RRR data structure also offers 
@@ -44,7 +52,7 @@ some sense allows us to replace the original text with a self index.
 
 One such self index is known as the \emph{`FM-Index'}, proposed by
 Ferragina and Manzini \cite{ferragina2000}. An FM-Index utilises a 
-sparse Suffix Array and a \emph{Burrows-Wheeler Transform} (BWT) \cite{burrows1994} (the two leftmost 
+sparse Suffix Array and the \emph{Burrows-Wheeler Transform} (BWT) \cite{burrows1994} (the two leftmost 
 diagrams in Figure \ref{fig:overview}) of the original text, and supports fast 
 pattern matching operations by using a \emph{`backward search'}.
 
@@ -98,9 +106,12 @@ way to make rank queries faster.
 
 The rest of the thesis is organised as follows. Section \ref{sec:prelim} begins 
 with a some notation, followed by background on the problem 
-domain. We then discuss how each data structure is built and used together, 
-followed by a discussion of how our Multiary Wavelet Trees are designed, 
-including some implementation details of interest.
+domain. We then discuss how each data structure is built and used together.
+
+Section \ref{sec:wt-rrr} provides a description of Binary Wavelet Trees and 
+their use of the RRR structure, followed by a discussion in Section 
+\ref{sec:multiary} of how our Multiary Wavelet Trees are designed, including 
+some implementation details of interest.
 
 In Section \ref{sec:experiments} we describe how we measured the 
 time and space performance for each Multiary Wavelet Tree variation,

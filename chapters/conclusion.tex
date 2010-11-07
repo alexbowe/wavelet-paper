@@ -62,7 +62,7 @@ reveal:
 	Generalised RRR; the Generalised RRR Table will grow smaller if a smaller 
 	block size is used, but the sequences then become bigger as they have more
 	class and offset values (which require less bits, but perhaps not 
-	significantly so), which may not be preferable since the table can be shared 
+	significantly so). This may not be preferable since the table can be shared 
 	among many sequences. The analysis of Ferragina et al. \cite{ferragina2007}
 	suggests blocksize and arity should be related, in particular blocksize
 	$b = \lfloor \frac{1}{2} \log_{A} N \rfloor$, that is, $b$ decreases 
@@ -93,6 +93,7 @@ reveal:
 \item
 	Investigate Multiary Wavelet Trees which use the bitmap concatenation 
 	technique, but encode each node using other binary sequence structures which 
-	answer rank queries, such as a Sadakane Array \cite{okanohara2006}.
+	answer rank queries, such as the rank index by Okanohara and Sadakane 
+	\cite{okanohara2006}.
 
 \end{enumerate}

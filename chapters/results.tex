@@ -210,11 +210,11 @@ slow down for arity 8. This may be due to fragmentation of the RRR count table
 memory; as the Wavelet Tree becomes less shallow as its arity increases, the
 benefit of cache may also diminish, since the RRR count table will become
 larger and possibly dispersed throughout memory. This would not affect the other
-RRR Wavelet Trees as their RRR count table is both contiguous and small, making 
-the best possible use of cache.
+RRR Wavelet Trees as their RRR count tables are contiguous and small, making 
+the better use of cache.
 
 Figure \ref{fig:tradeoff-prot-75} shows the query time increasing slightly for 
 arity 4, then decreasing again for arity 8. This may be due to the small 
-alphabet size of the Proteins file meaning the Wavelet Tree would not get much 
+alphabet size of the Proteins file, meaning the Wavelet Tree would not get much 
 shallower, and as above the performance may be dominated by cache. This trend 
 was seen in DNA as well, which also has a small alphabet.
