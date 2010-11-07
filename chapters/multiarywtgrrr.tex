@@ -28,7 +28,7 @@ We can no longer use binary rank queries, and hence Binary RRR, the same way as
 we do with a Binary Wavelet Tree. We discuss three alternative approaches in the 
 following sections.
 
-\subsection{Multiary Wavelet Tree Variation 1 : Uncompressed}
+\subsection{Variation 1 : Uncompressed}
 		\DefFig{fig:bitmaps}{preliminaries/bitmaps}{0.4}
 		{Concatenated bitmap binary encoding of multiary Wavelet Tree Node
 		representing `eeecedecfcedee' from the `Peter Piper...' string.}
@@ -44,7 +44,7 @@ concatenation, and $i$ is the position.
 We use $A$ bits per symbol, when they could be represented in $\log A$ bits, but
 this allows us to utilise binary RRR, which we do in the \emph{`Multi-Binary RRR'} Wavelet Tree discussed in Section \ref{sec:multi-bin-rrr}.
 
-\subsection{Multiary Wavelet Tree Variation 2 : Multi-Binary RRR}
+\subsection{Variation 2 : Multi-Binary RRR}
 \label{sec:multi-bin-rrr}
 Like the uncompressed version, bitmaps are created for each symbol and 
 concatenated, but the bit-vector is stored in a binary RRR sequence. A query 

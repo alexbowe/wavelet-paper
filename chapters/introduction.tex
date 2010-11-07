@@ -12,25 +12,15 @@ structure for the task, including:
 		Genome analysis~\cite{abouelhoda2004, flicek2009};
 	\item
 		Searching for patterns in non-word data such as images, multimedia 
-		signals and DNA~\cite{culpepper2010}
+		signals and DNA~\cite{culpepper2010};
 	\item
 		Searching for patterns in oriental languages; as some oriental languages
     	do not have spaces between certain particles, an inverted file would be
     	insufficient;
 	\item
 		Pattern discovery and visualisation using arc diagrams, as proposed by
-    	Wattenberg~\cite{wattenberg2002};
+    	Wattenberg~\cite{wattenberg2002}.
 \end{itemize}
-
-Due to its performance in these important applications, the improvement of 
-suffix arrays has been the focus of intensive research over the past 20 years. 
-\emph{Self-indexing} is one of these improvements. Self indexes support 
-fast pattern counting (reporting the number of occurrences of a pattern in a 
-text), fast pattern matching (reporting the positions of each pattern 
-occurrence) and extraction of arbitrary 
-substrings of the original text, including the original text itself. These 
-operations in some sense allow us to replace the original text with a self 
-index.
 
 \DefFig{fig:overview}{introduction/overview}{1}
 	{Overview of the key data structures and their relationship
@@ -50,11 +40,23 @@ index.
 	compression of the Wavelet Tree. (we defer a detailed discussion of RRR to
 	Section \ref{sec:rrr})}
 
+Due to its performance in these important applications, the improvement of 
+suffix arrays has been the focus of intensive research over the past 20 years. 
+\emph{Self-indexing} is one of these improvements. Self indexes support 
+fast pattern counting (reporting the number of occurrences of a pattern in a 
+text), fast pattern matching (reporting the positions of each pattern 
+occurrence) and extraction of arbitrary 
+substrings of the original text, including the original text itself. These 
+operations in some sense allow us to replace the original text with a self 
+index.
+
 One such self index is known as the \emph{`FM-Index'}, proposed by
 Ferragina and Manzini \cite{ferragina2000}. An FM-Index utilises a 
-sparse Suffix Array and the \emph{Burrows-Wheeler Transform} (BWT) \cite{burrows1994} (the two leftmost 
+sparse Suffix Array and the \emph{Burrows-Wheeler Transform} (BWT) 
+\cite{burrows1994} (the two leftmost 
 diagrams in Figure \ref{fig:overview}) of the original text, and supports fast 
-pattern matching operations by using a \emph{`backward search'}.
+pattern matching operations by using the so-called \emph{`backward search'} 
+method.
 
 Backward searching with a BWT requires a fundamental operation called a 
 \emph{`rank query'}, which counts the number of occurrences of a given symbol up 
@@ -62,12 +64,12 @@ to a given position in the string.
 
 While a naive implementation of the rank query operation might inspect every 
 symbol of the BWT, and do so in $O(N)$ time where $N$ is the length of the BWT, 
-it is possible to improve this to $O(\log \sigma)$ where $\sigma$ is the size of 
-the alphabet. To do this, we implement a Wavelet Tree \cite{grossi2003} over the BWT (the third 
+it is possible to improve this to $O(\log \sigma)$ time where $\sigma$ is the size of 
+the alphabet. To do this, we construct a Wavelet Tree \cite{grossi2003} over the BWT (the third 
 diagram in Figure 
 \ref{fig:overview}). A Wavelet Tree is constructed by encoding the string as a 
 hierarchy of bit vectors. These bit vectors are then used to answer rank 
-queries by traversing and performing \emph{binary} rank queries\footnote{ Binary rank queries are also known as \emph{popcounts} in other literature.}.
+queries by traversing and performing \emph{binary} rank queries\footnote{ Binary rank queries are also known as \emph{popcounts} in other literature.}. A more detailed description of Wavelet Trees appears in Section \ref{sec:wt-rrr}.
 
 Binary rank queries can be performed in $O(1)$ time when the bit vectors are stored in
 a RRR sequence, as proposed by Raman, Raman and Rao \cite{raman2007}. RRR also 
@@ -97,15 +99,16 @@ as bit vectors.
 
 We discover that although Multiary Wavelet Trees are faster, Generalised RRR 
 requires significant memory for the supporting global table in its current form, 
-which, depending on the size of the text, may be impractical. We show that our 
-alternative data structure, which continues to use Binary RRR, is a practical 
-way to make rank queries faster.
+which, depending on the size of the text, may make these Multiary Wavelet Trees 
+impractical. We show that our new data structure, which continues to use 
+Binary RRR, is a practical way to make rank queries faster. Additionally, we 
+observe that the BWT gives rise to a sparse class list as the arity increases.
 
 
 \subsection{Roadmap}
 
 The rest of the thesis is organised as follows. Section \ref{sec:prelim} begins 
-with a some notation, followed by background on the problem 
+with some notation, followed by background on the problem 
 domain. We then discuss how each data structure is built and used together.
 
 Section \ref{sec:wt-rrr} provides a description of Binary Wavelet Trees and 

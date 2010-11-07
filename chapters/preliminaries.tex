@@ -23,8 +23,8 @@ The $log$ operation is base 2 unless otherwise stated.
 \subsection{Background}
 In 1970 Knuth, Morris and Pratt (KMP) discovered an algorithm to match patterns 
 in time proportional to the length of the text \cite{knuth1977, 
-mccreight1976}. If the text is large, then KMP is ineffective for ranking and 
-pattern discovery. Moreover KMP is only useful for exact matches.
+mccreight1976}. If the text is large, then KMP becomes ineffective for ranking 
+and pattern discovery. Moreover, KMP is only useful for exact matches.
 
 One alternative to KMP for document ranking is the use of an inverted index, but
 they must work with keywords and are thus inappropriate for many applications,
@@ -54,23 +54,22 @@ Figure \ref{fig:mis} shows an example string, `mississippi'. The construction of
 the corresponding suffix array is shown in Figure \ref{fig:sa-make-mis}.
 Construction of suffix arrays is now a well studied problem \cite{puglisi2007}.
 
+\newpage
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:sa-make-mis}{preliminaries/mississippi-sa-sort}{0.65}
 			{Construction of Suffix Array for `mississippi'.}
-
-
-
-\subsection{Burrows-Wheeler Transform}
-The Burrows-Wheeler Transform (BWT) is a string of length $N$ defined by the suffix array $SA$ and the original text $S$. In particular, $BWT[i] = S[SA[i]-1]$, and $BWT[1] = $ `\$', that is, the $i^{th}$ symbol of the BWT is the symbol prior to the $i^{th}$ suffix in the Suffix Array $SA$. See Figure \ref{fig:sa-bwt-mis}.
-
-As proposed by Ferragina and Manzini, when a BWT is stored alongside a Suffix Array, it is known as a \emph{FM-Index} \cite{ferragina2000}, which supports backwards search.
 
 		%%%%%%%%%%%%%%%%%%%% IMAGE %%%%%%%%%%%%%%%%%%%%
 		\DefFig{fig:sa-bwt-mis}{preliminaries/mississippi-sa}{0.35}
 			{Suffix Array and Burrows-Wheeler Transform for
 			`mississippi' string.}
 
-\subsubsection{Rank Query}
+\subsection{Burrows-Wheeler Transform}
+The Burrows-Wheeler Transform (BWT) is a string of length $N$ defined by the suffix array $SA$ and the original text $S$. In particular, $BWT[i] = S[SA[i]-1]$, and $BWT[1] = $ `\$', that is, the $i^{th}$ symbol of the BWT is the symbol prior to the $i^{th}$ suffix in the Suffix Array $SA$. See Figure \ref{fig:sa-bwt-mis}.
+
+As proposed by Ferragina and Manzini, when a BWT is stored alongside a Suffix Array, it is known as a \emph{FM-Index} \cite{ferragina2000}, which supports backwards search.
+
+\subsection{Rank Query}
 Munro \cite{munro1996} describes how to do rank queries on binary strings in $O(1)$ time using $o(n)$ bits of extra space. Much of the early work on rank
 queries focussed on binary strings.
 
@@ -85,8 +84,8 @@ $rank(i, c) = 0$.
 		\DefFig{fig:rank-mis}{preliminaries/rankquery}{0.6}
 			{Rank query $rank(9, s) = 3$ on the Burrows-Wheeler Transform
 			of `mississippi'.}
-
-\subsubsection{Backward Search}
+\newpage
+\subsection{Backward Search}
 Since any pattern $P$ in $S$ is a prefix of a suffix, and because the suffixes 
 are lexicographically ordered, all occurrences of a search pattern $P$ lie in a 
 contiguous portion of the 
@@ -107,8 +106,8 @@ Where $s$ denotes the start of the range, initially at $s = 1$, and $e$ is the
 end of the range, initially $e = N$.
 
 In Figure \ref{fig:bws-1} there is a column $F$, which contains the first 
-symbol for each suffix. Note that the $F$ column is not stored as we encode it 
-as $C$ instead.
+symbol for each suffix. Note that the $F$ column is not stored as we store it 
+encoded as $C$ instead.
 
 $C$ is an array\footnote{Note that we are indexing $C$ by a symbol $P[i]$, so 
 this may be implemented with a suitable hash function.} containing the count of 
@@ -125,7 +124,7 @@ all locations of $P[i..|P|]$ in $S$. This is illustrated in Figure
 s$, then the pattern does not exist in our original string.
 
 An example is given in Figure \ref{fig:bws-1} through to Figure \ref{fig:bws-4},
-Where the pattern \emph{`iss'} is searched for in the string `mississippi',
+where the pattern \emph{`iss'} is searched for in the string `mississippi',
 starting with $i = 3$, $P[3] = `s'$. The working for each rank query is shown 
 below each figure. We represent the current symbol as $c$ to avoid confusion 
 between `s' and $s$ and $s'$.

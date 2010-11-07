@@ -1,8 +1,8 @@
 \section{Binary Wavelet Trees and RRR}
 \label{sec:wt-rrr}
 
-This section describes the Binary Wavelet Tree, which provides fast rank queries over
-strings with an alphabet size larger than $2$, and the RRR structure, 
+This section describes Binary Wavelet Trees, which provide fast rank queries 
+over strings with an alphabet size larger than $2$, and the RRR structure, 
 which is used for fast \emph{binary} rank queries and compression.
 
 \subsection{Binary Wavelet Trees}
@@ -40,7 +40,8 @@ whole tree, see Figure \ref{fig:bin-wt-pp}.
 			Each symbol in the string is assigned a bit (0 or 1) depending
 			on which half of the alphabet it is from.}
 
-After the tree is constructed, a rank query on a Wavelet Tree can be done with $\log \sigma$ binary 
+After the tree is constructed, a rank query on the Wavelet Tree can be done with 
+$\log \sigma$ binary 
 rank queries on the bit vectors. For example, if we wanted to know $rank(6, e)$ 
 in Figure \ref{fig:bin-wt-pp}, we use the following procedure which is 
 illustrated in Figure \ref{fig:rank-bin-wt-pp}. We know that $enc(e) = 0$ at 
@@ -58,7 +59,7 @@ this level, so:
 		$rank(2, 1) = 2$, which we use as the index in the child on the
     	1-branch, with our next index as $2$.
     \item
-		$rank(2, 0) = 2$, as $e$ is encoded as $0$ here. Since our children at 
+		$rank(2, 0) = 2$, as $e$ is encoded as $0$ here. Since the children at 
 		this point are leaf nodes, we return $2$ as our result.
 \end{enumerate}
 
@@ -93,30 +94,32 @@ binary rank queries can be answered in $O(1)$ time.
 
 \subsection{RRR}
 \label{sec:rrr}
+
 RRR was first proposed by Raman et al. \cite{raman2007}. The purpose of RRR is 
 to encode a bit sequence in such a way that supports $O(1)$ time binary rank 
 queries. It also provides implicit (i.e. automatic) compression, 
-requiring $N H_0(S) + o(N)$ where $H_0(S)$ is the \emph{zero-order empirical 
-entropy} of $S$. 
+requiring $N H_0(S) + o(N)$ where $H_0(S)$ is the \emph{zeroth-order empirical 
+entropy} of $S$.
 
-Zero-order empirical entropy is a lower bound for the average code word size
+Zeroth-order empirical entropy is a lower bound for the average code word size
 when a symbol is mapped to the same code word irrespective of the context in
 which they appear. It can be calculated as $H_0(S) = \sum_{i = 1}^{\sigma}
 \frac{N^i}{N} \log \frac{N}{N^i}$, for an alphabet $\Sigma$ size of $\sigma$, 
 and $N^i$ is the number of occurrences of the $i^{th}$ element of $\Sigma$ in 
 our text $S[1..N]$.
 
-The classical $O(1)$ time implementation of binary rank queries required $N + 
-o(N)$ bits \cite{gonzalez2005}.
+The classical $O(1)$ time implementation of binary rank queries required the $N$ 
+bits of the original bit sequence, plus $O(\frac{N \log \log N}{\log N}) = o(N)$ 
+additional bits \cite{gonzalez2005}.
 
-To construct the RRR we divide the bit-vector into several so-called 
+\DefFig{fig:blocks}{preliminaries/blocks}{0.85}
+	{Block division scheme for `Peter Piper...' Wavelet Tree's root
+	node bit vector.}
+
+To construct the RRR we divide the bit vector into several so-called 
 \emph{superblocks}, we then divide these superblocks further, into 
 \emph{blocks} of $b$ bits each, as in Figure \ref{fig:blocks}. We call the 
 number of blocks in a superblock the \emph{superblock-factor}, $f$.
-
-		\DefFig{fig:blocks}{preliminaries/blocks}{0.85}
-			{Block division scheme for `Peter Piper...' Wavelet Tree's root
-			node bit vector.}
 
 For each of these blocks we store a class number $c$, which in the binary case 
 is the number of  $1$s in the block. This is used as a lookup key in a table 
