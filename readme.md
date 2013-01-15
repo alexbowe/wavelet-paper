@@ -11,10 +11,13 @@ Obtaining
 
 To clone this repository:
 
-	$ git clone http://github.com/alexbowe/honours-thesis.git
+	$ git clone http://github.com/alexbowe/wavelet-paper.git
 	
-This will create a directory `honours-thesis` in your working directory. Note
+This will create a directory `wavelet-paper` in your working directory. Note
 that this won't allow you to submit changes to the master repository.
+After this, `git checkout thesis` will get you to the tagged version of the
+thesis. You could also download this version directly from
+https://github.com/alexbowe/wavelet-paper/archive/thesis.zip.
 
 
 Dependencies
